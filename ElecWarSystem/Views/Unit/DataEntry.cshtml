@@ -1,0 +1,348 @@
+﻿@model  ElecWarSystem.Models.Unit
+@using ElecWarSystem.Models;
+
+<link rel="stylesheet" href="~/Content/UnitDataEntryStyle.css" />
+<link rel="stylesheet" href="~/Content/tmamGathering.css" />
+<script src="~/Scripts/UnitDataEntryHelper.js"></script>
+<!-- SweetAlert CSS -->
+<link href="~/Content/SweatAlert.css" rel="stylesheet" />
+<!-- SweetAlert JS -->
+<script src="~/Scripts/SweatAlertJs.js"></script>
+<div class="container text-center my-4">
+    <div class="row align-items-center title-div">
+        <!-- Left Image Column -->
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+            <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="ElecWar Icon">
+        </div>
+
+        <!-- Title Section -->
+        <div class=" title col-lg-8 col-md-6 col-sm-6 col-xs-6 text-center">
+            <h1 class="display-5 font-weight-bold">@ViewBag.unit.UnitName</h1>
+            <p class="lead">إدخال بيانات الوحدة</p>
+        </div>
+
+        <!-- Right Image Column -->
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+            <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="ElecWar Icon">
+        </div>
+    </div>
+
+    <!-- Pagination Navigation -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4 flex-md-row-reverse">
+            <li class="page-item mx-2 @(ViewBag.pg == 4 ? "active" : "")">
+                <a class="page-link d-flex align-items-center" href="@Url.Action("DataEntry", "Unit", new { pg = 4 })">
+                    <i class="fas fa-users me-2"></i> بيانات الجنود
+                </a>
+            </li>
+            <li class="page-item mx-2 @(ViewBag.pg == 3 ? "active" : "")">
+                <a class="page-link d-flex align-items-center" href="@Url.Action("DataEntry", "Unit", new { pg = 3 })">
+                    <i class="fas fa-user-shield me-2"></i> بيانات ضباط الصف
+                </a>
+            </li>
+            <li class="page-item mx-2 @(ViewBag.pg == 2 ? "active" : "")">
+                <a class="page-link d-flex align-items-center" href="@Url.Action("DataEntry", "Unit", new { pg = 2 })">
+                    <i class="fas fa-user-tie me-2"></i> بيانات الضباط
+                </a>
+            </li>
+            <li class="page-item mx-2 @(ViewBag.pg == 5 ? "active" : "")">
+                <a class="page-link d-flex align-items-center" href="@Url.Action("DataEntry", "Unit", new { pg = 5 })">
+                    <i class="fas fa-user-friends me-2"></i> بيانات القادة الوحدة الفرعية
+                </a>
+            </li>
+            <li class="page-item mx-2 @(ViewBag.pg == 1 ? "active" : "")">
+                <a class="page-link d-flex align-items-center" href="@Url.Action("DataEntry", "Unit", new { pg = 1 })">
+                    <i class="fas fa-chess-king me-2"></i> بيانات القادة الوحدة
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+@{
+    int j;
+    string[] pgContent = new string[] { "بيانات الضباط", "بيانات ضباط الصف", "بيانات الجنود" };
+    int pg = ViewBag.pg;
+}
+@switch (pg)
+{
+    case 1:
+        <h1 class="h2 mt-3 mb-3 ">قيادة الوحدة</h1>
+        <div class="name-div  m-auto">
+            @using (Html.BeginForm("AddUnitLeadership", "Unit", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+
+                <div class="container ">
+                    <div class="form-group col-4  d-flex flex-row justify-content-center mb-3">
+                        @Html.Label("عدد الوحدات الفرعية", htmlAttributes: new { @class = "control-label fs-4 pe-2 text-light" })
+
+                        <div class=" col-2">
+                            <input class="form-control" type="number" value="@Model.SmallUnits.Count" name="SmallUnitCount" max="3" , min="0" />
+                        </div>
+                    </div>
+                    <div class="row m-auto d-flex flex-row justify-content-around">
+
+                        <!-- قائد الوحدة -->
+                        <div class="col-5 leader-card ">
+                            <h2 class="text-center text-light" style="margin-bottom: 20px;">قائد الوحدة</h2>
+
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    @Html.EditorFor(model => Model.UnitCommandor.MilID, new { htmlAttributes = new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                @Html.Label("الرتبة", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    @Html.DropDownListFor(model => Model.UnitCommandor.RankID, new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                @Html.Label("الإسم", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    @Html.EditorFor(model => Model.UnitCommandor.FullName, new { htmlAttributes = new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-5 leader-card ">
+                            <h2 class="text-center text-light" style="margin-bottom: 20px;">رئيس عمليات الوحدة</h2>
+
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    @Html.EditorFor(model => Model.UnitOperationsChief.MilID, new { htmlAttributes = new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                @Html.Label("الرتبة", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    @Html.DropDownListFor(model => Model.UnitOperationsChief.RankID, new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" })
+                                    @Html.ValidationMessage("UnitOperChRank", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                @Html.Label("الإسم", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                <div class="col-8">
+                                    @Html.EditorFor(model => Model.UnitOperationsChief.FullName, new { htmlAttributes = new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                    @Html.ValidationMessage("UnitOperChName", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- عدد الوحدات الفرعية -->
+
+
+
+                    <hr />
+                    <button type="submit" class="add-btn col-2 ">
+                        <i class="fas fa-save"></i>
+                        حفظ
+                    </button>
+                </div>
+
+            }
+        </div>
+
+        break;
+
+    case 5:
+        int SmallUnitCount = (ViewBag.suCount >= 3) ? 3 : ViewBag.suCount;
+        if (TempData["SmallUnitCount"] != null)
+        {
+            SmallUnitCount = Math.Max(SmallUnitCount, int.Parse(TempData["SmallUnitCount"].ToString()));
+        }
+
+        string[] units = new string[] { "الكتيبة الأولى", "الكتيبة الثانية", "الكتيبة الثالثة" };
+        if (SmallUnitCount == 0)
+        {
+            <h2 id="ifNoUnits" class="text-light">لا توجد وحدات فرعية</h2>
+            <img src="~/Images/page.png" class="w-50" />
+        }
+        else
+        {
+            <div class="name-div  col-lg-12  ">
+                @using (Html.BeginForm("AddSmallUnit", "Unit", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    for (int i = 0; i < SmallUnitCount; i++)
+                    {
+                        string ucRank = "0", uocRank = "0";
+                        if (i >= Model.SmallUnits.Count)
+                        {
+                            Model.SmallUnits.Add(new SmallUnit());
+                        }
+                        else
+                        {
+                            ucRank = Model.SmallUnits[i].UnitCommandor.RankID.ToString();
+                            uocRank = Model.SmallUnits[i].UnitOperationsChief.RankID.ToString();
+                        }
+                        <h2>قيادة @units[i]</h2>
+                        <div class="col-lg-12  d-flex flex-row justify-content-around">
+                            <div class="container col-5  leader-card">
+                                <div class="row d-flex flex-column flex-nowrap">
+                                    <h2 class="col-lg-12  mb-3 text-center text-light" style="margin-bottom: 20px;">قائد @units[i]</h2>
+
+                                    <!-- رقم العسكرى -->
+                                    <div class="form-group  mb-3">
+                                        @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "form-label fw-bold text-dark" })
+                                        @Html.EditorFor(model => Model.SmallUnits[i].UnitCommandor.MilID, new { htmlAttributes = new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                    </div>
+
+                                    <!-- الرتبة -->
+                                    <div class="form-group  mb-3">
+                                        @Html.Label("الرتبة", htmlAttributes: new { @class = "form-label  fw-bold text-dark" })
+                                        @Html.DropDownListFor(model => Model.SmallUnits[i].UnitCommandor.RankID, new SelectList(ViewBag.ranks, "ID", "RankName", ucRank), new { @class = "form-select modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;direction: rtl;" })
+                                        @Html.ValidationMessageFor(model => Model.SmallUnits[i].UnitCommandor.RankID, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <!-- الإسم -->
+                                    <div class="form-group  mb-3">
+                                        @Html.Label("الإسم", htmlAttributes: new { @class = "form-label  fw-bold text-dark" })
+                                        @Html.EditorFor(model => Model.SmallUnits[i].UnitCommandor.FullName, new { htmlAttributes = new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                        @Html.ValidationMessageFor(model => Model.SmallUnits[i].UnitCommandor.FullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container col-5">
+                                <div class="row d-flex flex-column flex-nowrap leader-card">
+                                    <h2 class="col-lg-12  mb-3 text-center text-light" style="margin-bottom: 20px;">رئيس عمليات @units[i]</h2>
+
+                                    <!-- رقم العسكرى -->
+                                    <div class="form-group  mb-3">
+                                        @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "form-label  fw-bold text-dark" })
+                                        @Html.EditorFor(model => Model.SmallUnits[i].UnitOperationsChief.MilID, new { htmlAttributes = new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                    </div>
+
+                                    <!-- الرتبة -->
+                                    <div class="form-group  mb-3">
+                                        @Html.Label("الرتبة", htmlAttributes: new { @class = "form-label  fw-bold text-dark" })
+                                        @Html.DropDownListFor(model => Model.SmallUnits[i].UnitOperationsChief.RankID, new SelectList(ViewBag.ranks, "ID", "RankName", uocRank), new { @class = "form-select modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease; direction: rtl;" })
+                                        @Html.ValidationMessageFor(model => Model.SmallUnits[i].UnitOperationsChief.RankID, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <!-- الإسم -->
+                                    <div class="form-group  mb-3">
+                                        @Html.Label("الإسم", htmlAttributes: new { @class = "form-label  fw-bold text-dark" })
+                                        @Html.EditorFor(model => Model.SmallUnits[i].UnitOperationsChief.FullName, new { htmlAttributes = new { @class = "form-control modern-input", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                        @Html.ValidationMessageFor(model => Model.SmallUnits[i].UnitOperationsChief.FullName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                    }
+                    <!-- Save Button -->
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="submit" class="add-btn px-5 py-2 rounded-pill shadow-sm" style="font-size: 16px;">
+                            <span class="glyphicon glyphicon-save"></span> حفظ
+                        </button>
+                    </div>
+                }
+            </div>
+        }
+        break;
+
+    case 2:
+    case 3:
+    case 4:
+        <h2>@pgContent[@ViewBag.pg - 2]</h2>
+
+        <div class="container row  my-4">
+            <div class="row mb-4">
+                <div class="col-lg-12">
+                    <button class="add-btn btn-lg" onclick="openPersonPopup(@ViewBag.unit.ID, @ViewBag.pg - 1, false)">
+                        <i class="fas fa-plus-circle"></i> إضافة
+                    </button>
+                </div>
+            </div>
+            <div class="row my-4 ">
+                <div class="col-lg-12">
+                    <table class="Agaza-table table-bordered text-center col-12">
+                        @{
+                            int y = 1;
+                        }
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">الرقم العسكرى</th>
+                                <th scope="col">@((ViewBag.pg == 2) ? "الرتبة" : "الدرجة")</th>
+                                <th scope="col">الإسم</th>
+                                <th scope="col">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (Person person in ViewBag.Persons)
+                            {
+                                <tr>
+                                    <th scope="row" class="text-dark">@y</th>
+                                    <td>@Html.DisplayFor(modelItem => person.MilID)</td>
+                                    <td>@Html.DisplayFor(modelItem => person.Rank.RankName)</td>
+                                    <td>@Html.DisplayFor(modelItem => person.FullName)</td>
+                                    <td class="text-center">
+                                        <button class="delete-btn btn-sm" onclick="updateAfterDelete(@person.ID, @person.Rank.RankType)">
+                                            <i class="fas fa-trash"></i> حذف
+                                        </button>
+                                        <span class="mx-2">|</span>
+                                        <button class="add-btn btn-sm" onclick="openPersonPopup(@person.ID, @person.Rank.RankType, true)">
+                                            <i class="fas fa-edit"></i> تعديل
+                                        </button>
+                                    </td>
+                                </tr>
+                                y++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        break;
+    default:
+        break;
+}
+
+
+
+<!-- Popup Modal using Bootstrap -->
+<div class="modal fade" id="personModal" tabindex="-1" role="dialog" aria-labelledby="personModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content ">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="personModalLabel">إضافة شخص  </h5>
+            </div>
+            <div class="modal-body">
+                <form id="personForm">
+                    <!-- الرقم العسكرى -->
+                    <div class="form-group mb-3">
+                        @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("person-MilID", new { htmlAttributes = new { @class = "form-control", @id = "person-MilID", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <!-- الرتبة أو الدرجة -->
+                    <div class="form-group mb-3">
+                        @Html.Label((ViewBag.pg == 2 ? "الرتبة" : "الدرجة"), htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-select", @id = "person-rank", @onchange = "disableBtn()" })
+                    </div>
+                    <!-- الإسم -->
+                    <div class="form-group mb-3">
+                        @Html.Label("الإسم", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("person-name", new { htmlAttributes = new { @class = "form-control", @id = "person-name", @onkeyup = "disableBtn()" } })
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="add-btn" id="savePersonBtn" disabled onclick="savePersonChanges()">
+                    <i class="fas fa-save"></i> حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

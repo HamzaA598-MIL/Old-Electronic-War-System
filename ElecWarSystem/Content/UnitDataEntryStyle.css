@@ -1,0 +1,209 @@
+﻿h1, h2, h3 {
+    margin-right: 15px;
+    color: black;
+}
+
+#ifNoUnits {
+    text-align: center;
+    color: dimgray;
+}
+
+.control-label {
+    color: #464646;
+}
+
+.step {
+    display: none;
+}
+
+    .step.active {
+        display: block;
+    }
+.leader-card {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #006ee6;
+}
+.leader-card .form-group label{
+    color: #fff!important;
+}
+    .leader-card .form-group  input {
+        font-weight: bold;
+    }
+    button.next-btn {
+        float: right;
+        margin-right: 15px;
+        padding: 10px 30px;
+        border: none;
+        outline: none;
+        background-color: rgb(180,220,255);
+    }
+
+
+button.previous-btn {
+    float: left;
+    padding: 10px 30px;
+    border: none;
+    outline: none;
+    background-color: rgb(180,220,255);
+}
+
+body {
+    background: linear-gradient(179deg, rgb(178 182 221) 0%, rgb(100 100 255) 37%, rgb(166 149 227) 100%);
+    color: #E4E4E5;
+}
+
+.form {
+    margin: auto;
+}
+
+.required {
+    font-size: 15px;
+    color: red;
+}
+
+.title-div {
+    height: fit-content;
+    background-color: #FDFEFE;
+    /* padding-top: 25px; */
+    /* padding-bottom: 25px; */
+    /* margin: 15px; */
+    border-radius: 8px;
+    border-top: 8px solid var(--header);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.title-div p {
+    font-size: 16px;
+}
+
+.name-div {
+    border-radius: 8px;
+    padding: 10px;
+    margin: 15px;
+    font-size: 12px;
+}
+
+th, td {
+    text-align: right;
+}
+
+
+.popup {
+    position: fixed;
+    top: -150%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%,-50%) scale(1.25);
+    width: 380px;
+    padding: 20px 30px;
+    background: #fff;
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    transition: top 0ms ease-in-out 200ms, opacity 200ms ease-in-out 0ms, transform 200ms ease-in-out 0ms;
+    font-size: 14px;
+}
+
+.popup.act {
+    top: 55%;
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(1);
+    transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms, transform 200ms ease-in-out 0ms;
+}
+
+.popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+    background-color: #888;
+    color: #eee;
+    text-align: center;
+    line-height: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.popup .form h3 {
+    text-align: center;
+    color: #222;
+}
+
+.disable-pg {
+    pointer-events: none;
+    opacity: 0.6;
+}
+.table-review{
+    background-color:white;
+}
+.con-label {
+    font-size: 25px;
+    color: #646464;
+    padding-right: 15px;
+}
+.con-div {
+    padding-right: 20px;
+}
+.h2 {
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--header);
+    width: fit-content;
+    text-align: center;
+    padding: 1rem;
+    border-radius: .5rem;
+    margin: auto;
+}
+.counter {
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    font-size: 1.3rem;
+    border-radius: .5rem;
+    margin: auto;
+}
+.add-btn {
+    background-color: var(--header);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    padding: .8rem;
+    border-radius: .5rem;
+}
+    .add-btn:hover {
+        background-color: #0053ad;
+    }
+
+    .add-btn:disabled {
+        background-color: #0053ad;
+        
+        cursor: not-allowed;
+    }
+
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    padding: .8rem;
+    border-radius: .5rem;
+}
+
+
+    .delete-btn:hover {
+        background-color: #c82333; /* لون الخلفية عند التمرير */
+        transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+    }
+
+    .delete-btn:focus {
+        outline: none; /* إزالة الإطار الافتراضي عند التركيز */
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.4); /* ظل خفيف عند التركيز */
+    }

@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+<script src="~/Scripts/TmamScripts/connections.js"></script>
+<div class="container">
+    <div class="row">
+        <h2>تمام المواصلات</h2>
+        <div class="name-div   ">
+            <div class="con-div">
+                <input type="checkbox" value="1" id="leader-stratgeic">
+                <label class="con-label" for="leader-stratgeic">إستراتيجى القائد</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="2" id="op-stratgeic">
+                <label class="con-label" for="op-stratgeic">إستراتيجى مركز العمليات</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="4" id="ext-stratgeic">
+                <label class="con-label" for="ext-stratgeic">إستراتيجى التحويلة</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="8" id="leader-central">
+                <label class="con-label" for="leader-central">سنترال القائد</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="16" id="op-central">
+                <label class="con-label" for="op-central">سنترال مركز العمليات</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="32" id="wireless-connections">
+                <label class="con-label" for="wireless-connections">المواصلات اللاسلكية</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="64" id="data-transfer">
+                <label class="con-label" for="data-transfer">نقل المعلومات</label>
+            </div>
+            <div class="con-div">
+                <input type="checkbox" value="128" id="hot-line">
+                <label class="con-label" for="hot-line">الخط الساخن</label>
+            </div>
+            <div class="con-div">
+                <button class="add-btn timeout-btn" style="font-size:18px;" onclick="calculateConnections()">
+                    <span class="glyphicon glyphicon-save"></span>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,75 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "Hospital";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<Hospital>>> AllHospitals = ViewBag.Hospitals;
+    int i = 1;
+}
+
+<h1 class="title-of-page h2">
+    الضباط و الأفراد المحجوزين بالمستشفيات العسكرية لوحدات الحرب الإلكترونیة
+</h1>
+@if (AllHospitals.Count > 0)
+{
+    foreach (var HospitalrPerZone in AllHospitals)
+    {
+          
+        <p class = "h2 mt-3 mb-3 " id="zone-text">@String.Format($"وحدات فى نطاق {HospitalrPerZone.Key}") </p>
+
+        <table class="Agaza-table table-bordered ">
+            <thead>
+                <tr>
+
+                    <th>م</th>
+                    <th>الوحدة</th>
+                    <th>الرتبة / الدرجة</th>
+                    <th>الإسم </th>
+                    <th>المستشفى</th>
+                    <th>تاريخ دخول المستشفى</th>
+                    <th>التشخيص الطبى</th>
+                    <th>التوصيات الممنوحة</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var HospitalPerUnit in HospitalrPerZone.Value)
+                {
+                    int j = 0;
+                    string padding = $"{Math.Round((37.5 * HospitalPerUnit.Value.Count) / 2) - 15}px";
+                    foreach (var hospital in HospitalPerUnit.Value)
+                    {
+                        <tr>
+                            <td class="aribiano">@(i++)</td>
+                            @if (j == 0)
+                            {
+                                <td class="aribiano" rowspan="@HospitalPerUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                    @HospitalPerUnit.Key
+                                </td>
+                            }
+                            <td>@hospital.HospitalDetails.Person.Rank.RankName</td>
+                            <td>@hospital.HospitalDetails.Person.FullName</td>
+                            <td class="aribiano">@hospital.HospitalDetails.Hospital</td>
+                            <td class="aribiano">@hospital.HospitalDetails.DateFrom.ToString("dd-MM-yyyy")</td>
+                            <td class="aribiano">@hospital.HospitalDetails.Diagnosis</td>
+                            <td class="aribiano">@hospital.HospitalDetails.Recommendations</td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+    <div class="mt-4">
+        @Html.ActionLink("تحميل التقرير" , actionName: "HospitalsReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+    </div>
+}
+else
+{
+      
+    <div class="col-6  mt-5  none-tmam">
+        <h2 style="text-align:center">لم يوجد عرض مستشفيات حتى الآن !!</h2>
+        <img src="~/Images/page.png" />
+    </div>
+}
+

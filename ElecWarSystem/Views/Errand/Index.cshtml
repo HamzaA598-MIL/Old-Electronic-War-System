@@ -1,0 +1,123 @@
+﻿@using ElecWarSystem.Models
+@{
+    int j = 1;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+<h2 class="h2">تمام المأموريات</h2>
+<p id="errand-counter" class="counter">@ViewBag.EnteredErrands / @ViewBag.TotalErrands</p>
+<div class="container">
+    <div class="row">
+        <div class="container my-4">
+            <div class="row justify-content-center ">
+                <div class="form-group  ">
+                    <button id="add-errand-btn" class="add-btn" onclick="openErrandPopup()">
+                        <i class="fas fa-plus-circle"></i>
+                        إضافة
+                    </button>
+                </div>
+                <div class=" row mt-4">
+                    <table class="Agaza-table table-bordered" id="errand-table">
+                        <thead>
+                            <tr>
+                                <th>م</th>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>جهة المأمورية</th>
+                                <th>الأمر بالمأمورية</th>
+                                <th>التاريخ من</th>
+                                <th>التاريخ إلى</th>
+                                <th> الاجراءات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody style="font-size:14px;">
+                            @foreach (Errand errand in ViewBag.errandsList)
+                            {
+                                <tr>
+                                    <td class="p-4 ">@j</td>
+                                    <td>@errand.ErrandDetail.Person.Rank.RankName</td>
+                                    <td>@errand.ErrandDetail.Person.FullName</td>
+                                    <td>@errand.ErrandDetail.ErrandPlace</td>
+                                    <td>@errand.ErrandDetail.ErrandCommandor</td>
+                                    <td >@errand.ErrandDetail.DateFrom.ToString("yyyy-MM-dd")</td>
+                                    <td>@errand.ErrandDetail.DateTo.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        <button class="add-btn btn-sm" onclick="openEditPopup(@errand.ID)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="delete-btn" onclick="deleteErrand(@errand.ID)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                j++;
+                            }
+                            @if (j == 1)
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">لا توجد مأموريات مسجلة  .</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="errandModal" tabindex="-1" aria-labelledby="errandModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="vacationModalLabel">إضافة مأمورية </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form">
+                    <div class="d-flex justify-content-around">
+                        <div class="form-group col-4">
+                            @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                        </div>
+                        <div class="form-group col-7">
+                            @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                            <select name="person-name" class="form-control" id="person-name" onchange="disableBtn()" aria-label="اختر اسم الشخص">
+                                <!-- أضف هنا الخيارات dynamically باستخدام Javascript إذا لزم الأمر -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-around">
+                        <div class="form-group col-4">
+                            @Html.Label("جهة المأمورية", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("errand-place", new { htmlAttributes = new { @class = "form-control", @id = "errand-place", @onkeyup = "disableBtn()" } })
+                        </div>
+                        <div class="form-groupv col-7">
+                            @Html.Label("الأمر بالمأمورية", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("errand-commandor", new { htmlAttributes = new { @class = "form-control", @id = "errand-commandor", @onkeyup = "disableBtn()" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="width: 45%; float: right;">
+                        @Html.Label("التاريخ من", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                    </div>
+                    <div class="form-group" style="width:45%; float:right; margin-right:10%">
+                        @Html.Label("التاريخ إلى", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="bg-light modal-footer">
+                <button class="btn add-btn popup-submit-btn col-3" disabled onclick="Add()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/TmamScripts/errand-crud.js"></script>

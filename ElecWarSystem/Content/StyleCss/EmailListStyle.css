@@ -1,0 +1,163 @@
+﻿
+:root {
+    --background: #a5a7ff;
+    --text: #E0E0E0;
+    --alarm: #ffc107;
+    --header: #006ee6;
+    --background2: #858585;
+}
+body {
+    background-color: var(--background);
+}
+.h2 {
+    margin-top: 1rem !important;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--header);
+    width: fit-content;
+    text-align: center;
+    padding: 1rem;
+    border-radius: .5rem;
+    margin: auto;
+}
+
+.navbar-brand {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+}
+#importBtn, #exportBtn, #createBtn {
+    font-size: 20px;
+}
+table, tbody, tr, td, th, thead {
+    font-size: 14px;
+    text-align: right;
+}
+
+#EmailsDiv {
+    font-family: 'Times New Roman';
+    font-size: 16px;
+    max-height: 62vh;
+}
+
+.star {
+    font-size: 3rem;
+    cursor: pointer;
+    color: #ff9800;
+    background-color: unset;
+    border: none;
+    padding: 0px;
+}
+.email-unread {
+    font-weight: bold;
+}
+.star:hover {
+    cursor: pointer;
+}
+
+.email-item, .header-item {
+    font-size: 1rem;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+.email-unread {
+    font-weight: bold;
+}
+    .email-item:hover {
+        background-color: #bdbdbd;
+    }
+
+.header-item {
+    font-size: 20px;
+    background-color: var(--header);
+    color: #ffffff;
+}
+
+.body-content {
+    padding: 0px;
+}
+button {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px; /* زوايا مستديرة كاملة */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, var(--header), #007bff);
+    color: white;
+}
+
+    button:hover {
+        background: linear-gradient(135deg, #007bff, var(--header));
+        transform: translateY(-3px); /* رفع الزر قليلاً */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    button:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+
+#createBtn {
+    background: linear-gradient(135deg, #28a745, #34ce57); /* تدرج لوني أخضر */
+}
+
+    #createBtn:hover {
+        background: linear-gradient(135deg, #34ce57, #28a745);
+    }
+
+#importBtn {
+    background: linear-gradient(135deg, var(--alarm), #ff9800); /* تدرج برتقالي */
+    position: relative;
+}
+
+    #importBtn .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: #ff5252; /* لون الشارة */
+        color: white;
+        padding: 5px 10px;
+        font-size: 12px;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+#exportBtn {
+    background: linear-gradient(135deg, #17a2b8, #20c997); /* تدرج سماوي */
+}
+
+    #exportBtn:hover {
+        background: linear-gradient(135deg, #20c997, #17a2b8);
+    }
+
+.delete-btn {
+    background: linear-gradient(135deg, #dc3545, #e83e8c); /* تدرج أحمر */
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+    transition: all 0.3s ease;
+}
+
+    .delete-btn:hover {
+        background: linear-gradient(135deg, #e83e8c, #dc3545);
+        transform: scale(1.05);
+        box-shadow: 0 8px 12px rgba(220, 53, 69, 0.4);
+    }
+
+    .delete-btn:focus {
+        box-shadow: 0 0 10px rgba(220, 53, 69, 0.4);
+    }
+
+    footer {
+        display:none;
+    }
+

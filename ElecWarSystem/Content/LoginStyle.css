@@ -1,0 +1,104 @@
+﻿
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+    .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* الحفاظ على نسبة الأبعاد وعرض الفيديو بالكامل */
+        object-position: center; /* تمركز الفيديو في منتصف الشاشة */
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+.bg {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.3); /* Dark overlay */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.con {
+    width: 40rem;
+}
+.form-container {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.85); /* Light transparent background */
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    width: 30rem;
+    color: #333;
+    text-align: center;
+    font-family: 'Cairo', sans-serif; /* Modern Arabic font */
+}
+img {
+    width:7rem;
+
+}
+    .form-container h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-weight: 600;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+    }
+    .form-group label {
+        text-align: right !important;
+    }
+    .form-container .form-control {
+        border-radius: 30px;
+        padding: 15px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+    }
+
+    .form-container .btn {
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+    }
+
+        .form-container .btn:hover {
+            background-color: #0056b3;
+        }
+
+    .form-container .form-group label {
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .form-container .text-danger {
+        color: #ff5b5b;
+        font-size: 14px;
+    }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%;
+        padding: 30px 20px;
+    }
+}

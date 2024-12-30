@@ -1,0 +1,150 @@
+﻿@model ElecWarSystem.ViewModel.EmailViewModel
+@using ElecWarSystem.Models
+@using ElecWarSystem.ViewModel;
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<link rel="stylesheet" href="~/Content/CreateEmailStyle.css" />
+<script type="text/javascript" src="~/Scripts/EmailsScript.js"></script>
+
+@using (Html.BeginForm("Create", "Email", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "emailForm" }))
+{
+    @Html.AntiForgeryToken()
+    <h1 class="text-center h2 mb-4 mt-5">إنشاء بريد جديد</h1>
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4 d-flex flex-row">
+
+            @if (!Model.Message.Equals(""))
+            {
+                <div class="alert alert-danger text-center" role="alert">
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    @Model.Message
+                </div>
+            }
+
+            <div class="container col-5">
+                <div class="form-group row mb-3">
+                    @Html.Label("الموضوع", htmlAttributes: new { @class = "col-form-label col-md-3 text-md-end fw-bold" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email.Subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "اكتب موضوع البريد", @id = "subject" } })
+                        @Html.ValidationMessageFor(model => model.Email.Subject, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    @Html.Label("النص", htmlAttributes: new { @class = "col-form-label col-md-3 text-md-end fw-bold" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Email.EmailText, new { @class = "form-control", @rows = "6", @placeholder = "اكتب نص البريد", @id = "emailText" })
+                        @Html.ValidationMessageFor(model => model.Email.EmailText, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    @Html.Label("أختر ملفات", htmlAttributes: new { @class = "col-form-label col-md-3 text-md-end fw-bold" })
+                    <div class="col-md-10">
+                        <input type="file" id="files" multiple name="files" class="form-control" />
+                        <small class="text-muted d-block mt-1">Maximum File Size: 1 GB</small>
+                    </div>
+                </div>
+            </div>
+            <div class="container col-5">
+                <div class="form-group row mb-3">
+                    @Html.Label("مرسل إلى", htmlAttributes: new { @class = "col-form-label col-md-3 text-md-end fw-bold" })
+                    <div class="col-md-10">
+                        @Html.ListBoxFor(model => model.RecIds, new MultiSelectList(Model.Recievers, "RecId", "UnitName"), new { @multiple = "multiple", @class = "form-control", @style = "height:33rem;", @id = "recipients" })
+                    </div>
+                </div>
+                <input type="submit" value="إرسال البريد" id="submitBtn" class="btn btn-primary btn-lg text-light" />
+            </div>
+        </div>
+
+        <div class="btn-group">
+            @Html.ActionLink("عودة للصفحة الرئيسية", "Index", null, new { @class = "btn btn-outline-secondary btn-lg" })
+        </div>
+    </div>
+}
+<script>
+    document.getElementById('emailForm').addEventListener('submit', function (e) {
+        var subject = document.getElementById('subject').value.trim();
+        var emailText = document.getElementById('emailText').value.trim();
+        var files = document.getElementById('files').files.length;
+        var recipients = document.getElementById('recipients').options;
+        var sendButton = document.getElementById('submitBtn'); // زر الإرسال
+
+        var hasSelectedRecipients = false;
+        for (var i = 0; i < recipients.length; i++) {
+            if (recipients[i].selected) {
+                hasSelectedRecipients = true;
+                break;
+            }
+        }
+
+        if (!subject || !emailText || files === 0 || !hasSelectedRecipients) {
+            e.preventDefault(); // منع إرسال النموذج
+
+            // استخدام SweetAlert للتنبيه
+            Swal.fire({
+                title: 'حقول ناقصة',
+                text: 'يرجى ملء جميع الحقول قبل إرسال البريد',
+                icon: 'warning',
+                confirmButtonText: 'حسنًا'
+            });
+        } else {
+            // تعطيل زر الإرسال
+            sendButton.disabled = true;
+
+            // إظهار التنبيه عند بدء رفع الملفات
+            Swal.fire({
+                title: 'برجاء الانتظار',
+                text: 'يتم رفع الملفات، يرجى الانتظار...',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // السماح بإرسال النموذج ثم مراقبة اكتمال التحميل
+            var form = this;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.onload = function () {
+                // إعادة تفعيل زر الإرسال
+                sendButton.disabled = false;
+
+                if (xhr.status === 200) {
+                    Swal.close();
+                    window.location.href = "/Email/Index?tab=received";
+                } else {
+                    Swal.close();
+                    Swal.fire({
+                        title: 'فشل التحميل',
+                        text: 'حدث خطأ أثناء محاولة رفع البريد.',
+                        icon: 'error',
+                        confirmButtonText: 'حسنًا'
+                    });
+                }
+            };
+
+            xhr.onerror = function () {
+                // إعادة تفعيل زر الإرسال
+                sendButton.disabled = false;
+                Swal.close();
+                Swal.fire({
+                    title: 'خطأ في الشبكة',
+                    text: 'حدث خطأ أثناء محاولة رفع الملفات. يرجى التحقق من اتصالك بالشبكة والمحاولة مرة أخرى.',
+                    icon: 'error',
+                    confirmButtonText: 'حسنًا'
+                });
+            };
+
+            // إرسال النموذج باستخدام AJAX
+            var formData = new FormData(form);
+            xhr.send(formData);
+
+            e.preventDefault(); // منع الإرسال الافتراضي للنموذج
+        }
+    });
+</script>

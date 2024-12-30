@@ -1,0 +1,29 @@
+﻿th {
+    font-size: 14px;
+    text-align: center;
+}
+
+td {
+    font-size: 12px;
+    text-align: center;
+}
+h1 {
+    line-height: 2 !important;
+    text-decoration: none!important;
+    width: 100%!important;
+    font-size: 3rem !important;
+    margin-bottom: -1rem !important;
+}
+#unit-name {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: start;
+}
+#alt-comm, #unit-name {
+    padding-top: 25px;
+}
+#unit-end-line, #alt-comm, #unit-name {
+    border-bottom: 3px solid black;
+}
+

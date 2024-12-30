@@ -1,0 +1,156 @@
+﻿<script src="~/Scripts/TmamScripts/prison-crud.js"></script>
+@{
+    int j = 1;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+@using ElecWarSystem.Models
+<div class="container">
+    <div class="row">
+        <h2 class="h2">السجن</h2>
+        <p id="prison-counter" class="counter" >@ViewBag.EnteredPrisons / @ViewBag.TotalPrisons</p>
+
+        <div class="container my-4 ">
+            <div class="row my-4">
+                <div class="form-group  ">
+                    <button id="add-prison-btn" class="add-btn"    onclick="openPrisonPopup()">
+                        <i class="fas fa-plus-circle"></i>
+                        إضافة
+                    </button>
+                </div>
+                <div class=" row mt-4">
+                    <table class=" Agaza-table table-bordered" id="prison-table">
+                        <thead>
+                            <tr>
+                                <th>م</th>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>الجريمة</th>
+                                <th>العقوبة</th>
+                                <th>الآمر بالعقوبة</th>
+                                <th>مدة التنفذ من</th>
+                                <th>مدة التنفذ إلى</th>
+                                <th>مكان التنفيذ</th>
+                                <th>بند الأوامر</th>
+                                <th>تاريخ البند </th>
+                                <th> الاجراءات </th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;">
+                            @foreach (Prison prison in ViewBag.prisonsList)
+                            {
+                                <tr>
+                                    <td class="aribiano">@j</td>
+                                    <td>@prison.PrisonDetails.Person.Rank.RankName</td>
+                                    <td>@prison.PrisonDetails.Person.FullName</td>
+                                    <td>@prison.PrisonDetails.Crime</td>
+                                    <td>@prison.PrisonDetails.Punishment</td>
+                                    <td>@prison.PrisonDetails.Punisher</td>
+                                    <td class="aribiano">@prison.PrisonDetails.DateFrom.ToString("yyyy-MM-dd")</td>
+                                    <td class="aribiano">@prison.PrisonDetails.DateTo.ToString("yyyy-MM-dd")</td>
+                                    <td>@prison.PrisonDetails.PrisonPlace</td>
+                                    <td class="aribiano">@prison.PrisonDetails.CommandItem.Number</td>
+                                    <td class="aribiano">@prison.PrisonDetails.CommandItem.Date.ToString("yyyy/MM/dd")</td>
+                                    <td>
+                                        <button class="delete-btn" onclick="deletePrison(@prison.ID)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                j++;
+                            }
+                            @if (j == 1)
+                            {
+                                <tr>
+                                    <td colspan="12" class="text-center text-muted">لا توجد اشخاص مسجلة.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div class="modal fade" id="prisonModal" tabindex="-1" role="dialog" aria-labelledby="prisonModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-light">
+                <h5 class="modal-title" id="prisonModalLabel">تفاصيل السجن</h5>
+            </div>
+            <div class="modal-body ">
+                <!-- Form content copied from previous code -->
+                <div class="d-flex justify-content-around">
+                    <div class="form-group col-4">
+                        @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                    </div>
+                    <div class="form-group col-7">
+                        @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                        <select name="person-name" class="form-control" id="person-name" onchange="disableBtn()">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-around">
+
+                    <div class="form-group col-4">
+                        @Html.Label("الجريمة", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("crime", new { htmlAttributes = new { @class = "form-control", @id = "crime", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <div class="form-group col-7">
+                        @Html.Label("العقوبة", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("punishment", new { htmlAttributes = new { @class = "form-control", @id = "punishment", @onkeyup = "disableBtn()" } })
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around">
+
+                    <div class="form-group col-4">
+                        @Html.Label("الآمر بالعقوبة", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("punisher", new { htmlAttributes = new { @class = "form-control", @id = "punisher", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <div class="form-group col-7" >
+                        @Html.Label("مكان التنفيذ", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("prison-place", new { htmlAttributes = new { @class = "form-control", @id = "prison-place", @onkeyup = "disableBtn()" } })
+                    </div>
+
+                </div>
+                <div class="d-flex justify-content-around">
+
+                    <div class="form-group col-4" >
+                        @Html.Label("المدة التنفيذ إلى", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                    </div>
+                    <div class="form-group col-7" >
+                        @Html.Label("المدة التنفيذ من", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                    </div>
+                </div>
+                <div class="d-flex justify-content-around">
+
+                    <div class="form-group col-4">
+                        <label class="control-label" >البند الأوامر</label>
+                        <input id="command-number" class="form-control" onkeyup="disableBtn()" type="number"  />
+                    </div>
+                    <div class="form-group col-7">
+                        <label class="control-label" >تاريخ البند </label>
+                        <input id="command-date" class="form-control" onchange="disableBtn()" type="date" />
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group   bg-primary">
+                <button class="btn add-btn popup-submit-btn col-12" disabled onclick="Add()">
+                    <span class="glyphicon glyphicon-save"></span>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

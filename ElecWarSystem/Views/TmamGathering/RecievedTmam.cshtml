@@ -1,0 +1,59 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "RecievedTmam";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    int i = 0;
+}
+
+
+<div class="container my-4">
+    <div class="row">
+        @if (ViewBag.SubmittedTmams.Count > 0)
+        {
+            <div class="row my-4">
+                <h2  class ="h2 mt-3 mb-3 "style="text-align:center">تمام الإستلام</h2>
+                <table class="Agaza-table table-bordered table-hover">
+                    <thead >
+                        <tr>
+                            <th>م</th>
+                            <th>الوحدة</th>
+                            <th>تم الإرسال فى سعت</th>
+                            <th>تم الإستلام</th>
+
+                        </tr>
+                    </thead>
+
+                    @foreach (Tmam tmam in ViewBag.SubmittedTmams)
+                    {
+                        <tr onclick="GetTmamDetail(@tmam.UnitID)">
+                            <td class="aribiano" style="text-align:center;">
+                                @(++i)
+                            </td>
+                            <td class="aribiano">
+                                @tmam.Unit.UnitName
+                            </td>
+                            <td class="aribiano" style="text-align:center;">
+                                @(tmam.TimeSended ?? "-")
+                            </td>
+                            <td style="text-align:center;">
+                                @if (tmam.Recieved)
+                                {
+                                    <i class="fas fa-check-double"  style="color:darkgreen;"></i>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        else
+        {
+              
+            <div class="col-6  mt-5  none-tmam">
+                <h2 style="text-align:center">لم يتم إرسال أى تمامات حتى الآن !!</h2>
+                <img src="~/Images/page.png" />
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,144 @@
+﻿<script src="~/Scripts/TmamScripts/course-crud.js"></script>
+@using ElecWarSystem.Models
+@{
+    
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+<div ng-app="CourseMod" style="height: calc(102vh - 499px); ">
+    <div ng-cloak ng-controller="CourseCrud">
+        <div class="container">
+            <div class="row">
+                <h2 class="h2">{{Name}}</h2>
+
+                <p id="errand-counter counter" >{{CoursesEntered}} / {{CoursesTotal}}</p>
+
+                <div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group ">
+                                <button id="add-course-btn" class="add-btn "    ng-click="openCoursePopup()">
+                                    <i class="fas fa-plus-circle"></i>
+                                    إضافة
+                                </button>
+                            </div>
+                            <div class="row my-4 ">
+                                <table class="Agaza-table table-bordered" id="courses-table">
+                                    <thead>
+                                        <tr>
+                                            <th>م</th>
+                                            <th>الرتبة / الدرجة</th>
+                                            <th>الإسم </th>
+                                            <th>الفرقة/الدورة</th>
+                                            <th>مكان إنعقاد الفرقة/الدورة</th>
+                                            <th>المدة من</th>
+                                            <th>المدة إلى</th>
+                                            <th colspan="2" style="text-align:center;">بند الأوامر</th>
+                                            <th> الإجراءات </th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    
+                                    <tbody>
+                                        <!--<tr ng-if="Courses.length === 0">-->
+                                            <!-- تحقق إذا كانت قائمة الدورات فارغة -->
+                                            <!--<td colspan="9" class="text-center text-muted">لا يوجد معسكرات خارجية</td>
+                                        </tr>-->
+                                        <tr ng-repeat="course in Courses track by $index">
+                                            <td >{{$index + 1 }}</td>
+                                            <td>{{course.CourseDetails.Person.Rank.RankName}}</td>
+                                            <td>{{course.CourseDetails.Person.FullName}}</td>
+                                            <td>{{course.CourseDetails.CourseName}}</td>
+                                            <td>{{course.CourseDetails.CoursePlace}}</td>
+                                            <td>{{course.CourseDetails.DateFrom}}</td>
+                                            <td>{{course.CourseDetails.DateTo}}</td>
+                                            <td>{{course.CourseDetails.CommandItem.Number}}</td>
+                                            <td>{{course.CourseDetails.CommandItem.Date | date : yyyy/MM/dd}}</td>
+                                            <td>
+                                                <button class="delete-btn" ng-click="delete(course.ID)">
+                                                    
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap Modal -->
+        <div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="courseModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="courseModalLabel">إضافة معسكرات خارجية </h5>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row d-flex justify-content-around">
+                                <div class="form-group col-4">
+                                    @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                                    @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                                </div>
+
+                                <div class="form-group col-7 ">
+                                    @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                                    <select name="person-name" class="form-control" id="person-name" onchange="disableBtn()">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row d-flex justify-content-around">
+                                <div class="form-group col-4">
+                                    @Html.Label("الفرقة/الدورة", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("course-name", new { htmlAttributes = new { @class = "form-control", @id = "course-name", @onkeyup = "validateCourseName()", @maxlength = "25" } })
+                                    <label id="course-name-warn" hidden style="color:red; font-size:14px; font-weight:100;" class="aribiano">أقصى طول لإسم الفرقة 25 حرف</label>
+                                </div>
+
+                                <div class="form-group col-7">
+                                    @Html.Label("مكان إنعقاد الفرقة/الدورة", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("course-place", new { htmlAttributes = new { @class = "form-control", @id = "course-place", @onkeyup = "disableBtn()" } })
+                                </div>
+                            </div>
+                            <div class=" d-flex justify-content-around">
+                                <div class="form-group col-md-4">
+                                    @Html.Label("المدة من", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                                </div>
+                                <div class="form-group col-md-7">
+                                    @Html.Label("المدة إلى", htmlAttributes: new { @class = "control-label" })
+                                    @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                                </div>
+                            </div>
+                            <div class=" d-flex justify-content-around">
+                                <div class="form-group col-4">
+                                    <label class="control-label">البند الأوامر</label>
+                                    <input id="command-number" class="form-control" onkeyup="disableBtn()" type="number" />
+                                </div>
+                                <div class="form-group col-7">
+                                    <label class="control-label">تاريخ البند  </label>
+                                    <input id="command-date" class="form-control" onchange="disableBtn()" type="date" />
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 d-grid ">
+                        <button type="button" class="btn add-btn popup-submit-btn col-12" disabled ng-click="Add()">
+                            <i class="fas fa-save"></i> حفظ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+   
+</style>

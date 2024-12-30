@@ -1,0 +1,70 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "NonOfficers";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, List<TmamDetail>> zoneUnitsList = ViewBag.ZoneUnitsTmam;
+
+}
+<h1 class="title-of-page h2">
+    تمام الدرجات الأخرى وحدات الحرب الإلكترونیة
+</h1>
+<div class="container row my-4">
+    @foreach (var zoneUnits in zoneUnitsList)
+    {
+
+
+
+        <p class="h2 mt-3 mb-3" id="zone-text">@String.Format($"وحدات فى نطاق {zoneUnits.Key}") </p>
+        <table class="Agaza-table table-bordered ">
+            <thead>
+                <tr font-weight:bold;">
+                    <th rowspan="2" style=" text-align: center;padding-top: 25px;">م</th>
+                    <th rowspan="2" style=" text-align: center;padding-top: 25px;">الوحدة</th>
+                    <th rowspan="2" style=" text-align: center;padding-top: 25px;">القوة</th>
+                    <th rowspan="2" style=" text-align: center;padding-top: 25px;">موجود</th>
+                    <th rowspan="2" style=" text-align: center;padding-top: 25px;">خارج</th>
+                    <th colspan="9" style=" text-align: center;">خارج الوحدة</th>
+                    <th rowspan="2" style=" text-align: center;padding-top: 25px;">نسبة الخوارج</th>
+                </tr>
+                <tr>
+                    <th>أجازة</th>
+                    <th>أجازة مرضية</th>
+                    <th>فرقة</th>
+                    <th>مأمورية</th>
+                    <th>سجن</th>
+                    <th>غياب</th>
+                    <th>مستشفى</th>
+                    <th>خ البلاد</th>
+                    <th>م تد خارجى</th>
+                </tr>
+            </thead>
+
+            @foreach (TmamDetail tmamDetail in zoneUnits.Value)
+            {
+                <tbody class="aribiano">
+                    <tr>
+                        <td>@tmamDetail.Tmam.Unit.Order</td>
+                        <td>@tmamDetail.Tmam.Unit.UnitName</td>
+                        <td>@tmamDetail.totalPower</td>
+                        <td>@tmamDetail.GetExisting()</td>
+                        <td>@tmamDetail.GetOutting()</td>
+                        <td>@tmamDetail.vacation</td>
+                        <td>@tmamDetail.sickLeave</td>
+                        <td>@tmamDetail.course</td>
+                        <td>@tmamDetail.errand</td>
+                        <td>@tmamDetail.prison</td>
+                        <td>@tmamDetail.absence</td>
+                        <td>@tmamDetail.hospital</td>
+                        <td>@tmamDetail.outOfCountry</td>
+                        <td>@tmamDetail.outdoorCamp</td>
+                        <td>@tmamDetail.GetOuttingPrecetage() %</td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+
+    }
+</div>
+<div class="mt-4">
+    @Html.ActionLink("تحميل التقرير" , actionName: "NonOfficerTmamReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+</div>

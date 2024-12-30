@@ -1,0 +1,73 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "Capms";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<Camp>>> Camps = ViewBag.Camps;
+    int i = 1;
+}
+<link rel="stylesheet" href="~/Content/leadership-style.css" />
+
+<h1 class="title-of-page h2">
+    الضباط و الأفراد المتواجدين خارج التمركز لوحدات الحرب الإلكترونیة
+</h1>
+@if (Camps.Count > 0)
+{
+    foreach (var CampZone in Camps)
+    {
+        <p class="h2 mt-3 mb-3 " id="zone-text">@String.Format($"وحدات فى نطاق {CampZone.Key}") </p>
+
+        <table class="Agaza-table table-bordered ">
+            <thead>
+                <tr>
+                    <th>م</th>
+                    <th>الوحدة</th>
+                    <th>الرتبة / الدرجة</th>
+                    <th>الإسم </th>
+                    <th>مكان التمركز الحالى</th>
+                    <th>السبب</th>
+                    <th>المدة من</th>
+                    <th>المدة إلى</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var CampUnit in CampZone.Value)
+                {
+                    int j = 0;
+                    string padding = $"{Math.Round((37.5 * CampUnit.Value.Count) / 2) - 15}px";
+                    foreach (var Camp in CampUnit.Value)
+                    {
+                        <tr>
+                            <td class="aribiano">@(i++)</td>
+                            @if (j == 0)
+                            {
+                                <td class="aribiano" rowspan="@CampUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                    @CampUnit.Key
+                                </td>
+                            }
+                            <td>@Camp.CampDetail.Person.Rank.RankName</td>
+                            <td>@Camp.CampDetail.Person.FullName</td>
+                            <td class="aribiano">@Camp.CampDetail.CurrentExistance</td>
+                            <td class="aribiano">@Camp.CampDetail.Reason</td>
+                            <td class="aribiano">@Camp.CampDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                            <td class="aribiano">@Camp.CampDetail.DateTo.ToString("dd-MM-yyyy")</td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+    <div class="mt-4">
+        @Html.ActionLink("تحميل التقرير", actionName: "CampsReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+    </div>
+}
+else
+{
+
+    <div class="col-6  mt-5  none-tmam">
+        <h2 style="text-align:center">لم يوجد ضباط أو أفراد خارج التمركز حتى الآن !!</h2>
+        <img src="~/Images/page.png" />
+    </div>
+}

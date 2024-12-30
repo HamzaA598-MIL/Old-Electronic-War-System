@@ -1,0 +1,135 @@
+﻿<script src="~/Scripts/TmamScripts/vacation-crud.js"></script>
+@{
+    int j;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+@using ElecWarSystem.Models
+<!-- عنوان الجدول -->
+<h2 class="h2">إدارة الأجازات</h2>
+
+<!-- عداد الإجازات -->
+<p id="vacation-counter" class="text-center counter">
+    @ViewBag.VacationEntered / @ViewBag.VacationTotal
+</p>
+
+<!-- زر إضافة إجازة -->
+<div class="container my-4 ">
+    <div class="row justify-content-center col-2">
+        <button type="button" class=" add-btn" id="add-vacation-btn" onclick="openVacationPopup()">
+            <i class="fas fa-plus-circle"></i> إضافة أجازة
+        </button>
+    </div>
+
+    <!-- جدول الإجازات -->
+    <div class="row mt-4">
+        <table class=" Agaza-table table-bordered " id="vacations-table">
+            <thead style="">
+                <tr>
+                    <th>م</th>
+                    <th>الرتبة / الدرجة</th>
+                    <th>الإسم</th>
+                    <th>نوع الأجازة</th>
+                    <th>بدء الأجازة</th>
+                    <th>عودة الأجازة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 16px;">
+                @{
+                    j = 1;
+                }
+                @foreach (Vacation Vacation in ViewBag.Vacations)
+                {
+                    <tr>
+                        <td class="aribiano">@j</td>
+                        <td>@Vacation.VacationDetail.Person.Rank.RankName</td>
+                        <td>@Vacation.VacationDetail.Person.FullName</td>
+                        <td>@Vacation.VacationDetail.VacationType</td>
+                        <td class="aribiano ">@Vacation.VacationDetail.DateFrom.ToString("yyyy-MM-dd")</td>
+                        <td class="aribiano " >@Vacation.VacationDetail.DateTo.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <!-- زر الحذف -->
+                            <button class="delete-btn " onclick="deleteVacation(@Vacation.ID)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    j++;
+                }
+                @if (j == 1)
+                {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">لا توجد أجازات مسجلة.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="vacationModal" tabindex="-1" aria-labelledby="vacationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="vacationModalLabel">إضافة أجازة</h5>
+
+            </div>
+            <div class="modal-body">
+                <form class="d-flex flex-wrap flex-column">
+                    <div class="col-12 d-flex justify-content-around">
+                        <div class="mb-3 col-4">
+                            @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-select", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                        </div>
+
+                        <!-- الإسم -->
+                        <div class="mb-3 col-6">
+                            @Html.Label("الإسم", htmlAttributes: new { @class = "form-label fw-bold" })
+                            <select name="person-name" class="form-select" id="person-name" onchange="disableBtn()">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- الرتبة/الدرجة -->
+                    <!-- نوع الأجازة -->
+                    <div class="mb-3 col-4">
+                        @Html.Label("نوع الأجازة", htmlAttributes: new { @class = "form-label fw-bold" })
+                        <select name="vacation-type" class="form-select" id="vacation-type" onchange="disableBtn()">
+                            <option></option>
+                            <option>عارضة</option>
+                            <option>بدل راحة</option>
+                            <option>راحة</option>
+                            <option>ميدانية</option>
+                            <option>سنوية</option>
+                            <option>منتظر النشرة</option>
+                            <option>لا يوجد </option>
+                        </select>
+                    </div>
+                    <div class="col-12 d-flex justify-content-around">
+                        <!-- تاريخ بدء الأجازة -->
+                        <div class="mb-3 col-5">
+                            @Html.Label("تاريخ بدء الأجازة", htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                        </div>
+
+                        <!-- تاريخ عودة الأجازة -->
+                        <div class="mb-3 col-6">
+                            @Html.Label("تاريخ عودة الأجازة", htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                        </div>
+
+
+                    </div>
+                    <!-- زر حفظ -->
+                    <div class="d-grid col-12">
+                        <button type="button" class="btn btn add-btn popup-submit-btn" disabled onclick="Add()">
+                            <i class="fas fa-save me-2"></i> حفظ
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

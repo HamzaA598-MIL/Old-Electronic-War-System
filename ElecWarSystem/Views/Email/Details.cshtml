@@ -1,0 +1,184 @@
+﻿@model ElecWarSystem.Models.Email
+@using ElecWarSystem.Models
+@using ElecWarSystem.ViewModel
+
+
+@{
+    ViewBag.Title = "Details";
+    int i;
+}
+<link href="~/Content/StyleCss/EmailListStyle.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/EmailsScript.js"></script>
+
+<div class="container my-5 p-4 shadow-lg bg-white rounded col-8 m-auto">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-3" style="color:#007bff;">@Model.Subject</h2>
+            <h4 class="text-muted aribiano">@Model.SendDateTime.ToString("dd - MM - yyyy")</h4>
+        </div>
+    </div>
+</div>
+
+
+<div class="container col-8 m-auto">
+    <div class="form-horizontal">
+
+        <!-- Email Text Area Section -->
+        <div class="form-group col-12">
+            <label class="col-lg-1 col-md-1 col-sm-1 col-form-label text-right">النص</label>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                @Html.TextAreaFor(model => model.EmailText, new { @class = "form-control", @rows = "6", @readonly = "readonly", @style = "background-color:#f8f9fa; font-size:16px;" })
+                @Html.ValidationMessageFor(model => model.EmailText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Files Section -->
+        <div class="form-group col-12">
+            <label class="col-lg-1 col-md-1 col-sm-1 col-form-label text-right">الملفات</label>
+            <div class="row ">
+                <table class="Agaza-table table-bordered text-center ">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th>إسم الملف</th>
+                            <th>تحميل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            i = 1;
+                        }
+                        @foreach (var item in Model.Documents)
+                        {
+                            string imageIcon = EmailUtilies.chooseFileIcon(item.FileExtension);
+                            <tr>
+                                <td class="aribiano">@(i++)</td>
+                                <td><img src="@Url.Content(imageIcon)" class="img-fluid" style="height: 30px; width: 30px;" /></td>
+                                <td>@Html.DisplayFor(modelItem => item.FileName)</td>
+                                <td class="text-center">
+                                    <button class="btn btn-outline-info" onclick="DownloadFile(@item.ID)">
+                                        <i class="fas fa-download"></i> تنزيل
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (int.Parse(Request.Cookies["userID"].Value) == Model.SenderUserID)
+        {
+            <div class="form-group">
+                <label class="col-3 col-form-label text-right">المرسل اليهم</label>
+                <div class="row">
+                    <table class="Agaza-table  table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الوحدة</th>
+                                <th>مشاهدة</th>
+                                <th>هام</th>
+                                <th>تاريخ المشاهدة</th> <!-- العمود الجديد -->
+                                <th>سعت </th> <!-- العمود الجديد -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                i = 1;
+                            }
+                            @foreach (var item in Model.Recievers)
+                            {
+                                <tr>
+                                    <td class="aribiano">@(i++)</td>
+                                    <td class="aribiano">@Html.DisplayFor(modelItem => item.RecieverUser.UnitName)</td>
+                                    <td>
+                                        @if (item.Readed)
+                                        {
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-times-circle text-danger"></i>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Starred)
+                                        {
+                                            <i class="fas fa-star text-warning"></i>
+                                        }
+                                    </td>
+                                    <td class="aribiano">
+                                        @if (item.ViewTime.HasValue)
+                                        {
+
+                                            @item.ViewTime.Value.ToString(" yyyy/MM/dd ")
+
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">لم يتم المشاهدة بعد</span>
+                                        }
+                                    </td>
+                                    <td class="aribiano">
+                                        @if (item.ViewTime.HasValue)
+                                        {
+
+                                            @item.ViewTime.Value.ToString(" HH:mm ")
+
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">----</span>
+                                        }
+                                    </td>
+
+
+                                </tr>
+                            }
+
+
+                            
+                            
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <p>
+        @Html.ActionLink("عودة للصفحة الرئيسية", "Index", new { tab = "sent" }, new { @class = "btn btn-secondary mt-3" })
+    </p>
+
+</div>
+
+
+<script type="text/javascript">
+            $(document).ready(function() {
+                // تحديث وقت المشاهدة عند تحميل الصفحة
+                updateViewTime(@Model.ID);
+            });
+
+            function updateViewTime(emailId) {
+                $.ajax({
+                    url: '@Url.Action("UpdateViewTime", "Email")',
+                    type: 'POST',
+                    data: { emailId: emailId },
+                    success: function(response) {
+                        // إظهار رسالة نجاح للمستخدم
+                        console.log("وقت المشاهدة تم تحديثه بنجاح");
+                    },
+                    error: function(xhr, status, error) {
+                        // إظهار رسالة خطأ للمستخدم
+                        console.error("خطأ في تحديث وقت المشاهدة: " + error);
+                        alert("حدث خطأ أثناء تحديث وقت المشاهدة. يرجى المحاولة مرة أخرى.");
+                    }
+                });
+    }
+
+</script>

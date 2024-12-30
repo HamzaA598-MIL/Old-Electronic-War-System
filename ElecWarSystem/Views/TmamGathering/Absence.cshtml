@@ -1,0 +1,75 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "Absence";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<Absence>>> AllAbsences = ViewBag.Absences;
+    int i = 1;
+}
+<link rel="stylesheet" href="~/Content/leadership-style.css" />
+
+<h1 class="title-of-page h2">
+    الأفراد الغياب لوحدات الحرب الإلكترونیة
+</h1>
+<div class="container my-4 row">
+
+
+    @if (AllAbsences.Count > 0)
+    {
+        foreach (var AbsencerPerZone in AllAbsences)
+        {
+            <h3 class="h2 mt-5 mb-3 " style="text-align:center">@String.Format($"وحدات فى نطاق {AbsencerPerZone.Key}") </h3>
+            <table class="Agaza-table table-bordered ">
+                <thead>
+
+                    <tr>
+                        <th>م</th>
+                        <th>الوحدة</th>
+                        <th>الرتبة / الدرجة</th>
+                        <th>الإسم </th>
+                        <th>التاريخ الغياب</th>
+                        <th>دفعة الغياب</th>
+                        <th colspan="2" style="text-align:center;">بند الأوامر</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var AbsencePerUnit in AbsencerPerZone.Value)
+                    {
+                        int j = 0;
+                        string padding = $"{Math.Round((37.5 * AbsencePerUnit.Value.Count) / 2) - 15}px";
+                        foreach (var absence in AbsencePerUnit.Value)
+                        {
+                            <tr>
+                                <td class="aribiano">@(i++)</td>
+                                @if (j == 0)
+                                {
+                                    <td class="aribiano" rowspan="@AbsencePerUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                        @AbsencePerUnit.Key
+                                    </td>
+                                }
+                                <td>@absence.AbsenceDetail.Person.Rank.RankName</td>
+                                <td>@absence.AbsenceDetail.Person.FullName</td>
+                                <td class="aribiano">@absence.AbsenceDetail.DateFrom.ToString("dd/MM/yyyyy")</td>
+                                <td class="aribiano">@absence.AbsenceDetail.AbsenceTimes</td>
+                                <td class="aribiano">@absence.AbsenceDetail.commandItem.Number</td>
+                                <td class="aribiano">@absence.AbsenceDetail.commandItem.Date.ToString("dd/MM/yyyyy")</td>
+                            </tr>
+                            j++;
+                        }
+
+                    }
+                </tbody>
+            </table>
+        }
+        <div class="mt-4">
+            @Html.ActionLink("تحميل التقرير", actionName: "AbsencesReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+        </div>
+    }
+    else
+    {
+
+        <div class="col-6  mt-5  none-tmam ">
+            <h2 style="text-align:center">لم يوجد أفراد غياب حتى الآن !!</h2>
+            <img src="~/Images/page.png" />
+        </div>
+    }
+</div>

@@ -1,0 +1,143 @@
+﻿@{
+    int j;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+    string[] pgContent = new string[] { "تمام الضباط", "تمام الدرجات الأخرى" };
+    int pg = ViewBag.pg;
+}
+<link href="~/Content/StyleCss/MainStyle.css" rel="stylesheet" />
+
+<div class="container mt-5 custom-container">
+    <div class="row mb-5">
+        @switch (pg)
+        {
+            case 1:
+            case 2:
+                if (pg == 1)
+                {
+                    <h2 class="text-center text-gray  mb-4 fs-2 fw-bold">قائد منوب</h2>
+                    <div class="col-12 d-flex justify-content-between mb-4">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "form-label text-dark fw-bold" })
+                                @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName", selectedValue: @ViewBag.AltCommandor.RankID), new { @class = "form-select border-0 shadow-sm rounded-3", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                @Html.Label("الإسم", htmlAttributes: new { @class = "form-label text-dark fw-bold" })
+                                @Html.DropDownList("person-name", new SelectList(ViewBag.AltcommandorPersons, "ID", "FullName", selectedValue: @ViewBag.AltCommandor.ID), new { @class = "form-select border-0 shadow-sm rounded-3", @id = "person-name" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <h2 class="text-center text-gray fs-2 fw-bold">@((ViewBag.pg == 1) ? "تمام الضباط" : "تمام الدرجات الأخرى")</h2>
+
+                <div class="col-12 pt-5">
+                    <div class="row g-3">
+                        @* Loop through input elements *@
+                        <div class="d-flex flex-column col-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="power" class="form-label text-dark fw-bold">القوة</label>
+                                    <input id="power" class="form-control text-center shadow-sm rounded-3" type="number" readonly value="@ViewBag.TmamDetail.totalPower" min="0" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="existing" class="form-label text-dark fw-bold">الموجود</label>
+                                    <input id="existing" class="form-control text-center shadow-sm rounded-3" type="number" min="0" value="@ViewBag.TmamDetail.GetExisting()" onchange="calOut()" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="outdoor" class="form-label text-dark fw-bold">الخارج</label>
+                                    <input id="outdoor" class="form-control text-center shadow-sm rounded-3" readonly type="number" value="@ViewBag.TmamDetail.GetOutting()" min="0" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="vacation" class="form-label text-dark fw-bold">أجازة</label>
+                                    <input id="vacation" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.vacation" min="0" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="sick-leave" class="form-label text-dark fw-bold">أجازة مرضية</label>
+                                    <input id="sick-leave" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.sickLeave" min="0" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="hospital" class="form-label text-dark fw-bold">مستشفى</label>
+                                    <input id="hospital" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.hospital" min="0" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="errand" class="form-label text-dark fw-bold">مأمورية</label>
+                                    <input id="errand" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.errand" min="0" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="prison" class="form-label text-dark fw-bold">سجن</label>
+                                    <input id="prison" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.prison" min="0" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="absence" class="form-label text-dark fw-bold">غياب</label>
+                                    <input id="absence" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.absence" min="0" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <div class="col-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="course" class="form-label text-dark fw-bold">فرقة</label>
+                                    <input id="course" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.course" min="0" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="out-of-country" class="form-label text-dark fw-bold">خ البلاد</label>
+                                    <input id="out-of-country" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.outOfCountry" min="0" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="outdoor-camp" class="form-label text-dark fw-bold">م.تد خارجي</label>
+                                    <input id="outdoor-camp" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.outdoorCamp" min="0" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-lg-3">
+                            <button class="add-btn btn-block rounded py-2 px-4" onclick="toTmamDetails(@ViewBag.pg)">
+                                <span class="glyphicon glyphicon-save"></span> حفظ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                break;
+
+            default:
+                break;
+        }
+    </div>
+</div>

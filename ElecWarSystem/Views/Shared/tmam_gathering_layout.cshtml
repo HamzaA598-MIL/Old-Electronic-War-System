@@ -1,0 +1,130 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    UserRoles userRoles = (ElecWarSystem.Models.UserRoles)byte.Parse(Request.Cookies["Roles"].Value);
+}
+<link rel="stylesheet" href="~/Content/UnitDataEntryStyle.css" />
+<link rel="stylesheet" href="~/Content/tmamGathering.css" />
+<link href="~/Content/StyleCss/Maneger.css" rel="stylesheet" />
+<script src="~/Scripts/TmamScripts/tmam-gathering-helper.js"></script>
+<script src="~/Scripts/bootstrap.bundle.min.js"></script>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        @{DateTime todayDate = DateTime.Today.AddDays(1);}
+
+        @if ((userRoles & UserRoles.Viewer) == UserRoles.Viewer && (userRoles & UserRoles.Admin) != UserRoles.Admin)
+        {
+            todayDate = DateTime.Today;
+        }
+
+        <!-- Title Section -->
+        <div class="title-div col-12 mb-4">
+            <div class="row align-items-center">
+                <div class="col-lg-2 col-md-3 col-sm-3 col-4">
+                    <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="Icon" style="max-width: 80%;">
+                </div>
+                <div class=" title col-lg-8 col-md-6 col-sm-6 col-8">
+                    <h1 style="">تمام جميع وحدات الحرب الإلكترونية</h1>
+                    <p>عن يوم @todayDate.ToString("dddd الموافق yyyy/MM/dd", new System.Globalization.CultureInfo("ar-AE"))</p>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-3 col-4">
+                    <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="Icon" style="max-width: 80%;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Section -->
+        <nav aria-label="Page navigation" class="container w-100">
+            <ul class="pagination d-flex flex-wrap justify-content-center">
+                @if ((userRoles & UserRoles.Analyzer) == UserRoles.Analyzer)
+                {
+                    <li class="page-item mx-2">
+                        <a class="page-link d-flex align-items-center btn btn-outline-warning" href="@Url.Action("RecievedTmam", "TmamGathering")">
+                            <i class="fas fa-file-alt me-2"></i> إستلام التمامات
+                        </a>
+                    </li>
+                }
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("LeaderShip", "TmamGathering")">
+                        <i class="fas fa-chess-king me-2"></i> تمام القادة
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Officers", "TmamGathering")">
+                        <i class="fas fa-user-tie me-2"></i> تمام الضباط
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("NonOfficers", "TmamGathering")">
+                        <i class="fas fa-users me-2"></i> تمام الدرجات الأخرى
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Errands", "TmamGathering")">
+                        <i class="fas fa-briefcase me-2"></i> المأموريات
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("SickLeaves", "TmamGathering")">
+                        <i class="fas fa-notes-medical me-2"></i> أجازة مرضية
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Courses", "TmamGathering")">
+                        <i class="fas fa-graduation-cap me-2"></i> الفرقة
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Hospital", "TmamGathering")">
+                        <i class="fas fa-hospital me-2"></i> المستشفى
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Prison", "TmamGathering")">
+                        <i class="fas fa-gavel me-2"></i> سجن
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Absence", "TmamGathering")">
+                        <i class="fas fa-user-times me-2"></i> غياب
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("OutOfCountry", "TmamGathering")">
+                        <i class="fas fa-plane-departure me-2"></i> خارج البلاد
+                    </a>
+                </li>
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center" href="@Url.Action("Camps", "TmamGathering")">
+                        <i class="fas fa-campground me-2"></i> خارج التمركز
+                    </a>
+                </li>
+                @if ((userRoles & UserRoles.SuperAdmin) == UserRoles.SuperAdmin)
+                {
+                    <li class="page-item mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Units")">
+                            <i class="fas fa-campground me-2"></i> انشاء وحدة جديدة
+                        </a>
+                    </li>
+                    <li class="page-item mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Users")">
+                            <i class="fas fa-campground me-2"></i> إنشاء ايميل جديد
+                        </a>
+                    </li>
+
+
+                }
+                <li class="page-item mx-2">
+                    <a class="page-link d-flex align-items-center btn btn-outline-warning" href="@Url.Action("Index", "SavedTmam")">
+                        <i class="fas fa-file-download  me-2"></i> تحميل تقارير
+                    </a>
+                </li>
+            </ul>
+            <hr />
+        </nav>
+
+
+        @RenderBody()
+    </div>
+</div>

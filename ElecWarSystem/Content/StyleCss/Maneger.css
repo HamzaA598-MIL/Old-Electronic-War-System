@@ -1,0 +1,58 @@
+﻿.add-btn {
+    text-decoration: none;
+    color: var(--text);
+    background-color: var(--header);
+    width: fit-content;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    
+}
+.form-group label{
+    font-weight:bold;
+   color: black;
+   padding-bottom: .5rem;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+td a {
+    text-decoration:none;
+}
+/* أيقونة التعديل */
+.edit-icon {
+    color: forestgreen; /* أزرق */
+    font-size: 18px;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+    .edit-icon:hover {
+        color: #0056b3; /* أزرق داكن عند التمرير */
+    }
+
+/* أيقونة التفاصيل */
+.details-icon {
+    color: #17a2b8; /* سماوي */
+    font-size: 18px;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+    .details-icon:hover {
+        color: #117a8b; /* سماوي داكن عند التمرير */
+    }
+
+/* أيقونة الحذف */
+.delete-icon {
+    color: #dc3545; /* أحمر */
+    font-size: 18px;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+    .delete-icon:hover {
+        color: #bd2130; /* أحمر داكن عند التمرير */
+    }
+

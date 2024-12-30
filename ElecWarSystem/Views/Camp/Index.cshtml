@@ -1,0 +1,125 @@
+﻿@using ElecWarSystem.Models
+<script src="~/Scripts/TmamScripts/camp-crud.js"></script>
+@{
+    int j;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+
+<h2 class="h2"> معسكر خارجى</h2>
+<p id="camp-counter" class="counter" >@ViewBag.CampEntered / @ViewBag.CampTotal</p>
+
+    <div class="container">
+        <div class="row my-4">
+            <div class="form-group  ">
+                <button id="add-camp-btn" class="add-btn "    onclick="openCampPopup()">
+                    <i class="fas fa-plus-circle"></i>
+                    إضافة
+                </button>
+            </div>
+            <div class="row my-4 ">
+                <table class="Agaza-table table-bordered" id="camp-table">
+                    <thead>
+                        <tr>
+                            <th>م</th>
+                            <th>الرتبة / الدرجة</th>
+                            <th>الإسم </th>
+                            <th>مكان التمركز الحالى</th>
+                            <th>السبب</th>
+                            <th>المدة من</th>
+                            <th>المدة إلى</th>
+                            <th>الاجراءات </th>
+                        </tr>
+                    </thead>
+                    @{
+                        j = 1;
+                    }
+                    <tbody style="font-size:14px;">
+                        @foreach (Camp Camp in ViewBag.Camp)
+                        {
+                            <tr>
+                                <td class="aribiano">@j</td>
+                                <td>@Camp.CampDetail.Person.Rank.RankName</td>
+                                <td>@Camp.CampDetail.Person.FullName</td>
+                                <td>@Camp.CampDetail.CurrentExistance</td>
+                                <td>@Camp.CampDetail.Reason</td>
+                                <td class="aribiano">@Camp.CampDetail.DateFrom.ToString("yyyy-MM-dd")</td>
+                                <td class="aribiano">@Camp.CampDetail.DateTo.ToString("yyyy-MM-dd")</td>
+                                <td>
+                                    <button class="delete-btn" onclick="deleteCamp(@Camp.ID)">
+                                        
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            j++;
+                        }
+                        @if(j==1)
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">لا يوجد معسكرات خارجية</td> 
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="campModal" tabindex="-1" role="dialog" aria-labelledby="campModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-light">
+                    <h5 class="modal-title" id="campModalLabel">إضافة معسكر خارجي</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="d-flex justify-content-around ">
+                            <div class="form-group col-4">
+                                @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                            </div>
+                            <div class="form-group col-7">
+                                @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                                <select name="person-name" class="form-control" id="person-name">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-around ">
+                            <div class="form-group col-4">
+                                @Html.Label("مكان التمركز الحالى", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("currentExistance", new { htmlAttributes = new { @class = "form-control", @id = "currentExistance", @onkeyup = "disableBtn()" } })
+                            </div>
+                            <div class="form-group col-7">
+                                @Html.Label("السبب", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("reason", new { htmlAttributes = new { @class = "form-control", @id = "reason", @onkeyup = "disableBtn()" } })
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-around ">
+                            <div class="form-group col-4">
+                                @Html.Label("المدة من", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                            </div>
+                            <div class="form-group col-7">
+                                @Html.Label("المدة إلى", htmlAttributes: new { @class = "control-label" })
+                                @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer bg-light  mt-3">
+                        <button class="btn add-btn popup-submit-btn col-3" disabled onclick="Add()">
+                            <i class="fas fa-save"></i>
+                            حفظ
+                        </button>
+                    </div>
+
+                </div>
+              
+             </div>
+        </div>
+    </div>

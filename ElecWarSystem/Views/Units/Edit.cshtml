@@ -1,0 +1,67 @@
+﻿@model ElecWarSystem.Models.Unit
+<link href="~/Content/StyleCss/Maneger.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+}
+
+<h2 class="text-center my-4 h2">تعديل معلومات الوحدة </h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal card shadow-sm border-0 m-auto w-50">
+        <div class="card-body p-4">
+
+            <h4 class="mb-4 text-primary">الوحدة</h4>
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+            @Html.HiddenFor(model => model.ID)
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.zoneID, "Zone", htmlAttributes: new { @class = "form-label fw-semibold" })
+                <div>
+                    @Html.DropDownList("zoneID", null, htmlAttributes: new { @class = "form-select", placeholder = "Select Zone" })
+                    @Html.ValidationMessageFor(model => model.zoneID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.UnitName, htmlAttributes: new { @class = "form-label fw-semibold" })
+                <div>
+                    @Html.EditorFor(model => model.UnitName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter unit name" } })
+                    @Html.ValidationMessageFor(model => model.UnitName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.AllowedStrogeSize, htmlAttributes: new { @class = "form-label fw-semibold" })
+                <div>
+                    @Html.EditorFor(model => model.AllowedStrogeSize, new { htmlAttributes = new { @class = "form-control", placeholder = "Allowed storage size" } })
+                    @Html.ValidationMessageFor(model => model.AllowedStrogeSize, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.UsedStrogeSize, htmlAttributes: new { @class = "form-label fw-semibold" })
+                <div>
+                    @Html.EditorFor(model => model.UsedStrogeSize, new { htmlAttributes = new { @class = "form-control", placeholder = "Used storage size" } })
+                    @Html.ValidationMessageFor(model => model.UsedStrogeSize, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(model => model.Order, htmlAttributes: new { @class = "form-label fw-semibold" })
+                <div>
+                    @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter order" } })
+                    @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="text-end">
+                <input type="submit" value="Save" class="btn btn-primary px-4 me-2 add-btn" />
+            </div>
+        </div>
+    </div>
+}
+@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary px-4 w-25" })

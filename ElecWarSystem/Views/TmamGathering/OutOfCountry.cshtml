@@ -1,0 +1,73 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "OutOfCountry";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<OutOfCountry>>> outOfCountries = ViewBag.OutOfCountries;
+    int i = 1;
+}
+
+<h1 class="title-of-page h2">
+    الضباط و الأفراد المسافرين خارج البلاد لوحدات الحرب الإلكترونیة
+</h1>
+@if (outOfCountries.Count > 0)
+{
+    foreach (var outOfCountryZone in outOfCountries)
+    {
+          
+        <p class = "h2 mt-3 mb-3 " id="zone-text">@String.Format($"وحدات فى نطاق {outOfCountryZone.Key}") </p>
+
+        <table class="Agaza-table table-bordered ">
+            <thead>
+
+            <tr>
+                <th>م</th>
+                <th>الوحدة</th>
+                <th>الرتبة / الدرجة</th>
+                <th>الإسم </th>
+                <th>جهة السفر</th>
+                <th>الغرض من السفر</th>
+                <th>المدة من</th>
+                <th>المدة إلى</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var outOfCountryUnit in outOfCountryZone.Value)
+                {
+                    int j = 0;
+                    string padding = $"{Math.Round((37.5 * outOfCountryUnit.Value.Count) / 2) - 15}px";
+                    foreach (var outOfCountry in outOfCountryUnit.Value)
+                    {
+                        <tr>
+                            <td class="aribiano">@(i++)</td>
+                            @if (j == 0)
+                            {
+                                <td class="aribiano" rowspan="@outOfCountryUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                    @outOfCountryUnit.Key
+                                </td>
+                            }
+                            <td>@outOfCountry.OutOfCountryDetail.Person.Rank.RankName</td>
+                            <td>@outOfCountry.OutOfCountryDetail.Person.FullName</td>
+                            <td class="aribiano">@outOfCountry.OutOfCountryDetail.Country</td>
+                            <td class="aribiano">@outOfCountry.OutOfCountryDetail.Puspose</td>
+                            <td class="aribiano">@outOfCountry.OutOfCountryDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                            <td class="aribiano">@outOfCountry.OutOfCountryDetail.DateTo.ToString("dd-MM-yyyy")</td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+    <div class="mt-4">
+        @Html.ActionLink("تحميل التقرير" , actionName: "OutOfCountriesReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+    </div>
+}
+else
+{
+      
+    <div class="col-6  mt-5  none-tmam">
+        <h2 style="text-align:center">لم يوجد ضباط أو أفراد خارج البلاد حتى الآن !!</h2>
+        <img src="~/Images/page.png" />
+    </div>
+}

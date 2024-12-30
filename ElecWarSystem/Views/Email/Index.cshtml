@@ -1,0 +1,125 @@
+﻿
+
+<script type="text/javascript" src="~/Scripts/EmailsScript.js"></script>
+<link href="~/Content/StyleCss/EmailListStyle.css" rel="stylesheet" />
+<div class="main-div mt-5" ng-app="EmailModule">
+    <div class="container mt-4 mb-4" ng-controller="EmailController" ng-cloak>
+        <div class="row">
+            <div class="col-3">
+                <a class=" btn text-light button col-9 create-btn" id="createBtn" href="@Url.Action("Create", "Email")">
+                    إنشاء بريد
+                    <i class="fas fa-pen-square"></i>
+                </a>
+            </div>
+            <div class=" col-3">
+                <button type="submit" class="col-12" ng-class="importClasses" id="importBtn" ng-click="loadExportedEmails(false)">
+                    وارد
+                    <i class="fas fa-file-import"></i>
+                    <span class="badge" style="background-color: red; color: white;" ng-show="unreadCount > 0">{{unreadCount}}</span>
+                </button>
+            </div>
+            <div class=" col-3">
+                <button type="submit" class="col-12" ng-class="exportClasses" id="exportBtn" ng-click="loadExportedEmails(true)">
+                    صادر
+                    <i class="fas fa-file-export"></i>
+                </button>
+            </div>
+
+            @{
+                long perc = (ViewBag.Used.SpaceInBytes * 100) / (ViewBag.Capacity.SpaceInBytes);
+                string color = (perc > 80) ? "progress-bar-danger" : "progress-bar-primary";
+            }
+
+            <div class="col-3">
+                <div class="progress" style="margin:10px 0px 0px 0px; height:10px;">
+                    <div class="progress-bar @color" role="progressbar" aria-valuenow="@perc" aria-valuemin="0" aria-valuemax="100" style="width:@perc%">
+                        <span class="sr-only">80% Complete (danger)</span>
+                    </div>
+                </div>
+                <label style="float:left;">@String.Format($"{ViewBag.Capacity.ToString()} Max")</label>
+                <label style="float:right;">@String.Format($"{ViewBag.Used.ToString()} Used")</label>
+            </div>
+        </div>
+
+        <!-- قسم الرسائل الواردة -->
+        <div ng-show="!export">
+            <h1 class="h2 text-center" > الإيميلات الواردة</h1>
+            <div class="container mt-4 p-3 header-item" id="emailsListHeader">
+                <div class="row">
+                    <div class="col-1">هام</div>
+                    <div class="col-2">المرسل</div>
+                    <div class="col-6">الموضوع</div>
+                    <div class="col-2">تاريخ الاستلام</div>
+                    <div class="col-1">سعت</div>
+                </div>
+            </div>
+
+            <div id="EmailsDiv">
+                <div class="container mt-2 p-3 email-item" ng-repeat="email in Recieved | limitTo: pageSize * currentPage track by $index">
+                    <div ng-class="email.Readed ? 'row' : 'row email-unread'">
+                        <div class="col-1">
+                            <input type="checkbox" ng-model="email.Starred" ng-click="StarEmail(email.Email.ID)" />
+                        </div>
+                        <div class="col-2" ng-click="openDetailsEmail(email.Email.ID)">
+                            <span class="aribiano">{{email.Email.Sender.UnitName}}</span>
+                        </div>
+                        <div class="col-6" ng-click="openDetailsEmail(email.Email.ID)">
+                            <span class="aribiano">{{email.Email.Subject}}</span>
+                            <span>-</span>
+                            <span class="aribiano">{{email.Email.EmailText}}</span>
+                        </div>
+                        <div class="col-lg-2" ng-click="openDetailsEmail(email.Email.ID)" ng-cloak>
+                            <span>{{email.Email.SendDateTime.slice(6, -2) | date:'yyyy/MM/dd' | arabicNumbers}}</span>
+                        </div>
+                        <div class="col-lg-1" ng-click="openDetailsEmail(email.Email.ID)" ng-cloak>
+                            <span>{{email.Email.SendDateTime.slice(6, -2) | date:' HH:mm' | arabicNumbers}}</span>
+                            <i class="fas fa-envelope text-danger" ng-if="!email.Readed" title="Unread email"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- قسم الرسائل الصادرة -->
+        <div ng-show="export">
+            <h1 class="h2 text-center"> الإيميلات الصادرة
+            </h1>
+
+            <div class="container mt-4 p-3 header-item" id="emailsListHeader">
+                <div class="row">
+                    <div class="col-8">الموضوع</div>
+                    <div class="col-2">تاريخ الارسال</div>
+                    <div class="col-1">سعت</div>
+                </div>
+            </div>
+
+            <div id="EmailsDiv">
+                <div class="container mt-2 p-3 email-item" ng-repeat="email in Sended | limitTo: pageSize * currentPage track by $index">
+                    <div class="row">
+                        <div class="col-lg-8" ng-click="openDetailsEmail(email.ID)">
+                            <span class="aribiano">{{email.Subject}}</span>
+                            <span>-</span>
+                            <span class="aribiano">{{email.EmailText}}</span>
+                        </div>
+                        <div class="col-lg-2" ng-click="openDetailsEmail(email.ID)">
+                            <span>{{email.SendDateTime.slice(6, -2) | date:'yyyy/MM/dd' | arabicNumbers}}</span>
+                        </div>
+                        <div class="col-lg-1" ng-click="openDetailsEmail(email.ID)">
+                            <span>{{email.SendDateTime.slice(6, -2) | date:'hh:mm ' | arabicNumbers}}</span>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="delete-btn" ng-click="delete(email.ID)">
+                                حذف
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="loadingEmails" class="text-center mt-3">
+            <i class="fas fa-spinner fa-spin"></i> Loading more emails...
+        </div>
+    </div>
+</div>

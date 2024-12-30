@@ -1,0 +1,79 @@
+﻿@using ElecWarSystem.Models
+
+@{
+    ViewBag.Title = "Errands";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<Errand>>> AllErrands = ViewBag.Errands;
+    int i = 1;
+}
+<link rel="stylesheet" href="~/Content/leadership-style.css" />
+
+<h1 class="title-of-page h2 ">
+    تمام المأموريات لوحدات الحرب الإلكترونیة
+</h1>
+@if (AllErrands.Count > 0)
+{
+    foreach (var errandrPerZone in AllErrands)
+    {
+
+        <p class="h2 mt-5 mb-3 " id="zone-text">@String.Format($"وحدات فى نطاق {errandrPerZone.Key}") </p>
+
+        <table class="Agaza-table table-bordered ">
+            <thead>
+                <tr>
+
+                    <th>م</th>
+                    <th>الوحدة</th>
+                    <th>الرتبة / الدرجة</th>
+                    <th>الإسم </th>
+                    <th>جهة المأمورية</th>
+                    <th>الأمر بالمأمورية</th>
+                    <th>التاريخ من</th>
+                    <th>التاريخ إلى</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var errandPerUnit in errandrPerZone.Value)
+                {
+                    int j = 0;
+                    string padding = $"{Math.Round((37.5 * errandPerUnit.Value.Count) / 2) - 15}px";
+                    foreach (var errand in errandPerUnit.Value)
+                    {
+                        <tr>
+                            <td class="aribiano">@(i++)</td>
+                            @if (j == 0)
+                            {
+                                <td class="aribiano" rowspan="@errandPerUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                    @errandPerUnit.Key
+                                </td>
+                            }
+                            <td>@errand.ErrandDetail.Person.Rank.RankName</td>
+                            <td>@errand.ErrandDetail.Person.FullName</td>
+                            <td class="aribiano">@errand.ErrandDetail.ErrandPlace</td>
+                            <td class="aribiano">@errand.ErrandDetail.ErrandCommandor</td>
+                            <td class="aribiano">@errand.ErrandDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                            <td class="aribiano ">@errand.ErrandDetail.DateTo.ToString("dd-MM-yyyy")</td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
+
+
+    }
+    <div class="mt-4">
+        @Html.ActionLink("تحميل التقرير", actionName: "ErrandsReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+    </div>
+}
+else
+{
+
+    <div class="col-6  mt-5  none-tmam">
+        <h2 style="text-align:center">لم يوجد مأموريات حتى الآن !!</h2>
+        <img src="~/Images/page.png" />
+    </div>
+}
+

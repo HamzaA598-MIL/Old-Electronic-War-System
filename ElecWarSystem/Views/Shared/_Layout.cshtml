@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="~/4500.ico" />
+    <title>منظومة الحرب الإلكترونية</title>
+    <link href="~/Content/css/all.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/SweatAlert.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/fontawesome.css" />
+    <link href="~/Content/bootstrap-grid.rtl.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/LoginStyle.css" />
+    <link href="~/Content/StyleCss/MainStyle.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-3.7.1.min.js" defer></script>
+    <script src="~/Scripts/Aribiano.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/SweatAlertJs.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/TmamScripts/angular.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <!-- Navbar header with toggler button for mobile -->
+            <a class="navbar-brand">
+                <label id="userNameNav">منظومة الحرب الإلكترونية</label>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="المزيد من الخيارات">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible menu items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    @using ElecWarSystem.Models;
+                    @{
+                        UserRoles userRoles = (ElecWarSystem.Models.UserRoles)byte.Parse(Request.Cookies["Roles"].Value);
+                    }
+
+                    @if ((userRoles & UserRoles.Viewer) == UserRoles.Viewer || (userRoles & UserRoles.Admin) == UserRoles.Admin)
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("RecievedTmam", "TmamGathering")" class="nav-link">
+                                <i class="fas fa-check-circle"></i> تمام جميع الوحدات
+                            </a>
+                        </li>
+                    }
+
+                    @if ((userRoles & UserRoles.Unit) == UserRoles.Unit)
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("Review", "Tmam")" class="nav-link">
+                                <i class="fas fa-calendar-day"></i> التمام اليومى
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("DataEntry", "Unit", new { pg = 1 })" class="nav-link">
+                                <i class="fas fa-database"></i> إدخال بيانات الوحدة
+                            </a>
+                        </li>
+                    }
+
+                    @if ((userRoles & UserRoles.Analyzer) == UserRoles.Analyzer)
+                    {
+                        <li class="nav-item ms-5 ">
+                            <a href="@Url.Action("Index", "Email")" class="nav-link ">
+                                <i class="fas fa-exchange-alt"></i> تبادل الملفات
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Logout", "User")" class="delete-btn nav-link">
+                            <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+                        </a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <span id="userNameNav" class="navbar-text">@Request.Cookies["userName"].Value</span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <footer class="footer text-white text-center p-2">
+        <span class="fs-4 aribiano"> جميع الحقوق محفوظة لمركز العمليات الرئيسي 250 &copy; @DateTime.Now.Year</span>
+    </footer>
+
+
+
+
+</body>
+</html>

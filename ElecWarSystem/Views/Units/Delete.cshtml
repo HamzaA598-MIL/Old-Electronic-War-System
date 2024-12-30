@@ -1,0 +1,30 @@
+﻿@model ElecWarSystem.Models.Unit
+
+@{
+    ViewBag.Title = "حذف";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+}
+
+<div class="card border-danger shadow-sm mt-4">
+    <div class="card-header bg-danger text-white">
+        <h3 class="text-center"><i class="fa fa-trash"></i> تأكيد الحذف</h3>
+    </div>
+    <div class="card-body text-center">
+        <p class="lead">
+            <i class="fa fa-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+        </p>
+        <p class="lead">هل أنت متأكد أنك تريد حذف هذا المستخدم؟</p>
+        <p class="text-muted">بمجرد الحذف، لا يمكن استرجاع البيانات.</p>
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-danger btn-lg mx-2 delete-btn">
+                    <i class="fa fa-check "></i> نعم، احذف
+                </button>
+                @Html.ActionLink("إلغاء", "Index", null, new { @class = "btn btn-secondary btn-lg mx-2" })
+            </div>
+        }
+    </div>
+</div>

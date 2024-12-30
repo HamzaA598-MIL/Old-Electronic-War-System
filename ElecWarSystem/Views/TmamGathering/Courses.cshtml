@@ -1,0 +1,76 @@
+﻿@using ElecWarSystem.Models.OutDoor
+@{
+    ViewBag.Title = "Courses";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<Course>>> Courses = ViewBag.Courses;
+    int i = 1;
+}
+<link rel="stylesheet" href="~/Content/leadership-style.css" />
+
+<h1 class="title-of-page h2">
+    تمام الفرق و الدورات لجيمع وحدات الحرب الإلكترونیة
+</h1>
+@if (Courses.Count > 0)
+{
+    foreach (var CourseZone in Courses)
+    {
+
+        <p class="h2 mt-5 mb-3 " id="zone-text">@String.Format($"وحدات فى نطاق {CourseZone.Key}") </p>
+
+        <table class="Agaza-table table-bordered ">
+            <thead>
+                <tr>
+                    <th>م</th>
+                    <th>الوحدة</th>
+                    <th>الرتبة / الدرجة</th>
+                    <th>الإسم </th>
+                    <th>الفرقة/الدورة</th>
+                    <th>مكان إنعقاد الفرقة/الدورة</th>
+                    <th>المدة من</th>
+                    <th>المدة إلى</th>
+                    <th colspan="2" style="text-align:center;">بند الأوامر</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var CourseUnit in CourseZone.Value)
+                {
+                    int j = 0;
+                    string padding = $"{Math.Round((37.5 * CourseUnit.Value.Count) / 2) - 15}px";
+                    foreach (var Course in CourseUnit.Value)
+                    {
+                        <tr>
+                            <td class="aribiano">@(i++)</td>
+                            @if (j == 0)
+                            {
+                                <td class="aribiano" rowspan="@CourseUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                    @CourseUnit.Key
+                                </td>
+                            }
+                            <td>@Course.CourseDetails.Person.Rank.RankName</td>
+                            <td>@Course.CourseDetails.Person.FullName</td>
+                            <td class="aribiano">@Course.CourseDetails.CourseName</td>
+                            <td class="aribiano">@Course.CourseDetails.CoursePlace</td>
+                            <td class="aribiano">@Course.CourseDetails.DateFrom.ToString("yyyy/MM/dd")</td>
+                            <td class="aribiano">@Course.CourseDetails.DateTo.ToString("yyyy/MM/dd")</td>
+                            <td class="aribiano">@Course.CourseDetails.CommandItem.Number</td>
+                            <td class="aribiano">@Course.CourseDetails.CommandItem.Date.ToString("yyyy/MM/dd")</td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+    <div class="mt-4">
+        @Html.ActionLink("تحميل التقرير", actionName: "CoursesReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+    </div>
+}
+else
+{
+
+    <div class="col-6  mt-5  none-tmam">
+        <h2 style="text-align:center">لم يوجد فرق و دورات حتى الآن !!</h2>
+        <img src="~/Images/page.png" />
+    </div>
+}

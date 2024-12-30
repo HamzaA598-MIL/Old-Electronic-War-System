@@ -1,0 +1,120 @@
+﻿@using ElecWarSystem.Models
+<script src="~/Scripts/TmamScripts/out-of-country-crud.js"></script>
+@{
+    int j;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+
+<h2 class="h2" >خارج البلاد</h2>
+<p id="out-of-country-counter"  class="counter">@ViewBag.outOfCountryEntered / @ViewBag.outOfCountryTotal</p>
+
+<div class="container">
+    <div class="row my-4">
+        <div class="form-group  ">
+            <button id="add-out-of-country-btn" class="add-btn"    onclick="openOutOfCountryPopup()">
+                <i class="fas fa-plus-circle"></i>
+                إضافة
+            </button>
+
+        </div>
+        <div class="row my-4 ">
+            <table class="Agaza-table table-bordered" id="out-of-country-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>الرتبة / الدرجة</th>
+                        <th>الإسم </th>
+                        <th>جهة السفر</th>
+                        <th>الغرض من السفر</th>
+                        <th>المدة من</th>
+                        <th>المدة إلى</th>
+                        <th>الاجراءات </th>
+                    </tr>
+
+                </thead>
+
+                @{
+                    j = 1;
+                }
+                <tbody style="font-size:14px;">
+                    @foreach (OutOfCountry outOfCountry in ViewBag.outOfCountry)
+                    {
+                        <tr>
+                            <td >@j</td>
+                            <td>@outOfCountry.OutOfCountryDetail.Person.Rank.RankName</td>
+                            <td>@outOfCountry.OutOfCountryDetail.Person.FullName</td>
+                            <td>@outOfCountry.OutOfCountryDetail.Country</td>
+                            <td>@outOfCountry.OutOfCountryDetail.Puspose</td>
+                            <td >@outOfCountry.OutOfCountryDetail.DateFrom.ToString("yyyy-MM-dd")</td>
+                            <td >@outOfCountry.OutOfCountryDetail.DateTo.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                <button class="delete-btn" onclick="deleteOutOfCountry(@outOfCountry.ID)">
+                                   <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        j++;
+                    }
+                    @if (j == 1)
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center text-muted">لا توجد خارج بلاد  مسجلة.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="outOfCountryModal" tabindex="-1" role="dialog" aria-labelledby="outOfCountryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title" id="outOfCountryModalLabel">إضافة مأمورية خارجية</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form">
+                    <div class="form-group" style="width: 30%; float: right;">
+                        @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                    </div>
+                    <div class="form-group" style="width:60%; float:right; margin-right:10%">
+                        @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                        <select name="person-name" class="form-control" id="person-name">
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("جهة السفر", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("country", new { htmlAttributes = new { @class = "form-control", @id = "country", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("الغرض من السفر", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("purpose", new { htmlAttributes = new { @class = "form-control", @id = "purpose", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <div class="form-group" style="width: 45%; float: right;">
+                        @Html.Label("المدة من", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                    </div>
+                    <div class="form-group" style="width:45%; float:right; margin-right:10%">
+                        @Html.Label("المدة إلى", htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-group ">
+                <button class="btn add-btn popup-submit-btn col-12" disabled onclick="Add()">
+                    <i class="fas fa-save "></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

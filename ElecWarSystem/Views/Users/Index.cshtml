@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ElecWarSystem.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+}
+
+<h2 class="h2">جميع ايميلات الوحدات </h2>
+
+<p>
+    @Html.ActionLink("تسجيل ايميل جديد", "Create", "", new {@class="add-btn"})
+</p>
+<table class="Agaza-table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Unit.UnitName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Roles)
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unit.UnitName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Roles)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", new { id = item.ID })" class="fa fa-edit edit-icon" title="Edit"></a> |
+            <a href="@Url.Action("Delete", new { id = item.ID })" class="fa fa-trash delete-icon" title="Delete"></a>
+        </td>
+
+    </tr>
+}
+
+</table>

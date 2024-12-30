@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ElecWarSystem.Models.Unit>
+<link href="~/Content/StyleCss/Maneger.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    int i = 0;
+}
+
+<h2 class="h2">جميع وحدات الحرب الإلكترونية </h2>
+
+<p >
+    @Html.ActionLink("تسجيل وحدة جديدة", "Create","",new {@class="add-btn"})
+</p>
+<table class="Agaza-table table-hover">
+    <thead>
+        <tr>
+            <th>
+                م
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.zone.ZoneName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnitName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AllowedStrogeSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsedStrogeSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AltComExist)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+
+@foreach (var item in Model) {
+    i++;
+    <tr>
+        <td>
+            @i
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.zone.ZoneName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowedStrogeSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsedStrogeSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AltComExist)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "fa fa-edit edit-icon" }) |
+            @Html.ActionLink(" ", "Delete", new { id = item.ID }, new { @class = "fa fa-trash delete-icon" })
+        </td>
+
+    </tr>
+}
+
+</table>

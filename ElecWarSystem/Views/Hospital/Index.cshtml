@@ -1,0 +1,124 @@
+﻿@using ElecWarSystem.Models
+<script src="~/Scripts/TmamScripts/hospital-crud.js"></script>
+@{
+    int j;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+
+<h2 class="h2">الضباط و الأفراد المحجوزين بالمستشفيات العسكرية</h2>
+<p id="hospital-counter" class="counter" >@ViewBag.HospitalEntered / @ViewBag.HospitalTotal</p>
+
+    <div class="container my-4">
+        <div class="row">
+            <div class="form-group  ">
+                <!-- زر لفتح المودال -->
+                <button id="add-hospital-btn" type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#hospitalPopup">
+                    <i class="fas fa-plus-circle"></i>
+                    إضافة 
+                </button>
+
+            </div>
+            <div class="row mt-4 ">
+                <table id="hospital-table" class="Agaza-table table-bordered ">
+                    <thead>
+                        <tr>
+                            <th>م</th>
+                            <th>الرتبة / الدرجة</th>
+                            <th>الإسم </th>
+                            <th>المستشفى</th>
+                            <th>تاريخ دخول المستشفى</th>
+                            <th>التشخيص الطبى</th>
+                            <th>التوصيات الممنوحة</th>
+                            <th>الاجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size:14px;">
+                        @{
+                            j = 1;
+                        }
+
+                        @foreach (Hospital hospital in ViewBag.Hospitals)
+                        {
+                            <tr>
+                                <td class="aribiano">@j</td>
+                                <td>@hospital.HospitalDetails.Person.Rank.RankName</td>
+                                <td>@hospital.HospitalDetails.Person.FullName</td>
+                                <td>@hospital.HospitalDetails.Hospital</td>
+                                <td class="aribiano">@hospital.HospitalDetails.DateFrom.ToString("yyyy-MM-dd")</td>
+                                <td>@hospital.HospitalDetails.Diagnosis</td>
+                                <td>@hospital.HospitalDetails.Recommendations</td>
+                                <td>
+                                    <button class="delete-btn" onclick="deleteHospital(@hospital.ID)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            j++;
+                        }
+                        @if (j == 1)
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">لا يوجد تمام مسجل .</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+<div class="modal fade" id="hospitalPopup" tabindex="-1" role="dialog" aria-labelledby="hospitalPopupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-m" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-light">
+                <h5 class="modal-title" id="hospitalPopupLabel">إضافة مستشفى</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row d-flex flex-row justify-content-around " >
+                        <div class="form-group col-md-4">
+                            @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                        </div>
+                        <div class="form-group col-md-7">
+                            @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                            <select name="person-name" class="form-control" id="person-name" onchange="disableBtn()">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row d-flex flex-row justify-content-around flex-wrap ">
+                        <div class="form-group col-md-4">
+                            @Html.Label("إسم المستشفى", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("hospital-name", new { htmlAttributes = new { @class = "form-control", @id = "hospital-name", @onkeyup = "disableBtn()" } })
+                        </div>
+                        <div class="form-group col-md-7">
+                            @Html.Label("تاريخ دخول المستشفى", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("hospital-date", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "hospital-date", @onchange = "disableBtn()" } })
+                        </div>
+                        
+                    </div>
+                    <div class="form-row d-flex flex-row justify-content-around flex-wrap">
+                        <div class="form-group col-md-4">
+                            @Html.Label("التشحيص الطبى", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("diagnosis", new { htmlAttributes = new { @class = "form-control", @id = "diagnosis", @onkeyup = "disableBtn()" } })
+                        </div>
+                        <div class="form-group col-md-7 ">
+                            @Html.Label("التوصيات الممنوحة", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("recommendations", new { htmlAttributes = new { @class = "form-control", @id = "recommendations", @onkeyup = "disableBtn()" } })
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer bg-light">
+                <button class="btn add-btn popup-submit-btn" disabled onclick="Add()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

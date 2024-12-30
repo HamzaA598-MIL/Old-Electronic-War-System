@@ -1,0 +1,80 @@
+﻿body {
+    background-color: #fff5a7;
+}
+
+.navbar-brand {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+}
+#importBtn, #exportBtn, #createBtn {
+    font-size: 20px;
+}
+table, tbody, tr, td, th, thead {
+    font-size: 14px;
+    text-align: right;
+}
+
+#EmailsDiv {
+    font-family: 'Times New Roman';
+    font-size: 16px;
+    max-height: 62vh;
+}
+
+.star {
+    font-size: 3rem;
+    cursor: pointer;
+    color: #ff9800;
+    background-color: unset;
+    border: none;
+    padding: 0px;
+}
+.email-unread {
+    font-weight: bold;
+}
+.star:hover {
+    cursor: pointer;
+}
+
+.email-item, .header-item {
+    font-size: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+    .email-item:hover {
+        background-color: #DBDBDB;
+    }
+
+.header-item {
+    font-size: 20px;
+    background-color: #808080;
+    color: #ffffff
+}
+
+.body-content {
+    padding: 0px;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    padding: .8rem;
+    border-radius: .5rem;
+}
+
+
+
+    .delete-btn:hover {
+        background-color: #c82333; /* لون الخلفية عند التمرير */
+        transform: scale(1.05); /* تكبير الزر قليلاً عند التمرير */
+    }
+
+    .delete-btn:focus {
+        outline: none; /* إزالة الإطار الافتراضي عند التركيز */
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.4); /* ظل خفيف عند التركيز */
+    }

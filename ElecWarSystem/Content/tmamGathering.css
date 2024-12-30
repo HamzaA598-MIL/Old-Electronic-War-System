@@ -1,0 +1,230 @@
+﻿.modern-card {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.title-of-page {
+    text-align: center;
+    text-decoration: underline;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    line-height: 2 !important;
+    text-decoration: none !important;
+    width: 100% !important;
+    font-size: 3rem !important;
+    margin-bottom: -1rem !important;
+}
+.table-review, th {
+    border: 2px solid black;
+    color: #000;
+    text-align: center;
+    padding-top: 25px;
+}
+.table-review-baseeLine {
+    border-block-end: 2px solid black;
+    background-color: gray;
+    font-weight: bold;
+}
+.th-span {
+    text-align: center;
+    padding-top: 25px;
+}
+
+.td-sec {
+    border-block-end: 2px ridge black;
+}
+
+#zone-text {
+    text-align: center;
+    background-color: #004ea3;
+    font-size: 30px;
+    color: rgb(255 255 255);
+    border-radius: 10px;
+}
+
+#contain {
+    position: absolute;
+    height: 100px;
+    width: 200px;
+    background: #333;
+    border-radius: 15px;
+    transform: translateX(0) translateY(0);
+}
+#contain::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    bottom: -10%;
+    height: 20px;
+    background: #333;
+}
+
+/* إعدادات عامة */
+body {
+    background-color: #121212; /* Dark mode الخلفية */
+    color: #E0E0E0; /* لون النص الرئيسي */
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+/* Title Section */
+.title-div {
+    background-color: #1E1E1E; /* خلفية داكنة للأقسام */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); /* إضافة ظل ناعم */
+}
+
+.title-div h1 {
+    color: #4A90E2; /* لون أزرق مميز للعناوين */
+    font-weight: bold;
+}
+
+.title-div p {
+    color: #E0E0E0; /* لون نص رمادي فاتح */
+}
+
+/* الأيقونات */
+.page-link i {
+    margin-right: 5px;
+}
+
+/* Buttons */
+.page-link {
+    color: #E0E0E0;
+    background: rgb(2, 108, 225);
+    background-color: rgb(0 79 164);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-link:hover {
+    /* تغيير لون الخلفية عند التمرير */
+    color: var(--alarm); /* النص الأبيض عند التمرير */
+    background-color: var(--header);
+    border-color: #0062cc;
+}
+
+/* Pagination */
+.pagination .page-item {
+    margin: 10px 5px;
+}
+
+.pagination .page-item .page-link {
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #4A90E2;
+    border-color: #0062cc;
+}
+
+/* استجابة الهواتف الذكية */
+@media (max-width: 768px) {
+    .title-div h1 {
+        font-size: 2rem;
+    }
+    .title-div p {
+        font-size: 1rem;
+    }
+    .page-link {
+        padding: 8px 15px;
+    }
+}
+.title-div {
+    background-color: var(--header);
+}
+.title h1 {
+    color: var(--text);
+}
+.title p {
+    color: var(--alarm)
+}
+
+/* Modern Table Styling */
+.table-modern {
+    border-spacing: 0 10px;
+    border-collapse: separate;
+}
+
+    .table-modern thead th {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+    }
+
+    .table-modern tbody tr {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+        .table-modern tbody tr:hover {
+            background-color: #f1f1f1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+.none-tmam h2{
+    color: #fff !important;
+}
+.none-tmam img{
+    width: 100% !important;
+}
+/* Button Styling */
+.btn {
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-lg {
+    padding: 12px 24px;
+}
+
+.add-btn {
+    background-color: #007bff;
+    border: none;
+}
+
+    .add-btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px);
+    }
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+.btn:disabled {
+    background: #007bff;
+}
+    .btn-danger:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+    }
+
+/* General Styling */
+.shadow-lg {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-pill {
+    border-radius: 50px;
+}
+
+.table-bordered tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.bg-white {
+    background-color: #fff;
+}

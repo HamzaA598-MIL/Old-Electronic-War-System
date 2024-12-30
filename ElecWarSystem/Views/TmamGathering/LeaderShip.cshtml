@@ -1,0 +1,108 @@
+﻿@using ElecWarSystem.Models
+@using ElecWarSystem.ViewModel
+
+@{
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, Dictionary<String, LeaderTmamView>>> leadersTmams = ViewBag.leadersTmams;
+    Dictionary<String, Dictionary<String, Person>> altCommandors = ViewBag.altCommandors;
+}
+<link rel="stylesheet" href="~/Content/leadership-style.css" />
+<h1 class="title-of-page h2 ">
+    تمام قادة وحدات الحرب الإلكترونیة
+</h1>
+<div class="container" style=" padding-left: 0px; padding-right: 0px;">
+    <div class="row my-4">
+        <div class="row my-4 ">
+            @foreach (var leaderTmamPerZone in leadersTmams)
+            {
+                <p class="h2 mt-3 mb-3" id="zone-text">@String.Format("وحدات فى نطاق {0}", leaderTmamPerZone.Key) </p>
+                <table class="Agaza-table table-bordered " >
+                    <thead>
+                        <tr  >
+                            <th rowspan="3" style="padding-top: 40px;">الوحدة</th>
+                            <th colspan="2">القائد</th>
+                            <th colspan="2">ر.ع</th>
+                            <th colspan="2" class="aribiano">قا ك1</th>
+                            <th colspan="2" class="aribiano">ر.ع ك1</th>
+                            <th colspan="2" class="aribiano">قا ك2</th>
+                            <th colspan="2" class="aribiano">ر.ع ك2</th>
+                            <th colspan="2" class="aribiano">قا ك3</th>
+                            <th colspan="2"  class="aribiano">ر.ع ك3</th>
+                            <th colspan="2" rowspan="2" style="text-align: center;">منوب عمليات</th>
+                        </tr>
+                        <tr >
+                            @for (int i = 0; i < 8; i++)
+                            {
+                                <th colspan="2">التمام</th>
+                            }
+                        </tr>
+                        <tr style="border-block-end:5px double black;">
+                            @for (int i = 0; i < 8; i++)
+                            {
+                                <th>من</th>
+                                <th>إلى</th>
+                            }
+                            <th>الرتبة</th>
+                            <th>الإسم</th>
+                        </tr>
+                    </thead>
+                    @foreach (var leaderTmamPerUnit in leaderTmamPerZone.Value)
+                    {
+                        Dictionary<string, LeaderTmamView> LeaderTmamView = leaderTmamPerUnit.Value;
+
+                        <tbody style="font-size:8px;">
+                            <tr>
+                                <td rowspan="2" id="unit-name"  class="aribiano">@leaderTmamPerUnit.Key</td>
+                                @foreach (string key in LeaderTmamView.Keys)
+                                {
+                                    long personID = LeaderTmamView[key].OutdoorDetail.PersonID;
+                                    <td colspan="2" style="cursor:pointer" id="@personID" onclick="showPopup(@personID)">@LeaderTmamView[key].Tmam</td>
+                                }
+
+                                @for (int i = 0; i < 8 - LeaderTmamView.Keys.Count; i++)
+                                {
+                                    <td colspan="2">-</td>
+                                }
+                                @if (altCommandors[leaderTmamPerZone.Key].Keys.Contains(leaderTmamPerUnit.Key))
+                                {
+                                    <td rowspan="2" id="alt-comm">@(altCommandors[leaderTmamPerZone.Key][leaderTmamPerUnit.Key].Rank.RankName)</td>
+                                    <td rowspan="2" id="alt-comm">@(altCommandors[leaderTmamPerZone.Key][leaderTmamPerUnit.Key].FullName)</td>
+                                }
+                                else
+                                {
+                                    <td rowspan="2" id="alt-comm">-</td>
+                                    <td rowspan="2" id="alt-comm">-</td>
+                                }
+                            </tr>
+                            <tr>
+                                @foreach (string key in LeaderTmamView.Keys)
+                                {
+                                    if (LeaderTmamView[key].Tmam.Equals("موجود"))
+                                    {
+                                        <td id="unit-end-line">-</td>
+                                        <td id="unit-end-line">-</td>
+                                    }
+                                    else
+                                    {
+                                        <td id="unit-end-line" class="aribiano">@LeaderTmamView[key].OutdoorDetail.DateFrom.ToString("MM/dd")</td>
+                                        <td id="unit-end-line" class="aribiano">@LeaderTmamView[key].OutdoorDetail.DateTo.ToString("MM/dd")</td>
+                                    }
+                                }
+
+                                @for (int i = 0; i < 8 - LeaderTmamView.Keys.Count; i++)
+                                {
+                                    <td id="unit-end-line">-</td>
+                                    <td id="unit-end-line">-</td>
+                                }
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    @Html.ActionLink("تحميل التقرير" , actionName: "LeadersTmamReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+</div>

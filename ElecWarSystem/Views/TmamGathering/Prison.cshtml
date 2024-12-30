@@ -1,0 +1,81 @@
+﻿@using ElecWarSystem.Models
+@{
+    ViewBag.Title = "Prison";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Dictionary<String, Dictionary<String, List<Prison>>> AllPrisons = ViewBag.Prisons;
+    int i = 1;
+}
+
+<h1 class="title-of-page h2">
+    الأفراد (سجن / حبس) لوحدات الحرب الإلكترونیة
+</h1>
+@if (AllPrisons.Count > 0)
+{
+    foreach (var PrisonrPerZone in AllPrisons)
+    {
+          
+        <p class = "h2 mt-5 mb-3 " id="zone-text">@String.Format($"وحدات فى نطاق {PrisonrPerZone.Key}") </p>
+
+        <table class="Agaza-table table-bordered ">
+            <thead>
+                <tr>
+                    <th>م</th>
+                    <th>الوحدة</th>
+                    <th>الرتبة / الدرجة</th>
+                    <th>الإسم </th>
+                    <th>الجريمة</th>
+                    <th>العقوبة</th>
+                    <th>الآمر بالعقوبة</th>
+                    <th>مدة التنفذ من</th>
+                    <th>مدة التنفذ إلى</th>
+                    <th>مكان التنفيذ</th>
+                    <th colspan="2" style="text-align:center;">بند الأوامر</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var PrisonPerUnit in PrisonrPerZone.Value)
+                {
+                    int j = 0;
+                    string padding = $"{Math.Round((37.5 * PrisonPerUnit.Value.Count) / 2) - 15}px";
+                    foreach (var prison in PrisonPerUnit.Value)
+                    {
+                        <tr>
+                            <td  class="aribiano">@(i++)</td>
+                            @if (j == 0)
+                            {
+                                <td class="aribiano" rowspan="@PrisonPerUnit.Value.Count" style="font-weight:bold; padding-top:@padding;">
+                                    @PrisonPerUnit.Key
+                                </td>
+                            }
+                            <td>@prison.PrisonDetails.Person.Rank.RankName</td>
+                            <td>@prison.PrisonDetails.Person.FullName</td>
+                            <td class="aribiano">@prison.PrisonDetails.Crime</td>
+                            <td class="aribiano">@prison.PrisonDetails.Punishment</td>
+                            <td class="aribiano">@prison.PrisonDetails.Punisher</td>
+                            <td class="aribiano">@prison.PrisonDetails.DateFrom.ToString("dd-MM-yyyy")</td>
+                            <td class="aribiano">@prison.PrisonDetails.DateTo.ToString("dd-MM-yyyy")</td>
+                            <td class="aribiano">@prison.PrisonDetails.PrisonPlace</td>
+                            <td class="aribiano">@prison.PrisonDetails.CommandItem.Number</td>
+                            <td class="aribiano">@prison.PrisonDetails.CommandItem.Date.ToString("dd-MM-yyyy")</td>
+                        </tr>
+                        j++;
+                    }
+
+                }
+            </tbody>
+        </table>
+    }
+    <div class="mt-4">
+        @Html.ActionLink("تحميل التقرير" , actionName: "PrisonsReport", controllerName: "TmamGatheringReports", routeValues: null, htmlAttributes: new { @class = "add-btn btn-block text-decoration-none mt-4 " })
+    </div>
+}
+else
+{
+      
+    <div class="col-6  mt-5  none-tmam">
+        <h2 style="text-align:center">لم يوجد الأفراد (سجن / حبس) حتى الآن !!</h2>
+        <img src="~/Images/page.png" />
+    </div>
+}
+

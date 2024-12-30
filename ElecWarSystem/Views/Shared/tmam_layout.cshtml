@@ -1,0 +1,121 @@
+﻿@using ElecWarSystem.Models;
+@{
+    Layout = "_Layout.cshtml";
+    var tmamTypeCookie = Request.Cookies["tmam-type"]?.Value ?? "";
+    TmamEnum tmamType = TmamEnum.Exist;
+    if (!tmamTypeCookie.Equals(""))
+    {
+        tmamType = (TmamEnum)int.Parse(tmamTypeCookie);
+    }
+}
+<div>
+    <link rel="stylesheet" href="~/Content/UnitDataEntryStyle.css" />
+    <link rel="stylesheet" href="~/Content/tmamGathering.css" />
+    <script src="~/Scripts/jquery-3.7.1.min.js"></script>
+    <script src="~/Scripts/TmamScripts/TmamHelper.js"></script>
+
+    <div class="container">
+        <div class="alert alert-danger alert-dismissible fade show text-center fs-5" role="alert">
+            <strong>من يجد مشكلة في الإصدار الجديد من المنظومة يرجي الدخول الي الاصدار القديم علي الرابط التالي 1.39.5.200:8013 </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div class="row">
+            @{DateTime todayDate = DateTime.Today.Date.AddDays(1);}
+            <div class="title-div  ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                            <img src="~/Images/elecwarIcon2.png" />
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-4 col-xs-4">
+                            <p class="aribiano fs-1">@ViewBag.unitName</p>
+                            <p class="aribiano " style="color:var(--alarm)">
+                                إدخال تمام الوحدة عن يوم @todayDate.ToString("dddd الموافق yyyy/MM/dd", new System.Globalization.CultureInfo("ar-AE"))
+                            </p>
+                            <p class="aribiano" id="time" style="font-size:30px; font-weight:bold;">
+                                00:00:00
+                            </p>
+                            <p style="color:var(--alarm);">الزمن المتبقى لإرسال التمام</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                            <img src="~/Images/elecwarIcon2.png" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="alertBox"></div>
+            <nav class="hide-after-send" hidden>
+                <ul class="pagination justify-content-center flex-wrap mt-4 flex-row" style="font-size:18px;">
+                    <li class="page-item @(tmamType == TmamEnum.Officers ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Tmam", new { pg = 1 })">
+                            <i class="fas fa-user-tie me-2"></i> تمام الضباط
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.OtherRanks ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Tmam", new { pg = 2 })">
+                            <i class="fas fa-users me-2"></i> تمام الدرجات الأخرى
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Vacation ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Vacation")">
+                            <i class="fas fa-umbrella-beach me-2"></i> أجازات
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.SickLeave ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "SickLeave")">
+                            <i class="fas fa-notes-medical me-2"></i> أجازة مرضية
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Hospital ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Hospital")">
+                            <i class="fas fa-hospital me-2"></i> المستشفى
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Officers ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Course")">
+                            <i class="fas fa-graduation-cap me-2"></i> الفرقة
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Errand ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Errand")">
+                            <i class="fas fa-briefcase me-2"></i> المأموريات
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Prison ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Prison")">
+                            <i class="fas fa-gavel me-2"></i> سجن
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Absence ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Absence")">
+                            <i class="fas fa-user-times me-2"></i> غياب
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.OutOfCountry ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "OutOfCountry")">
+                            <i class="fas fa-plane-departure me-2"></i> خارج البلاد
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.Camp ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Index", "Camp")">
+                            <i class="fas fa-campground me-2"></i> خارج التمركز
+                        </a>
+                    </li>
+                    <li class="page-item @(tmamType == TmamEnum.AllTmam ? "active" : "") mx-2">
+                        <a class="page-link d-flex align-items-center" href="@Url.Action("Review", "Tmam")">
+                            <i class="fas fa-clipboard-list me-2"></i> مراجعة التمام
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <hr />
+
+
+
+            @RenderBody()
+        </div>
+    </div>
+</div>

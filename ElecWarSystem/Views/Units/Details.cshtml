@@ -1,0 +1,77 @@
+﻿@model ElecWarSystem.Models.Unit
+<link href="~/Content/StyleCss/Maneger.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "تفاصيل الوحدة";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+}
+
+<h2 class="h2">تفاصيل الوحدة</h2>
+
+<div class="container ">
+    <div class="card shadow-lg mb-5 border-0 w-50 m-auto">
+        <div class="card-header bg-gradient-primary text-white rounded-top">
+            <h4 class="card-title mb-0 text-center text-primary">تفاصيل الوحدة</h4>
+        </div>
+        <div class="card-body">
+            <!-- القائد -->
+            <div class="mb-5">
+                <h5 class="text-primary">تفاصيل القائد</h5>
+                <hr class="mb-3">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <p>
+                            <strong>@Html.DisplayNameFor(model => model.UnitCommandor.MilID):</strong>
+                            @(Model.UnitCommandor != null && Model.UnitCommandor.MilID != null ?
+                              Html.DisplayFor(model => model.UnitCommandor.MilID).ToHtmlString() : "لا يوجد")
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <strong>@Html.DisplayNameFor(model => model.UnitOperationsChief.MilID):</strong>
+                            @(Model.UnitOperationsChief != null && Model.UnitOperationsChief.MilID != null ?
+                              Html.DisplayFor(model => model.UnitOperationsChief.MilID).ToHtmlString() : "لا يوجد")
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الموقع والتخزين -->
+            <div class="mb-5">
+                <h5 class="text-primary">الموقع والتخزين</h5>
+                <hr class="mb-3">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <p><strong>@Html.DisplayNameFor(model => model.zone):</strong> @Html.DisplayFor(model => model.zone.ZoneName)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.UnitName):</strong> @Html.DisplayFor(model => model.UnitName)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>@Html.DisplayNameFor(model => model.AllowedStrogeSize):</strong> @Html.DisplayFor(model => model.AllowedStrogeSize)</p>
+                        <p><strong>@Html.DisplayNameFor(model => model.UsedStrogeSize):</strong> @Html.DisplayFor(model => model.UsedStrogeSize)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تفاصيل إضافية -->
+            <div>
+                <h5 class="text-primary">تفاصيل إضافية</h5>
+                <hr class="mb-3">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <p><strong>@Html.DisplayNameFor(model => model.Order):</strong> @Html.DisplayFor(model => model.Order)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <strong>@Html.DisplayNameFor(model => model.AltComExist):</strong>
+                            @(Model.AltComExist ? "نعم" : "لا")
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light text-center">
+            @Html.ActionLink("تعديل", "Edit", new { id = Model.ID }, new { @class = "btn btn-warning text-white mx-2 shadow-sm" })
+            @Html.ActionLink("العودة إلى القائمة", "Index", null, new { @class = "btn btn-secondary mx-2 shadow-sm" })
+        </div>
+    </div>
+</div>

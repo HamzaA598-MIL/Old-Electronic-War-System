@@ -1,0 +1,255 @@
+﻿:root {
+    --background: #777;
+    --text: #E0E0E0;
+    --alarm: #ffc107;
+    --header: #006ee6;
+    --background2: #858585;
+}
+/* تخصيص شكل الـ scrollbar */
+::-webkit-scrollbar {
+    width: 14px; /* عرض الشريط */
+    background-color: var(--header); /* لون الخلفية */
+    border-radius: 10px;
+}
+
+/* شكل الخلفية لشريط التمرير */
+::-webkit-scrollbar-track {
+    background-color: #e0e0e0; /* لون الخلفية الخلفية */
+    border-radius: 10px;
+}
+
+/* شكل المقبض داخل شريط التمرير */
+::-webkit-scrollbar-thumb {
+    background-color: var(--header); /* لون المقبض */
+    border-radius: 10px;
+}
+
+    /* عند التمرير على الشريط */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #565656; /* لون مختلف عند التمرير */
+        box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.7); /* تأثير الظل */
+    }
+
+/* إذا كنت تريد تخصيص أسفل الشريط */
+::-webkit-scrollbar-corner {
+    background-color: #f1f1f1; /* لون الزاوية */
+}
+
+a.navbar-brand {
+    font-size: 1.5rem;
+    padding: .5rem;
+    font-weight: bold;
+    background-color: var(--header);
+    border-radius: .5rem 1rem;
+}
+.custom-container {
+    background-color: var(--header); /* لون الخلفية الأبيض */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* إضافة ظل خفيف */
+    border-radius: 15px; /* حدود مستديرة لإعطاء مظهر ناعم */
+    padding: 20px; /* إضافة مساحة داخلية لتجنب تلاصق المحتوى */
+    transition: transform 0.3s ease; /* تأثير التغيير عند التحريك */
+}
+.modal-body {
+    background-color: #fff;
+}
+.modal-body label{
+    color: black;
+}
+    .modal-body input, .modal-body select {
+        border: 1px solid #a9a9a9;
+    }
+
+
+.modal-content {
+    background: rgb(202,201,204) !important;
+    background: linear-gradient(90deg, rgba(202,201,204,1) 0%, rgba(98,182,193,1) 0%, rgba(110,138,144,1) 100%)  !important;
+}
+.custom-container:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
+}
+
+    /* تحسين الحواف والتصميم الجمالي لعناصر أخرى */
+    .custom-container h2 {
+        color: rgba(255,255,255); 
+        font-weight: bold; 
+        text-transform: uppercase; 
+    }
+
+    .custom-container .form-group {
+        margin-bottom: 1.5rem; /* إضافة مساحة بين الحقول */
+    }
+
+    .custom-container .form-control {
+        border-radius: 10px; 
+        border: 1px solid #ced4da; 
+        box-shadow: none; 
+        transition: all 0.2s ease-in-out;
+    }
+
+        .custom-container .form-control:focus {
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); 
+            border-color: #007bff; 
+        }
+
+    .custom-container button {
+        background: linear-gradient(45deg, #007bff, #00c6ff); 
+        color: #fff; 
+        border: none; 
+        border-radius: 25px; 
+        padding: 10px 20px;
+        transition: background 0.3s ease-in-out;
+    }
+
+        .custom-container button:hover {
+            background: linear-gradient(45deg, #0056b3, #00a2ff); 
+        }
+li.nav-item {
+    padding-left: .8rem;
+}
+/* تحسين خلفية شريط التنقل */
+nav.navbar {
+    background: linear-gradient(135deg, #0062cc, #004085);
+}
+
+/* تأثيرات التحويم على الروابط */
+.nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+    .nav-link:hover {
+        color: #ffc107 !important;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+    }
+
+/* زر تسجيل الخروج */
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+/* تخصيص اسم المستخدم */
+.navbar-text {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ffffff;
+}
+.nav-item span {
+    background-color: var(--header);
+    padding: .7rem;
+    border-radius: .5rem;
+    color: #fff;
+}
+
+.Agaza-table {
+    background-color: #fff;
+    color: rgba(0, 0, 0) !important;
+    font-weight: bold;
+}
+    .Agaza-table thead {
+        background-color: var(--header);
+        border: 1px solid gray;
+        color: #fff;
+        border: none !important;
+    }
+th {
+    border: 1px solid gray !important;
+    color: #fff !important;
+    font-size: 1.3rem !important;
+    border: none;
+    padding: .8rem!important;
+
+}
+    .Agaza-table tbody td {
+        padding: .5rem !important;
+        text-align: center !important;
+        font-size: 1rem;
+        direction: rtl;
+        /* تصميم عصري للتنبيهات */
+    }
+
+.modern-alert, .modern-success-alert, .modern-info-alert {
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateY(-20px);
+    animation: fadeIn 0.8s ease-in-out forwards;
+    color: #fff;
+}
+
+/* نوع التنبيه */
+.modern-alert {
+    background: linear-gradient(135deg, #ff4b4b, #ff7070); 
+}
+
+.modern-success-alert {
+    background: linear-gradient(135deg, #28a745, #5cd65c); 
+}
+
+.modern-info-alert {
+    background: linear-gradient(135deg, #17a2b8, #5dc8e8); 
+}
+
+/* أيقونات التنبيه */
+.alert-icon {
+    font-size: 30px;
+    margin-right: 15px;
+    animation: pulseIcon 1.5s infinite ease-in-out;
+}
+
+/* النص */
+.alert-text {
+    flex-grow: 1;
+}
+
+/* زر الإغلاق */
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+    .btn-close:hover {
+        opacity: 1;
+    }
+
+/* تأثير الظهور */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* تأثير الأيقونات */
+@keyframes pulseIcon {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+footer {
+    position: absolute;
+    width: 100%;
+    background-color: #004795;
+
+}
+

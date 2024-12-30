@@ -1,0 +1,142 @@
+﻿<script src="~/Scripts/TmamScripts/absence-crud.js"></script>
+@using ElecWarSystem.Models
+@{
+    int j = 1;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+<h2 class="h2">الأفراد الغياب</h2>
+<p id="absence-counter" class="counter">@ViewBag.EnteredAbsences / @ViewBag.TotalAbsences</p>
+<div class="container">
+    <div class="row">
+
+        <div class="container my-4 ">
+            <div class="row my-4">
+                <div class="form-group  ">
+                    <button id="add-absence-btn" class="add-btn" onclick="openAbsencePopup()">
+                        <i class="fas fa-plus-circle"></i>
+                        إضافة
+                    </button>
+                </div>
+                <div class=" row my-4 ">
+                    <table class="Agaza-table table-bordered" id="absence-table">
+                        <thead>
+                            <tr>
+                                <th>م</th>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>التاريخ الغياب</th>
+                                <th>دفعة الغياب</th>
+                                <th>بند الأوامر</th>
+                                <th>تاريخ البند</th>
+                                <th>الاجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;">
+                            @foreach (Absence absence in ViewBag.absencesList)
+                            {
+                                <tr>
+                                    <td class="">@j</td>
+                                    <td>@absence.AbsenceDetail.Person.Rank.RankName</td>
+                                    <td>@absence.AbsenceDetail.Person.FullName</td>
+                                    <td class="">@absence.AbsenceDetail.DateFrom.ToString("yyyy-MM-dd")</td>
+                                    <td>@absence.AbsenceDetail.AbsenceTimes</td>
+                                    <td class="">@absence.AbsenceDetail.commandItem.Number</td>
+                                    <td class="">@absence.AbsenceDetail.commandItem.Date.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        <button class="delete-btn" onclick="deleteAbsence(@absence.ID)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                j++;
+                            }
+                            @if (j == 1)
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">لا يوجد غياب </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="absenceModal" tabindex="-1" role="dialog" aria-labelledby="absenceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-light">
+                <h5 class="modal-title" id="absenceModalLabel">اضافة غياب </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form">
+                    <div class="d-flex justify-content-around">
+
+                        <div class="form-group col-4" float: right;">
+                            @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                        </div>
+                        <div class="form-group col-7">
+                            @Html.Label("الإسم", htmlAttributes: new { @class = "control-label" })
+                            <select name="person-name" class="form-control" id="person-name" onchange="disableBtn()">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around">
+
+                        <div class="form-group col-4">
+                            @Html.Label("التاريخ الغياب", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                        </div>
+                        <div class="form-group col-7">
+                            @Html.Label("دفعة الغياب", htmlAttributes: new { @class = "control-label" })
+                            @Html.Editor("absence-times", new { htmlAttributes = new { @class = "form-control", @type = "number", @id = "absence-times", @onkeyup = "disableBtn()" } })
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <div class="form-group col-4">
+                            <label class="control-label">البند الأوامر</label>
+                            <input id="command-number" class="form-control" onkeyup="disableBtn()" type="number" />
+
+                        </div>
+                        <div class="form-group col-7">
+                            <label class="control-label">تاريخ البند</label>
+                            <input id="command-date" class="form-control" onchange="disableBtn()" type="date" />
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="form-group bg-primary">
+                <button class="btn add-btn popup-submit-btn col-12" disabled onclick="Add()">
+                    <i class="fas fa-save"></i>
+                    حفظ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    angular.module('EmailModule').filter('arabicNumbers', function () {
+        return function (input) {
+            if (!input) return input;
+
+            const englishToArabicMap = {
+                '0': '٠', '1': '١', '2': '٢', '3': '٣',
+                '4': '٤', '5': '٥', '6': '٦', '7': '٧',
+                '8': '٨', '9': '٩'
+            };
+            return input.toString().replace(/\d/g, function (d) {
+                return englishToArabicMap[d];
+            });
+        };
+    });
+</script>

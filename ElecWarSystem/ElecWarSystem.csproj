@@ -1,0 +1,728 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A4CB409B-3E01-4037-B5D4-44C7BA9AA3FD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ElecWarSystem</RootNamespace>
+    <AssemblyName>ElecWarSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44364</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.9\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.barcodes, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.barcodes.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.forms, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.forms.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.html2pdf, Version=3.0.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.pdfhtml.3.0.5\lib\net45\itext.html2pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.io, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.io.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.kernel, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.layout, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.layout.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.pdfa, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.sign, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.sign.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.styledxmlparser, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.styledxmlparser.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.svg, Version=7.1.17.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.17\lib\net45\itext.svg.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.2.2.7\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MSTest.TestFramework.2.2.7\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AbsenceController.cs" />
+    <Compile Include="Controllers\CampController.cs" />
+    <Compile Include="Controllers\ConnectivityController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
+    <Compile Include="Controllers\ErrandController.cs" />
+    <Compile Include="Controllers\HospitalController.cs" />
+    <Compile Include="Controllers\OutOfCountryController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PrisonController.cs" />
+    <Compile Include="Controllers\SavedTmamController.cs" />
+    <Compile Include="Controllers\SickLeaveController.cs" />
+    <Compile Include="Controllers\TmamController.cs" />
+    <Compile Include="Controllers\TmamGatheringController.cs" />
+    <Compile Include="Controllers\TmamGatheringReportsController.cs" />
+    <Compile Include="Controllers\UnitController.cs" />
+    <Compile Include="Controllers\UnitsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\VacationController.cs" />
+    <Compile Include="Data\AppDBContext.cs" />
+    <Compile Include="Enums\Connectivity.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211171854459_hospital.cs" />
+    <Compile Include="Migrations\202211171854459_hospital.Designer.cs">
+      <DependentUpon>202211171854459_hospital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211200915413_db1.cs" />
+    <Compile Include="Migrations\202211200915413_db1.designer.cs">
+      <DependentUpon>202211200915413_db1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202211262342578_connectivity.cs" />
+    <Compile Include="Migrations\202211262342578_connectivity.designer.cs">
+      <DependentUpon>202211262342578_connectivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212051049245_OutOfCountry.cs" />
+    <Compile Include="Migrations\202212051049245_OutOfCountry.designer.cs">
+      <DependentUpon>202212051049245_OutOfCountry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212060906005_Camp.cs" />
+    <Compile Include="Migrations\202212060906005_Camp.designer.cs">
+      <DependentUpon>202212060906005_Camp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301171624465_timeSended.cs" />
+    <Compile Include="Migrations\202301171624465_timeSended.designer.cs">
+      <DependentUpon>202301171624465_timeSended.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301210917281_dummy.cs" />
+    <Compile Include="Migrations\202301210917281_dummy.designer.cs">
+      <DependentUpon>202301210917281_dummy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301280845550_escapeTmam.cs" />
+    <Compile Include="Migrations\202301280845550_escapeTmam.designer.cs">
+      <DependentUpon>202301280845550_escapeTmam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202301290519476_altCommandor.cs" />
+    <Compile Include="Migrations\202301290519476_altCommandor.designer.cs">
+      <DependentUpon>202301290519476_altCommandor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302011749034_dump.cs" />
+    <Compile Include="Migrations\202302011749034_dump.designer.cs">
+      <DependentUpon>202302011749034_dump.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302011843478_Coursedetails.cs" />
+    <Compile Include="Migrations\202302011843478_Coursedetails.designer.cs">
+      <DependentUpon>202302011843478_Coursedetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302041518444_UserRoles.cs" />
+    <Compile Include="Migrations\202302041518444_UserRoles.designer.cs">
+      <DependentUpon>202302041518444_UserRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302041554349_userIsAdminDelete.cs" />
+    <Compile Include="Migrations\202302041554349_userIsAdminDelete.designer.cs">
+      <DependentUpon>202302041554349_userIsAdminDelete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302041616052_PersonStatus.cs" />
+    <Compile Include="Migrations\202302041616052_PersonStatus.designer.cs">
+      <DependentUpon>202302041616052_PersonStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202302041828556_personState.cs" />
+    <Compile Include="Migrations\202302041828556_personState.designer.cs">
+      <DependentUpon>202302041828556_personState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\OutDoorDetails\CourseDetails.cs" />
+    <Compile Include="Models\OutDoor\Camp.cs" />
+    <Compile Include="Models\OutDoorDetails\CampDetail.cs" />
+    <Compile Include="Models\OutDoor\Absence.cs" />
+    <Compile Include="Models\OutDoorDetails\AbsenceDetail.cs" />
+    <Compile Include="Models\OutDoorDetails\CommandItem.cs" />
+    <Compile Include="Models\FileShare\Document.cs" />
+    <Compile Include="Models\FileShare\Email.cs" />
+    <Compile Include="Models\OutDoor\Course.cs" />
+    <Compile Include="Models\OutDoor\Errand.cs" />
+    <Compile Include="Models\OutDoorDetails\ErrandDetail.cs" />
+    <Compile Include="Models\OutDoor\Hospital.cs" />
+    <Compile Include="Models\OutDoorDetails\HospitalDetails.cs" />
+    <Compile Include="Models\IModel\ICleanNav.cs" />
+    <Compile Include="Models\IModel\IDateLogic.cs" />
+    <Compile Include="Models\OutDoor\OutOfCountry.cs" />
+    <Compile Include="Models\Space.cs" />
+    <Compile Include="Models\OutDoor\Outdoor.cs" />
+    <Compile Include="Models\OutDoorDetails\OutdoorDetail.cs" />
+    <Compile Include="Models\OutDoorDetails\OutOfCountryDetail.cs" />
+    <Compile Include="Models\Tmam\PersonStatus.cs" />
+    <Compile Include="Models\Unit\Person.cs" />
+    <Compile Include="Models\OutDoor\Prison.cs" />
+    <Compile Include="Models\OutDoorDetails\PrisonDetail.cs" />
+    <Compile Include="Models\Unit\Rank.cs" />
+    <Compile Include="Models\FileShare\Reciever.cs" />
+    <Compile Include="Models\OutDoor\SickLeave.cs" />
+    <Compile Include="Models\OutDoorDetails\SickLeaveDetail.cs" />
+    <Compile Include="Models\Unit\UserRoles.cs" />
+    <Compile Include="Models\Unit\SmallUnit.cs" />
+    <Compile Include="Models\Tmam\Tmam.cs" />
+    <Compile Include="Models\Tmam\TmamDetail.cs" />
+    <Compile Include="Models\Tmam\TmamEnum.cs" />
+    <Compile Include="Models\Unit\Unit.cs" />
+    <Compile Include="Models\Unit\User.cs" />
+    <Compile Include="Models\OutDoor\Vacation.cs" />
+    <Compile Include="Models\OutDoorDetails\VacationDetail.cs" />
+    <Compile Include="Models\Unit\Zone.cs" />
+    <Compile Include="Models\Utilites.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportFactory\AbsencesReport.cs" />
+    <Compile Include="ReportFactory\CampsReport.cs" />
+    <Compile Include="ReportFactory\CoursesReport.cs" />
+    <Compile Include="ReportFactory\ErrandsReport.cs" />
+    <Compile Include="ReportFactory\HospitalsReport.cs" />
+    <Compile Include="ReportFactory\LeadersTmamReport.cs" />
+    <Compile Include="ReportFactory\OutOfCountriesReport.cs" />
+    <Compile Include="ReportFactory\PersonsTmamReport.cs" />
+    <Compile Include="ReportFactory\PrisonsReport.cs" />
+    <Compile Include="ReportFactory\ReportGenerator.cs" />
+    <Compile Include="ReportFactory\ReviewReport.cs" />
+    <Compile Include="ReportFactory\SickLeaveReport.cs" />
+    <Compile Include="Serivces\AbsenceService.cs" />
+    <Compile Include="Serivces\BaseRepo\IOutingRepository.cs" />
+    <Compile Include="Serivces\BaseRepo\OutingService.cs" />
+    <Compile Include="Serivces\CampService.cs" />
+    <Compile Include="Serivces\EmailService.cs" />
+    <Compile Include="Serivces\ErrandsService.cs" />
+    <Compile Include="Serivces\HospitalService.cs" />
+    <Compile Include="Serivces\IDBRepository.cs" />
+    <Compile Include="Serivces\IOutdoorService.cs" />
+    <Compile Include="Serivces\OutOfCountryService.cs" />
+    <Compile Include="Serivces\PersonService.cs" />
+    <Compile Include="Serivces\PersonStatusService.cs" />
+    <Compile Include="Serivces\PrisonService.cs" />
+    <Compile Include="Serivces\RankService.cs" />
+    <Compile Include="Serivces\SickLeaveService.cs" />
+    <Compile Include="Serivces\SmallUnitService.cs" />
+    <Compile Include="Serivces\StorageManager.cs" />
+    <Compile Include="Serivces\TmamGatheringService.cs" />
+    <Compile Include="Serivces\TmamService.cs" />
+    <Compile Include="Serivces\UnitService.cs" />
+    <Compile Include="Serivces\UserService.cs" />
+    <Compile Include="Serivces\VacationService.cs" />
+    <Compile Include="Serivces\ZoneService.cs" />
+    <Compile Include="ViewModel\EmailUtilies.cs" />
+    <Compile Include="ViewModel\EmailViewModel.cs" />
+    <Compile Include="ViewModel\LeaderTmamView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="4500.ico" />
+    <Content Include="Content\all.css" />
+    <Content Include="Content\all.min.css" />
+    <Content Include="Content\bootstrap-chosen.css" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\brands.css" />
+    <Content Include="Content\brands.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\CreateEmailStyle.css" />
+    <Content Include="Content\css\all.css" />
+    <Content Include="Content\css\all.min.css" />
+    <Content Include="Content\css\brands.css" />
+    <Content Include="Content\css\brands.min.css" />
+    <Content Include="Content\css\fontawesome.css" />
+    <Content Include="Content\css\fontawesome.min.css" />
+    <Content Include="Content\css\regular.css" />
+    <Content Include="Content\css\regular.min.css" />
+    <Content Include="Content\css\solid.css" />
+    <Content Include="Content\css\solid.min.css" />
+    <Content Include="Content\css\svg-with-js.css" />
+    <Content Include="Content\css\svg-with-js.min.css" />
+    <Content Include="Content\css\v4-shims.css" />
+    <Content Include="Content\css\v4-shims.min.css" />
+    <Content Include="Content\EmailListStyle.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fontawesome.css" />
+    <Content Include="Content\fontawesome.min.css" />
+    <Content Include="Content\leadership-style.css" />
+    <Content Include="Content\LoginStyle.css" />
+    <Content Include="Content\regular.css" />
+    <Content Include="Content\regular.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\soldiers-virtual-reality-vr-experience-modern-warfare-4370x3999-1573.jpg" />
+    <Content Include="Content\solid.css" />
+    <Content Include="Content\solid.min.css" />
+    <Content Include="Content\StyleCss\aside.css" />
+    <Content Include="Content\StyleCss\EmailListStyle.css" />
+    <Content Include="Content\StyleCss\MainStyle.css" />
+    <Content Include="Content\StyleCss\Maneger.css" />
+    <Content Include="Content\StyleCss\SaveTmam.css" />
+    <Content Include="Content\StyleCss\tabadol-file.css" />
+    <Content Include="Content\svg-with-js.css" />
+    <Content Include="Content\svg-with-js.min.css" />
+    <Content Include="Content\SweatAlert.css" />
+    <Content Include="Content\tmamGathering.css" />
+    <Content Include="Content\UnitDataEntryStyle.css" />
+    <Content Include="Content\v4-shims.css" />
+    <Content Include="Content\v4-shims.min.css" />
+    <Content Include="Content\webfonts\fa-brands-400.svg" />
+    <Content Include="Content\webfonts\fa-regular-400.svg" />
+    <Content Include="Content\webfonts\fa-solid-900.svg" />
+    <Content Include="Scripts\SweatAlertJs.js" />
+    <Content Include="ElecWarIcon.ico" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\4500.ico" />
+    <Content Include="Images\access1.png" />
+    <Content Include="Images\add.png" />
+    <Content Include="Images\add1.png" />
+    <Content Include="Images\add11.png" />
+    <Content Include="Images\add2.png" />
+    <Content Include="Images\alert.png" />
+    <Content Include="Images\alert2.png" />
+    <Content Include="Images\close %281%29.png" />
+    <Content Include="Images\close %281%291.png" />
+    <Content Include="Images\close %281%292.png" />
+    <Content Include="Images\close %281%293.png" />
+    <Content Include="Images\close %283%29.png" />
+    <Content Include="Images\close %283%291.png" />
+    <Content Include="Images\close.png" />
+    <Content Include="Images\close1.png" />
+    <Content Include="Images\close2.png" />
+    <Content Include="Images\close3.png" />
+    <Content Include="Images\ElecWarIcon.ico" />
+    <Content Include="Images\elecwarIcon.png" />
+    <Content Include="Images\elecwarIcon2.png" />
+    <Content Include="Images\excel1.png" />
+    <Content Include="Images\fax_icon-icons.com_52496.png" />
+    <Content Include="Images\image.png" />
+    <Content Include="Images\information.png" />
+    <Content Include="Images\information1.png" />
+    <Content Include="Images\information2.png" />
+    <Content Include="Images\information3.png" />
+    <Content Include="Images\login_bg2.jpg" />
+    <Content Include="Images\logo.jpg" />
+    <Content Include="Images\logo1.jpg" />
+    <Content Include="Images\mp3.ico" />
+    <Content Include="Images\no-task.png" />
+    <Content Include="Images\NoRes.png" />
+    <Content Include="Images\page.png" />
+    <Content Include="Images\pdf1.png" />
+    <Content Include="Images\powerpoint2.png" />
+    <Content Include="Images\search1.png" />
+    <Content Include="Images\search2.png" />
+    <Content Include="Images\video-login.webm" />
+    <Content Include="Images\video.png" />
+    <Content Include="Images\warning-sign.png" />
+    <Content Include="Images\word2.png" />
+    <Content Include="Images\zip.png" />
+    <Content Include="ReportelecwarIcon.png" />
+    <Content Include="Scripts\Aribiano.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.bundle.min.js.map" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.min.js.map" />
+    <Content Include="Scripts\chosen.jquery.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\EmailsScript.js" />
+    <Content Include="Scripts\fontawesome\all.js" />
+    <Content Include="Scripts\fontawesome\all.min.js" />
+    <Content Include="Scripts\fontawesome\brands.js" />
+    <Content Include="Scripts\fontawesome\brands.min.js" />
+    <Content Include="Scripts\fontawesome\conflict-detection.js" />
+    <Content Include="Scripts\fontawesome\conflict-detection.min.js" />
+    <Content Include="Scripts\fontawesome\fontawesome.js" />
+    <Content Include="Scripts\fontawesome\fontawesome.min.js" />
+    <Content Include="Scripts\fontawesome\regular.js" />
+    <Content Include="Scripts\fontawesome\regular.min.js" />
+    <Content Include="Scripts\fontawesome\solid.js" />
+    <Content Include="Scripts\fontawesome\solid.min.js" />
+    <Content Include="Scripts\fontawesome\v4-shims.js" />
+    <Content Include="Scripts\fontawesome\v4-shims.min.js" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.bundle.js" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.bundle.min.js" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.bundle.min.js.LICENSE.txt" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.js" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.min.js" />
+    <Content Include="Scripts\htmlToPdf\html2pdf.min.js.LICENSE.txt" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-chosen.less" />
+    <Content Include="Content\bootstrap-chosen.scss" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\webfonts\fa-brands-400.eot" />
+    <Content Include="Content\webfonts\fa-brands-400.ttf" />
+    <Content Include="Content\webfonts\fa-brands-400.woff" />
+    <Content Include="Content\webfonts\fa-brands-400.woff2" />
+    <Content Include="Content\webfonts\fa-regular-400.eot" />
+    <Content Include="Content\webfonts\fa-regular-400.ttf" />
+    <Content Include="Content\webfonts\fa-regular-400.woff" />
+    <Content Include="Content\webfonts\fa-regular-400.woff2" />
+    <Content Include="Content\webfonts\fa-solid-900.eot" />
+    <Content Include="Content\webfonts\fa-solid-900.ttf" />
+    <Content Include="Content\webfonts\fa-solid-900.woff" />
+    <Content Include="Content\webfonts\fa-solid-900.woff2" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <None Include="Scripts\jquery-3.6.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\loginjs.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\TmamScripts\absence-crud.js" />
+    <Content Include="Scripts\TmamScripts\angular.js" />
+    <Content Include="Scripts\TmamScripts\camp-crud.js" />
+    <Content Include="Scripts\TmamScripts\course-crud.js" />
+    <Content Include="Scripts\TmamScripts\errand-crud.js" />
+    <Content Include="Scripts\TmamScripts\hospital-crud.js" />
+    <Content Include="Scripts\TmamScripts\out-of-country-crud.js" />
+    <Content Include="Scripts\TmamScripts\prison-crud.js" />
+    <Content Include="Scripts\TmamScripts\sick-leave-crud.js" />
+    <Content Include="Scripts\TmamScripts\tmam-gathering-helper.js" />
+    <Content Include="Scripts\TmamScripts\TmamHelper.js" />
+    <Content Include="Scripts\TmamScripts\vacation-crud.js" />
+    <Content Include="Scripts\UnitDataEntryHelper.js" />
+    <Content Include="Scripts\user-helper.js" />
+    <Content Include="video-login.webm" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Absence\Index.cshtml" />
+    <Content Include="Views\Camp\Index.cshtml" />
+    <Content Include="Views\Connectivity\Index.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Email\Create.cshtml" />
+    <Content Include="Views\Email\Details.cshtml" />
+    <Content Include="Views\Email\Index.cshtml" />
+    <Content Include="Views\Errand\Index.cshtml" />
+    <Content Include="Views\Hospital\Index.cshtml" />
+    <Content Include="Views\OutOfCountry\Index.cshtml" />
+    <Content Include="Views\Prison\Index.cshtml" />
+    <Content Include="Views\SavedTmam\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\tmam_gathering_layout.cshtml" />
+    <Content Include="Views\Shared\tmam_layout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\SickLeave\Index.cshtml" />
+    <Content Include="Views\TmamGatheringReports\DownloadAllReports.cshtml" />
+    <Content Include="Views\TmamGathering\Absence.cshtml" />
+    <Content Include="Views\TmamGathering\Camps.cshtml" />
+    <Content Include="Views\TmamGathering\Courses.cshtml" />
+    <Content Include="Views\TmamGathering\Errands.cshtml" />
+    <Content Include="Views\TmamGathering\Hospital.cshtml" />
+    <Content Include="Views\TmamGathering\LeaderShip.cshtml" />
+    <Content Include="Views\TmamGathering\NonOfficers.cshtml" />
+    <Content Include="Views\TmamGathering\Officers.cshtml" />
+    <Content Include="Views\TmamGathering\OutOfCountry.cshtml" />
+    <Content Include="Views\TmamGathering\Prison.cshtml" />
+    <Content Include="Views\TmamGathering\RecievedTmam.cshtml" />
+    <Content Include="Views\TmamGathering\SickLeaves.cshtml" />
+    <Content Include="Views\TmamGathering\TmamDetails.cshtml" />
+    <Content Include="Views\TmamView\Index.cshtml" />
+    <Content Include="Views\Tmam\Index.cshtml" />
+    <Content Include="Views\Tmam\Review.cshtml" />
+    <Content Include="Views\Unit\DataEntry.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Vacation\Index.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Units\Create.cshtml" />
+    <Content Include="Views\Units\Delete.cshtml" />
+    <Content Include="Views\Units\Details.cshtml" />
+    <Content Include="Views\Units\Edit.cshtml" />
+    <Content Include="Views\Units\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Views\Document\" />
+    <Folder Include="Views\Person\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202211171854459_hospital.resx">
+      <DependentUpon>202211171854459_hospital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211200915413_db1.resx">
+      <DependentUpon>202211200915413_db1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211262342578_connectivity.resx">
+      <DependentUpon>202211262342578_connectivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212051049245_OutOfCountry.resx">
+      <DependentUpon>202212051049245_OutOfCountry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212060906005_Camp.resx">
+      <DependentUpon>202212060906005_Camp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301171624465_timeSended.resx">
+      <DependentUpon>202301171624465_timeSended.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301210917281_dummy.resx">
+      <DependentUpon>202301210917281_dummy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301280845550_escapeTmam.resx">
+      <DependentUpon>202301280845550_escapeTmam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301290519476_altCommandor.resx">
+      <DependentUpon>202301290519476_altCommandor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302011749034_dump.resx">
+      <DependentUpon>202302011749034_dump.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302011843478_Coursedetails.resx">
+      <DependentUpon>202302011843478_Coursedetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302041518444_UserRoles.resx">
+      <DependentUpon>202302041518444_UserRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302041554349_userIsAdminDelete.resx">
+      <DependentUpon>202302041554349_userIsAdminDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302041616052_PersonStatus.resx">
+      <DependentUpon>202302041616052_PersonStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302041828556_personState.resx">
+      <DependentUpon>202302041828556_personState.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49697</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44364/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

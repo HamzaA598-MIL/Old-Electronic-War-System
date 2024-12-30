@@ -1,0 +1,7 @@
+.container.p-3.header {
+    border-radius: 1rem;
+    background-color: var(--header);
+}
+body {
+    background-color: var(--background2)
+}

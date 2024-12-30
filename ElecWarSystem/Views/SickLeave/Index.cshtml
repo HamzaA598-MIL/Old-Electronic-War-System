@@ -1,0 +1,128 @@
+﻿@using ElecWarSystem.Models
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/StyleCss/MainStyle.css" rel="stylesheet" />
+<script src="~/Scripts/TmamScripts/sick-leave-crud.js"></script>
+@{
+    int j;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/tmam_layout.cshtml";
+}
+
+<h2 class="h2">الأجازات المرضية</h2>
+<p id="sick-leave-counter" class="counter" >@ViewBag.sickLeaveEntered / @ViewBag.sickLeaveTotal</p>
+
+<div class="form-group  ">
+    <button id="add-sick-leave-btn" class="add-btn"  type="button" onclick="openSickLevelPopup()">
+        <i class="fas fa-plus-circle"></i>
+        إضافة
+    </button>
+</div>
+<div class=" row my-4 ">
+    <table class=" Agaza-table table-bordered " id="sick-leaves-table">
+        <thead>
+            <tr>
+                <th>م</th>
+                <th>الرتبة / الدرجة</th>
+                <th>الإسم </th>
+                <th>المستشفى</th>
+                <th>تاريخ دخول المستشفى</th>
+                <th>التشخيص</th>
+                <th>بدء الأجازة</th>
+                <th>عودة الأجازة</th>
+                <th>الاجراءات </th>
+            </tr>
+
+        </thead>
+
+        <tbody style="font-size:14px;">
+            @{
+                j = 1;
+            }
+            @foreach (SickLeave sickLeave in ViewBag.SickLeaves)
+            {
+                <tr>
+                    <td class="aribiano">@j</td>
+                    <td>@sickLeave.SickLeaveDetail.Person.Rank.RankName</td>
+                    <td>@sickLeave.SickLeaveDetail.Person.FullName</td>
+                    <td>@sickLeave.SickLeaveDetail.Hospital</td>
+                    <td class="aribiano">@sickLeave.SickLeaveDetail.HospitalDate.ToString("yyyy-MM-dd")</td>
+                    <td>@sickLeave.SickLeaveDetail.Diagnosis</td>
+                    <td class="aribiano">@sickLeave.SickLeaveDetail.DateFrom.ToString("yyyy-MM-dd")</td>
+                    <td class="aribiano">@sickLeave.SickLeaveDetail.DateTo.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteSickLeave(@sickLeave.ID)">
+
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                j++;
+            }
+            @if (j == 1)
+            {
+                <tr>
+                    <td colspan="9" class="text-center text-muted">لا توجد أجازات مسجلة.</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+<div class="modal fade" id="sickLeaveModal" tabindex="-1" aria-labelledby="sickLeaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-3">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold" id="sickLeaveModalLabel">إضافة إجازة مرضية</h5>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3">
+                    <!-- الرتبة/الدرجة -->
+                    <div class="col-md-6">
+                        @Html.Label("الرتبة/الدرجة", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.DropDownList("person-rank", new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-select", @id = "person-rank", @onchange = "UpdatePersonComboBox()" })
+                    </div>
+                    <!-- الإسم -->
+                    <div class="col-md-6">
+                        @Html.Label("الإسم", htmlAttributes: new { @class = "form-label fw-bold" })
+                        <select name="person-name" class="form-select" id="person-name">
+                            <option></option>
+                        </select>
+                    </div>
+                    <!-- إسم المستشفى -->
+                    <div class="col-md-6">
+                        @Html.Label("إسم المستشفى", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("hospital-name", new { htmlAttributes = new { @class = "form-control", @id = "hospital-name", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <!-- تاريخ دخول المستشفى -->
+                    <div class="col-md-6">
+                        @Html.Label("تاريخ دخول المستشفى", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("hospital-date", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "hospital-date", @onchange = "disableBtn()" } })
+                    </div>
+                    <!-- التشحيص -->
+                    <div class="col-12">
+                        @Html.Label("التشحيص", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("diagnosis", new { htmlAttributes = new { @class = "form-control", @id = "diagnosis", @onkeyup = "disableBtn()" } })
+                    </div>
+                    <!-- تاريخ بدء الأجازة -->
+                    <div class="col-md-6">
+                        @Html.Label("تاريخ بدء الأجازة", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("date-from", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-from", @onchange = "disableBtn()" } })
+                    </div>
+                    <!-- تاريخ عودة الأجازة -->
+                    <div class="col-md-6">
+                        @Html.Label("تاريخ عودة الأجازة", htmlAttributes: new { @class = "form-label fw-bold" })
+                        @Html.Editor("date-to", new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "date-to", @onchange = "disableBtn()" } })
+                    </div>
+                    <!-- زر حفظ -->
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn add-btn popup-submit-btn" disabled onclick="Add()">
+                            <i class="fas fa-save me-2"></i> حفظ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

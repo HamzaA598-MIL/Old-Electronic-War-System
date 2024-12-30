@@ -1,0 +1,514 @@
+﻿@using ElecWarSystem.Models
+@using ElecWarSystem.Models.OutDoor
+
+@{
+    ViewBag.Title = "TmamDetails";
+    Layout = "~/Views/Shared/tmam_gathering_layout.cshtml";
+    Tmam tmam = ViewBag.tmam;
+    TmamDetail tmamDetailOfficers = null;
+    TmamDetail tmamDetailNotOfficers = null;
+    if (tmam != null)
+    {
+        tmamDetailOfficers = tmam.TmamDetails.FirstOrDefault(row => row.IsOfficers);
+        tmamDetailNotOfficers = tmam.TmamDetails.FirstOrDefault(row => !row.IsOfficers);
+    }
+    Dictionary<String, ElecWarSystem.ViewModel.LeaderTmamView> leaderTmam = ViewBag.LeaderTmam;
+}
+  
+<p class="h2 mt-3 mb-3 aribiano" id="zone-text">@String.Format($"تمام {tmam.Unit.UnitName}")</p>
+<style>
+    th, td {
+        text-align: center;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        @if (tmam != null)
+        {
+            <h4 class="h2 mt-3 mb-3"style="text-align:right;">@($"قائد منوب : {tmam.AltCommander?.Rank.RankName}/{tmam.AltCommander?.FullName}")</h4>
+            if (leaderTmam != null)
+            {
+                <h2>تمام القادة</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered " style="background-color:aliceblue">
+                        <thead>
+                            <tr>
+                                <th colspan="2">القائد</th>
+                                <th colspan="2">ر.ع</th>
+
+                                <th colspan="2" class="aribiano">قا ك1</th>
+                                <th colspan="2" class="aribiano">ر.ع ك1</th>
+                                <th colspan="2" class="aribiano">قا ك2</th>
+                                <th colspan="2" class="aribiano">ر.ع ك2</th>
+                                <th colspan="2" class="aribiano">قا ك3</th>
+                                <th colspan="2" class="aribiano">ر.ع ك3</th>
+                            </tr>
+
+                            <tr>
+                                @for (int i = 0; i < 8; i++)
+                                {
+                                    <th colspan="2">التمام</th>
+                                }
+                            </tr>
+                            <tr>
+                                @for (int i = 0; i < 8; i++)
+                                {
+                                    <th>من</th>
+                                    <th>إلى</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:8px;">
+                            <tr>
+                                @foreach (string key in leaderTmam.Keys)
+                                {
+                                    long personID = leaderTmam[key].OutdoorDetail.PersonID;
+                                    <td colspan="2" style="cursor:pointer" id="@personID" onclick="showPopup(@personID)">@leaderTmam[key].Tmam</td>
+                                }
+
+                                @for (int i = 0; i < 8 - leaderTmam.Keys.Count; i++)
+                                {
+                                    <td colspan="2">-</td>
+                                }
+                            </tr>
+                            <tr>
+                                @foreach (string key in leaderTmam.Keys)
+                                {
+                                    if (leaderTmam[key].Tmam.Equals("موجود"))
+                                    {
+                                        <td id="unit-end-line">-</td>
+                                        <td id="unit-end-line">-</td>
+                                    }
+                                    else
+                                    {
+                                        <td id="unit-end-line" class="aribiano">@leaderTmam[key].OutdoorDetail.DateFrom.ToString("yyyy/MM/dd")</td>
+                                        <td id="unit-end-line" class="aribiano">@leaderTmam[key].OutdoorDetail.DateTo.ToString("yyyy/MM/dd")</td>
+                                    }
+                                }
+
+                                @for (int i = 0; i < 8 - leaderTmam.Keys.Count; i++)
+                                {
+                                    <td id="unit-end-line">-</td>
+                                    <td id="unit-end-line">-</td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+
+            if (tmamDetailOfficers != null)
+            {
+                <h2>تمام الضباط</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+                            <tr>
+                                <th>البيان</th>
+                                <th>القوة</th>
+                                <th>موجود</th>
+                                <th>خارج</th>
+                                <th>أجازة</th>
+                                <th>أجازة مرضية</th>
+                                <th>فرقة</th>
+                                <th>مأمورية</th>
+                                <th>سجن</th>
+                                <th>غياب</th>
+                                <th>مستشفى</th>
+                                <th>خ البلاد</th>
+                                <th>م تد خارجى</th>
+                                <th>نسبة الخوارج</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:12px;" class="aribiano">
+                            <tr>
+                                <td>العدد</td>
+                                <td>@tmamDetailOfficers.totalPower</td>
+                                <td>@tmamDetailOfficers.GetExisting()</td>
+                                <td>@tmamDetailOfficers.GetOutting()</td>
+                                <td>@tmamDetailOfficers.vacation</td>
+                                <td>@tmamDetailOfficers.sickLeave</td>
+                                <td>@tmamDetailOfficers.course</td>
+                                <td>@tmamDetailOfficers.errand</td>
+                                <td>@tmamDetailOfficers.prison</td>
+                                <td>@tmamDetailOfficers.absence</td>
+                                <td>@tmamDetailOfficers.hospital</td>
+                                <td>@tmamDetailOfficers.outOfCountry</td>
+                                <td>@tmamDetailOfficers.outdoorCamp</td>
+                                <td>@tmamDetailOfficers.GetOuttingPrecetage() %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            if (tmamDetailNotOfficers != null)
+            {
+                <h2>تمام الدرجات الأخرى</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>البيان</th>
+                                <th>القوة</th>
+                                <th>موجود</th>
+                                <th>خارج</th>
+                                <th>أجازة</th>
+                                <th>أجازة مرضية</th>
+                                <th>فرقة</th>
+                                <th>مأمورية</th>
+                                <th>سجن</th>
+                                <th>غياب</th>
+                                <th>مستشفى</th>
+                                <th>خ البلاد</th>
+                                <th>م تد خارجى</th>
+                                <th>نسبة الخوارج</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:12px;" class="aribiano">
+                            <tr>
+                                <td>العدد</td>
+                                <td>@tmamDetailNotOfficers.totalPower</td>
+                                <td>@tmamDetailNotOfficers.GetExisting()</td>
+                                <td>@tmamDetailNotOfficers.GetOutting()</td>
+                                <td>@tmamDetailNotOfficers.vacation</td>
+                                <td>@tmamDetailNotOfficers.sickLeave</td>
+                                <td>@tmamDetailNotOfficers.course</td>
+                                <td>@tmamDetailNotOfficers.errand</td>
+                                <td>@tmamDetailNotOfficers.prison</td>
+                                <td>@tmamDetailNotOfficers.absence</td>
+                                <td>@tmamDetailNotOfficers.hospital</td>
+                                <td>@tmamDetailNotOfficers.outOfCountry</td>
+                                <td>@tmamDetailNotOfficers.outdoorCamp</td>
+                                <td>@tmamDetailNotOfficers.GetOuttingPrecetage() %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+
+            if (tmam.Vacations.Count > 0)
+            {
+                <h2>الأجازات</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>نوع الأجازة</th>
+                                <th>بدء الأجازة</th>
+                                <th>عودة الأجازة</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (Vacation Vacation in tmam.Vacations)
+                            {
+                                <tr>
+                                    <td>@Vacation.VacationDetail.Person.Rank.RankName</td>
+                                    <td>@Vacation.VacationDetail.Person.FullName</td>
+                                    <td>@Vacation.VacationDetail.VacationType</td>
+                                    <td>@Vacation.VacationDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@Vacation.VacationDetail.DateTo.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            if (tmam.SickLeaves.Count > 0)
+            {
+                <h2>الأجازات المرضية</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>المستشفى</th>
+                                <th>تاريخ دخول المستشفى</th>
+                                <th>التشخيص</th>
+                                <th>بدء الأجازة</th>
+                                <th>عودة الأجازة</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (SickLeave sickLeave in tmam.SickLeaves)
+                            {
+                                <tr>
+                                    <td>@sickLeave.SickLeaveDetail.Person.Rank.RankName</td>
+                                    <td>@sickLeave.SickLeaveDetail.Person.FullName</td>
+                                    <td>@sickLeave.SickLeaveDetail.Hospital</td>
+                                    <td>@sickLeave.SickLeaveDetail.HospitalDate.ToString("dd-MM-yyyy")</td>
+                                    <td>@sickLeave.SickLeaveDetail.Diagnosis</td>
+                                    <td>@sickLeave.SickLeaveDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@sickLeave.SickLeaveDetail.DateTo.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            if (tmam.Courses.Count > 0)
+            {
+                <h2>تمام الفرق و الدورات التعليمية</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>الفرقة/الدورة</th>
+                                <th>مكان إنعقاد الفرقة/الدورة</th>
+                                <th>المدة من</th>
+                                <th>المدة إلى</th>
+                                <th colspan="2" style="text-align:center;">بند الأوامر</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:12px;" class="aribiano">
+                            @foreach (Course course in tmam.Courses)
+                            {
+                                <tr>
+                                    <td>@course.CourseDetails.Person.Rank.RankName</td>
+                                    <td>@course.CourseDetails.Person.FullName</td>
+                                    <td class="aribiano">@course.CourseDetails.CourseName</td>
+                                    <td class="aribiano">@course.CourseDetails.CoursePlace</td>
+                                    <td class="aribiano">@course.CourseDetails.DateFrom.ToString("yyyy/MM/dd")</td>
+                                    <td class="aribiano">@course.CourseDetails.DateTo.ToString("yyyy/MM/dd")</td>
+                                    <td class="aribiano">@course.CourseDetails.CommandItem.Number</td>
+                                    <td class="aribiano">@course.CourseDetails.CommandItem.Date.ToString("yyyy/MM/dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            if (tmam.Errands.Count > 0)
+            {
+                <h2>المأموريات</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>جهة المأمورية</th>
+                                <th>الأمر بالمأمورية</th>
+                                <th>التاريخ من</th>
+                                <th>التاريخ إلى</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (Errand errand in tmam.Errands)
+                            {
+                                <tr>
+                                    <td>@errand.ErrandDetail.Person.Rank.RankName</td>
+                                    <td>@errand.ErrandDetail.Person.FullName</td>
+                                    <td>@errand.ErrandDetail.ErrandPlace</td>
+                                    <td>@errand.ErrandDetail.ErrandCommandor</td>
+                                    <td>@errand.ErrandDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@errand.ErrandDetail.DateTo.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+
+            if (tmam.prisons.Count > 0)
+            {
+                <h2>السجن</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>الجريمة</th>
+                                <th>العقوبة</th>
+                                <th>الآمر بالعقوبة</th>
+                                <th>مدة التنفذ من</th>
+                                <th>مدة التنفذ إلى</th>
+                                <th>مكان التنفيذ</th>
+                                <th colspan="2">بند الأوامر</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (Prison prison in tmam.prisons)
+                            {
+                                <tr>
+                                    <td>@prison.PrisonDetails.Person.Rank.RankName</td>
+                                    <td>@prison.PrisonDetails.Person.FullName</td>
+                                    <td>@prison.PrisonDetails.Crime</td>
+                                    <td>@prison.PrisonDetails.Punishment</td>
+                                    <td>@prison.PrisonDetails.Punisher</td>
+                                    <td>@prison.PrisonDetails.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@prison.PrisonDetails.DateTo.ToString("dd-MM-yyyy")</td>
+                                    <td>@prison.PrisonDetails.PrisonPlace</td>
+                                    <td>@prison.PrisonDetails.CommandItem.Number</td>
+                                    <td>@prison.PrisonDetails.CommandItem.Date.ToString("yyyy/MM/dd")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            if (tmam.Absences.Count > 0)
+            {
+                <h2>الأفراد الغياب</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>التاريخ الغياب</th>
+                                <th>دفعة الغياب</th>
+                                <th colspan="2">بند الأوامر</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (Absence absence in tmam.Absences)
+                            {
+                                <tr>
+                                    <td>@absence.AbsenceDetail.Person.Rank.RankName</td>
+                                    <td>@absence.AbsenceDetail.Person.FullName</td>
+                                    <td>@absence.AbsenceDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@absence.AbsenceDetail.AbsenceTimes</td>
+                                    <td>@absence.AbsenceDetail.commandItem.Number</td>
+                                    <td>@absence.AbsenceDetail.commandItem.Date.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+            if (tmam.Hospitals.Count > 0)
+            {
+                <h2>الضباط و الأفراد المحجوزين بالمستشفيات العسكرية</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>المستشفى</th>
+                                <th>تاريخ دخول المستشفى</th>
+                                <th>التشخيص الطبى</th>
+                                <th>التوصيات الممنوحة</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (Hospital hospital in tmam.Hospitals)
+                            {
+                                <tr>
+                                    <td>@hospital.HospitalDetails.Person.Rank.RankName</td>
+                                    <td>@hospital.HospitalDetails.Person.FullName</td>
+                                    <td>@hospital.HospitalDetails.Hospital</td>
+                                    <td>@hospital.HospitalDetails.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@hospital.HospitalDetails.Diagnosis</td>
+                                    <td>@hospital.HospitalDetails.Recommendations</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            if (tmam.OutOfCountries.Count > 0)
+            {
+                <h2>خارج البلاد</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>جهة السفر</th>
+                                <th>الغرض من السفر</th>
+                                <th>المدة من</th>
+                                <th>المدة إلى</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (OutOfCountry outOfCountry in tmam.OutOfCountries)
+                            {
+                                <tr>
+                                    <td>@outOfCountry.OutOfCountryDetail.Person.Rank.RankName</td>
+                                    <td>@outOfCountry.OutOfCountryDetail.Person.FullName</td>
+                                    <td>@outOfCountry.OutOfCountryDetail.Country</td>
+                                    <td>@outOfCountry.OutOfCountryDetail.Puspose</td>
+                                    <td>@outOfCountry.OutOfCountryDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@outOfCountry.OutOfCountryDetail.DateTo.ToString("dd-MM-yyyy")</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            if (tmam.Camps.Count > 0)
+            {
+                <h2>خارج التمركز</h2>
+                <div class="row my-4 " >
+                    <table class="Agaza-table table-bordered ">
+                        <thead>
+
+                            <tr>
+                                <th>الرتبة / الدرجة</th>
+                                <th>الإسم </th>
+                                <th>مكان التمركز الحالى</th>
+                                <th>السبب</th>
+                                <th>المدة من</th>
+                                <th>المدة إلى</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size:14px;" class="aribiano">
+                            @foreach (Camp Camp in tmam.Camps)
+                            {
+                                <tr>
+                                    <td>@Camp.CampDetail.Person.Rank.RankName</td>
+                                    <td>@Camp.CampDetail.Person.FullName</td>
+                                    <td>@Camp.CampDetail.CurrentExistance</td>
+                                    <td>@Camp.CampDetail.Reason</td>
+                                    <td>@Camp.CampDetail.DateFrom.ToString("dd-MM-yyyy")</td>
+                                    <td>@Camp.CampDetail.DateTo.ToString("dd-MM-yyyy")</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            <div class="col-lg-1 col-md-1"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <button class="add-btn btn-block" style="font-size:18px;" onclick="RecieveTmam(@tmam.UnitID)">
+                    <span class="glyphicon glyphicon-saved"></span>
+                    تأكيد الإستلام
+                </button>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <button class="delete-btn btn-block" style="font-size:18px;" onclick="rebackTmam(@tmam.UnitID)">
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                    إلغاء الإستلام
+                </button>
+            </div>
+        }
+    </div>
+</div>
