@@ -47,13 +47,13 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="existing" class="form-label text-dark fw-bold">الموجود</label>
-                                    <input id="existing" class="form-control text-center shadow-sm rounded-3" type="number" min="0" value="@ViewBag.TmamDetail.GetExisting()" onchange="calOut()" />
+                                    <input id="existing" class="form-control text-center shadow-sm rounded-3" type="number" readonly min="0" max="@ViewBag.TmamDetail.totalPower" value="@ViewBag.TmamDetail.GetExisting()" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="outdoor" class="form-label text-dark fw-bold">الخارج</label>
-                                    <input id="outdoor" class="form-control text-center shadow-sm rounded-3" readonly type="number" value="@ViewBag.TmamDetail.GetOutting()" min="0" />
+                                    <input id="outdoor" class="form-control text-center shadow-sm rounded-3" readonly type="number" value="@ViewBag.TmamDetail.GetOutting()" min="0" max="@ViewBag.TmamDetail.totalPower"/>
                                 </div>
                             </div>
                         </div>
@@ -61,19 +61,19 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="vacation" class="form-label text-dark fw-bold">أجازة</label>
-                                    <input id="vacation" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.vacation" min="0" onchange="calculateExisting()" />
+                                    <input id="vacation" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.vacation" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="sick-leave" class="form-label text-dark fw-bold">أجازة مرضية</label>
-                                    <input id="sick-leave" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.sickLeave" min="0" onchange="calculateExisting()" />
+                                    <input id="sick-leave" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.sickLeave" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="hospital" class="form-label text-dark fw-bold">مستشفى</label>
-                                    <input id="hospital" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.hospital" min="0" onchange="calculateExisting()" />
+                                    <input id="hospital" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.hospital" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                         </div>
@@ -81,19 +81,19 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="errand" class="form-label text-dark fw-bold">مأمورية</label>
-                                    <input id="errand" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.errand" min="0" onchange="calculateExisting()" />
+                                    <input id="errand" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.errand" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="prison" class="form-label text-dark fw-bold">سجن</label>
-                                    <input id="prison" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.prison" min="0" onchange="calculateExisting()" />
+                                    <input id="prison" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.prison" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="absence" class="form-label text-dark fw-bold">غياب</label>
-                                    <input id="absence" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.absence" min="0" onchange="calculateExisting()" />
+                                    <input id="absence" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.absence" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                         </div>
@@ -104,20 +104,20 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="course" class="form-label text-dark fw-bold">فرقة</label>
-                                    <input id="course" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.course" min="0" onchange="calculateExisting()" />
+                                    <input id="course" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.course" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="out-of-country" class="form-label text-dark fw-bold">خ البلاد</label>
-                                    <input id="out-of-country" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.outOfCountry" min="0" onchange="calculateExisting()" />
+                                    <input id="out-of-country" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.outOfCountry" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="outdoor-camp" class="form-label text-dark fw-bold">م.تد خارجي</label>
-                                    <input id="outdoor-camp" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.outdoorCamp" min="0" onchange="calculateExisting()" />
+                                    <input id="outdoor-camp" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.outdoorCamp" min="0" onchange="calculateExisting(this)" />
                                 </div>
                             </div>
                         </div>

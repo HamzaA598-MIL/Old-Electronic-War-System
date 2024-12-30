@@ -1,10 +1,12 @@
-﻿
+﻿let outdoorInputIdsList = ["vacation", "sick-leave", "hospital", "errand", "prison", "absence", "course", "out-of-country", "outdoor-camp"];
 
+// TODO: remove remaining time after sending tmam
 window.onload = function () {
     RequestTmamStatus();
     numbersE2A();
     calculateExisting();
 }
+
 function RequestTmamStatus() {
     $.ajax({
         url: window.location.origin + "/Tmam/GetTmamStatus",
@@ -89,13 +91,6 @@ function numbersEn2Ar(input) {
     });
 }
 
-function calOut(power) {
-    if ($("#existing").val() > power) {
-        $("#existing").val(power);
-    }
-    $("#outdoor").val(power - $("#existing").val());
-}
-
 function getTimeInSeconds(date) {
     return (date.getHours() * 60 * 60) + (date.getMinutes() * 60) + date.getSeconds();
 }
@@ -134,80 +129,90 @@ setInterval(
         }
     }, 1000);
 
-function calOut(power) {
-    var power = parseInt($("#power").val());
-    var exsting = parseInt($("#existing").val());
-    var outing = power - exsting;
-    $("#outdoor").val(outing);
-}
+function calculateExisting(input) {
 
-function calculateExisting() {
-    var power = parseInt($("#power").val());
-    var outdoor = parseInt($("#outdoor").val());
-    var vacation = parseInt($("#vacation").val());
-    var sickLeave = parseInt($("#sick-leave").val());
-    var hospital = parseInt($("#hospital").val());
-    var errand = parseInt($("#errand").val());
-    var prison = parseInt($("#prison").val());
-    var absence = parseInt($("#absence").val());
-    var course = parseInt($("#course").val());
-    var outOfCountry = parseInt($("#out-of-country").val());
-    var outdoorCamp = parseInt($("#outdoor-camp").val());
+    if (input && input.value < 0) {
+        input.value = 0;
+        Swal.fire({
+            title: 'خطأ',
+            text: 'يجب أن يكون الرقم موجبًا',
+            icon: 'error'
+        });
+    }
 
-    var currentExisting = power - outdoor - vacation - sickLeave - hospital - errand - prison - absence - course - outOfCountry - outdoorCamp;
+    let power = parseInt($("#power").val());
 
-    console.log(currentExisting);
+    let outdoorSum = outdoorInputIdsList.reduce((prev, current) => prev + parseInt($("#" + current).val()), 0);
 
-    $("#existing").val(currentExisting);
+    let currentExisting = power - outdoorSum;
+    if (currentExisting >= 0 && currentExisting <= power && outdoorSum >= 0 && outdoorSum <= power) {
+        $("#existing").val(currentExisting);
+        $("#outdoor").val(outdoorSum);
+    }
+    else {
+        // TODO: recover the last number before the change.
+        input.value = 0;
+        outdoorSum = outdoorInputIdsList.reduce((prev, current) => prev + parseInt($("#" + current).val()), 0);
+        $("#outdoor").val(outdoorSum);
+        $("#existing").val(power - outdoorSum);
+        Swal.fire({
+            title: 'خطأ',
+            text: 'مجموع الخوارج أكبر من القوة',
+            icon: 'error'
+        });
+    }
 }
 
 function toTmamDetails(pg) {
-    var sum = parseInt($("#errand").val()) +
-        parseInt($("#vacation").val()) +
-        parseInt($("#sick-leave").val()) +
-        parseInt($("#prison").val()) +
-        parseInt($("#absence").val()) +
-        parseInt($("#hospital").val()) +
-        parseInt($("#out-of-country").val()) +
-        parseInt($("#outdoor-camp").val()) +
-        parseInt($("#course").val());
+    var outdoorSum = outdoorInputIdsList.reduce((prev, current) => prev + parseInt($("#" + current).val()), 0)
 
-    if (parseInt($("#outdoor").val()) !== sum) {
+    if (parseInt($("#outdoor").val()) !== outdoorSum) {
         Swal.fire({
             title: 'خطأ',
             text: 'خطأ فى تجميع التمام!!!',
             icon: 'error'
         });
+        return;
     }
-    else {
-        $.ajax({
-            url: window.location.origin + "/Tmam/AddTmamDetail",
-            type: "POST",
-            async: false,
-            data: {
-                "IsOfficers": (pg == 1) ? true : false,
-                "totalPower": parseInt($("#power").val()),
-                "errand": parseInt($("#errand").val()),
-                "vacation": parseInt($("#vacation").val()),
-                "sickLeave": parseInt($("#sick-leave").val()),
-                "prison": parseInt($("#prison").val()),
-                "absence": parseInt($("#absence").val()),
-                "hospital": parseInt($("#hospital").val()),
-                "outOfCountry": parseInt($("#out-of-country").val()),
-                "outdoorCamp": parseInt($("#outdoor-camp").val()),
-                "course": parseInt($("#course").val()),
-                "Tmam.AltCommanderID": parseInt($("#person-name").val())
-            },
-            success: function () {
-                if (pg == 2) {
-                    window.location.href = window.location.origin + "/sickleave/Index";
-                }
-                else {
-                    window.location.href = window.location.origin + "/Tmam/Index?pg=" + (pg + 1);
-                }
-            }
+
+    if (pg === 1 && ($("#person-rank")[0][0].selected || $("#person-name")[0][0].selected)) 
+    {
+        Swal.fire({
+            title: 'خطأ',
+            text: 'من فضلك أكمل معلومات قائد منوب',
+            icon: 'error'
         });
+        return;
     }
+
+    $.ajax({
+        url: window.location.origin + "/Tmam/AddTmamDetail",
+        type: "POST",
+        async: false,
+        data: {
+            "IsOfficers": (pg == 1) ? true : false,
+            "totalPower": parseInt($("#power").val()),
+            "errand": parseInt($("#errand").val()),
+            "vacation": parseInt($("#vacation").val()),
+            "sickLeave": parseInt($("#sick-leave").val()),
+            "prison": parseInt($("#prison").val()),
+            "absence": parseInt($("#absence").val()),
+            "hospital": parseInt($("#hospital").val()),
+            "outOfCountry": parseInt($("#out-of-country").val()),
+            "outdoorCamp": parseInt($("#outdoor-camp").val()),
+            "course": parseInt($("#course").val()),
+            "Tmam.AltCommanderID": parseInt($("#person-name").val())
+        },
+        success: function () {
+            if (pg == 2) {
+                window.location.href = window.location.origin + "/sickleave/Index";
+            }
+            else {
+                window.location.href = window.location.origin + "/Tmam/Index?pg=" + (pg + 1);
+            }
+        }
+    });
+    
 }
 
 function UpdatePersonComboBox() {
