@@ -61,7 +61,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="vacation" class="form-label text-dark fw-bold">أجازة</label>
-                                    <input id="vacation" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.vacation" min="0" />
+                                    <input id="vacation" class="form-control text-center shadow-sm rounded-3" type="number" value="@ViewBag.TmamDetail.vacation" min="0" onchange="calculateExisting()" />
                                 </div>
                             </div>
                             <div class="col-md-6">

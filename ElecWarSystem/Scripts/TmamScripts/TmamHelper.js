@@ -3,6 +3,7 @@
 window.onload = function () {
     RequestTmamStatus();
     numbersE2A();
+    calculateExisting();
 }
 function RequestTmamStatus() {
     $.ajax({
@@ -138,6 +139,26 @@ function calOut(power) {
     var exsting = parseInt($("#existing").val());
     var outing = power - exsting;
     $("#outdoor").val(outing);
+}
+
+function calculateExisting() {
+    var power = parseInt($("#power").val());
+    var outdoor = parseInt($("#outdoor").val());
+    var vacation = parseInt($("#vacation").val());
+    var sickLeave = parseInt($("#sick-leave").val());
+    var hospital = parseInt($("#hospital").val());
+    var errand = parseInt($("#errand").val());
+    var prison = parseInt($("#prison").val());
+    var absence = parseInt($("#absence").val());
+    var course = parseInt($("#course").val());
+    var outOfCountry = parseInt($("#out-of-country").val());
+    var outdoorCamp = parseInt($("#outdoor-camp").val());
+
+    var currentExisting = power - outdoor - vacation - sickLeave - hospital - errand - prison - absence - course - outOfCountry - outdoorCamp;
+
+    console.log(currentExisting);
+
+    $("#existing").val(currentExisting);
 }
 
 function toTmamDetails(pg) {
