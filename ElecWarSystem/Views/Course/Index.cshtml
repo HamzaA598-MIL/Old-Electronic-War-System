@@ -1,23 +1,25 @@
 ﻿<script src="~/Scripts/TmamScripts/course-crud.js"></script>
 @using ElecWarSystem.Models
 @{
-    
+
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/tmam_layout.cshtml";
 }
-<div ng-app="CourseMod" style="height: calc(102vh - 499px); ">
+
+@*height: calc(102vh - 499px);*@
+<div ng-app="CourseMod">
     <div ng-cloak ng-controller="CourseCrud">
         <div class="container">
             <div class="row">
                 <h2 class="h2">{{Name}}</h2>
 
-                <p id="errand-counter counter" >{{CoursesEntered}} / {{CoursesTotal}}</p>
+                <p id="course-counter counter">{{CoursesEntered}} / {{CoursesTotal}}</p>
 
                 <div>
                     <div class="container">
                         <div class="row">
                             <div class="form-group ">
-                                <button id="add-course-btn" class="add-btn "    ng-click="openCoursePopup()">
+                                <button id="add-course-btn" class="add-btn" ng-click="openCoursePopup()">
                                     <i class="fas fa-plus-circle"></i>
                                     إضافة
                                 </button>
@@ -37,15 +39,14 @@
                                             <th> الإجراءات </th>
                                         </tr>
                                     </thead>
-                                    
-                                    
+
+
                                     <tbody>
-                                        <!--<tr ng-if="Courses.length === 0">-->
-                                            <!-- تحقق إذا كانت قائمة الدورات فارغة -->
-                                            <!--<td colspan="9" class="text-center text-muted">لا يوجد معسكرات خارجية</td>
-                                        </tr>-->
+                                        <tr ng-if="Courses.length === 0">
+                                        <td colspan="9" class="text-center text-muted">لا يوجد أي فرقة في الوقت الحالي</td>
+                                        </tr>
                                         <tr ng-repeat="course in Courses track by $index">
-                                            <td >{{$index + 1 }}</td>
+                                            <td>{{$index + 1 }}</td>
                                             <td>{{course.CourseDetails.Person.Rank.RankName}}</td>
                                             <td>{{course.CourseDetails.Person.FullName}}</td>
                                             <td>{{course.CourseDetails.CourseName}}</td>
@@ -56,7 +57,7 @@
                                             <td>{{course.CourseDetails.CommandItem.Date | date : yyyy/MM/dd}}</td>
                                             <td>
                                                 <button class="delete-btn" ng-click="delete(course.ID)">
-                                                    
+
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
@@ -75,7 +76,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="courseModalLabel">إضافة معسكرات خارجية </h5>
+                        <h5 class="modal-title" id="courseModalLabel">إضافة فرقة</h5>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -118,7 +119,7 @@
                             <div class=" d-flex justify-content-around">
                                 <div class="form-group col-4">
                                     <label class="control-label">البند الأوامر</label>
-                                    <input id="command-number" class="form-control" onkeyup="disableBtn()" type="number" />
+                                    <input id="command-number" class="form-control" onkeyup="disableBtn()" type="number" min="0" />
                                 </div>
                                 <div class="form-group col-7">
                                     <label class="control-label">تاريخ البند  </label>
@@ -140,5 +141,4 @@
     </div>
 </div>
 <style>
-   
 </style>

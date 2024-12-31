@@ -9,6 +9,17 @@
         setCourseAddStatus($scope.CoursesTotal, $scope.CoursesEntered);
 
         $scope.Add = function () {
+
+            if ($('#date-from').val() >= $('#date-to').val()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطأ',
+                    text: 'يوجد خطأ فى تاريخ الفرقة',
+                    confirmButtonText: 'حسنًا'
+                });
+                return;
+            }
+
             $.ajax({
                 url: window.location.origin + "/Course/Create",
                 type: "POST",
