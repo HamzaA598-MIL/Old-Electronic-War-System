@@ -158,6 +158,7 @@ function IsAllFieldsFilled() {
         $("#person-name").val() !== "" &&
         $("#person-rank").val() !== "" &&
         $("#course-place").val() !== "" &&
+        $("#course-name").val() !== "" &&
         $("#date-from").val() !== "" &&
         $("#date-to").val() !== "" &&
         $("#command-number").val() !== "" &&

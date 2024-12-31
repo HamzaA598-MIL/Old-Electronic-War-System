@@ -31,17 +31,15 @@ function Add() {
         const dateFrom = $("#date-from").val();
         const dateTo = $("#date-to").val();
 
-        // التحقق من أن التواريخ غير متساوية
-        if (dateFrom === dateTo) {
+        if (dateFrom >= dateTo) {
             Swal.fire({
-                icon: 'warning',
-                title: 'تحذير',
-                text: 'تاريخ البداية وتاريخ النهاية لا يمكن أن يكونا متساويين.',
+                icon: 'error',
+                title: 'خطأ',
+                text: 'يوجد خطأ في تاريخ الأجازة المرضية',
             });
-            return;  // منع الإضافة إذا كانت التواريخ متساوية
+            return;
         }
-
-        // استمر في الإضافة إذا كانت التواريخ غير متساوية
+        
         $.ajax({
             url: `${window.location.origin}/SickLeave/Create`,
             type: "POST",
@@ -57,9 +55,9 @@ function Add() {
             success: function (result) {
                 if (result == -1) {
                     Swal.fire({
-                        icon: 'success',
-                        title: 'تمت الإضافة',
-                        text: 'تمت إضافة الأجازة المرضية بنجاح!',
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'يوجد خطأ فى تاريخ الإجازة',
                     });
                 } else {
                     closePop();
@@ -75,6 +73,7 @@ function Add() {
                 }
             }
         });
+        
     } else {
         Swal.fire({
             icon: 'warning',

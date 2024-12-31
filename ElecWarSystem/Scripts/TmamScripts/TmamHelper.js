@@ -130,7 +130,6 @@ setInterval(
     }, 1000);
 
 function calculateExisting(input) {
-
     if (input && input.value < 0) {
         input.value = 0;
         Swal.fire({
@@ -150,6 +149,8 @@ function calculateExisting(input) {
         $("#outdoor").val(outdoorSum);
     }
     else {
+        if (!input) return;
+
         // TODO: recover the last number before the change.
         input.value = 0;
         outdoorSum = outdoorInputIdsList.reduce((prev, current) => prev + parseInt($("#" + current).val()), 0);

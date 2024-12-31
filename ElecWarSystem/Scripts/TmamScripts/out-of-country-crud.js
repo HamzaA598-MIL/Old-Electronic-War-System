@@ -32,6 +32,12 @@ function disableBtn() {
     }
 }
 function Add() {
+
+    if ($('#date-from').val() >= $('#date-to').val()) {
+        Swal.fire("خطأ", "يوجد خطأ فى تاريخ المأمورية الخارجية", "error");
+        return;
+    }
+
     // استدعاء Ajax لإضافة البيانات
     $.ajax({
         url: window.location.origin + "/OutOfCountry/Create",

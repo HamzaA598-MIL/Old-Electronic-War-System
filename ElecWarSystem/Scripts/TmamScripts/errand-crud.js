@@ -30,6 +30,12 @@ function disableBtn() {
 
 // إضافة مأمورية جديدة
 function Add() {
+
+    if ($("#date-from").val() >= $("#date-to").val()) {
+        Swal.fire("خطأ", "يوجد خطأ فى تاريخ المأموريات", "error");
+        return;
+    }
+
     $.ajax({
         url: window.location.origin + "/Errand/Create",
         type: "POST",
@@ -117,74 +123,6 @@ function fillErrandTable(result) {
     }
 }
 
-// إغلاق المودال
-function closePop() {
-    $('#errandModal').modal('hide');
-}
-
-
-// إفراغ الحقول بعد الإضافة
-function emptyFormField() {
-    $("#person-name").val(null);
-    $("#person-rank").val(null);
-    $("#errand-place").val(null);
-    $("#errand-commandor").val(null);
-    $("#date-from").val(null);
-    $("#date-to").val(null);
-}
-
-// تحديث الجدول بعد كل عملية
-function UpdateErrandTable() {
-    $.ajax({
-        url: window.location.origin + "/Errand/GetErrands",  // تأكد أن هذا هو المسار الصحيح
-        type: "GET",
-        success: function (result) {
-            fillErrandTable(result);
-        },
-        error: function () {
-            Swal.fire("خطأ", "حدث خطأ أثناء جلب البيانات", "error");
-        }
-    });
-}
-
-// عرض البيانات في الجدول
-function fillErrandTable(result) {
-    $("#errand-table").empty();
-    var tableHead = `
-        <thead>
-            <th>م</th>
-            <th>الرتبة / الدرجة</th>
-            <th>الإسم </th>
-            <th>جهة المأمورية</th>
-            <th>الأمر</th>
-            <th>التاريخ من</th>
-            <th>التاريخ إلى</th>
-            <th>الإجراءات</th>
-        </thead>`;
-    $("#errand-table").append(tableHead);
-
-    for (var index in result) {
-        var tableItem = `
-            <tbody style="font-size:14px;">
-                <td>${parseInt(index) + 1}</td >
-                <td>${result[index]['ErrandDetail']['Person']['Rank']['RankName']}</td>
-                <td>${result[index]['ErrandDetail']['Person']['FullName']}</td>
-                <td>${result[index]['ErrandDetail']['ErrandPlace']}</td>
-                <td>${result[index]['ErrandDetail']['ErrandCommandor']}</td>
-                <td>${getDateFormated(result[index]['ErrandDetail']['DateFrom'])}</td>
-                <td>${getDateFormated(result[index]['ErrandDetail']['DateTo'])}</td>
-                <td>
-                    <button class="delete-btn" onclick="deleteErrand(${result[index]['ID']})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                    
-                </td>
-            </tbody>`;
-        $("#errand-table").append(tableItem);
-    }
-}
-
-// فتح المودال لإضافة مأمورية
 function openErrandPopup() {
     $('#errandModal').modal('show');
 }
@@ -193,8 +131,6 @@ function openErrandPopup() {
 function closePop() {
     $('#errandModal').modal('hide');
 }
-
-
 
 // حذف مأمورية
 function deleteErrand(id) {

@@ -25,6 +25,12 @@ function disableBtn() {
 }
 
 function Add() {
+
+    if ($('#date-from').val() >= $('#date-to').val()) {
+        Swal.fire("خطأ", "يوجد خطأ فى تاريخ المعسكر", "error");
+        return;
+    }
+    
     $.ajax({
         url: window.location.origin + "/Camp/Create",
         type: "POST",

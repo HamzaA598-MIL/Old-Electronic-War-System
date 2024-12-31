@@ -17,9 +17,9 @@ function IsAllFieldsFilled() {
         $("#crime").val() !== "" &&
         $("#punishment").val() !== "" &&
         $("#punisher").val() !== "" &&
+        $("#prison-place").val() !== "" &&
         $("#date-from").val() !== "" &&
         $("#date-to").val() !== "" &&
-        $("#prison-place").val() !== "" &&
         $("#command-number").val() !== "" &&
         $("#command-date").val() !== ""
 
@@ -48,6 +48,12 @@ function emptyFormField() {
     $("#command-date").val(null)
 }
 function Add() {
+
+    if ($('#date-from').val() >= $('#date-to').val()) {
+        Swal.fire("خطأ", "يوجد خطأ فى تاريخ السجن", "error");
+        return;
+    }
+
     $.ajax({
         url: window.location.origin + "/Prison/Create",
         type: "POST",
@@ -64,7 +70,7 @@ function Add() {
             "PrisonDetails.CommandItem.Date": $("#command-date").val()
         },
         success: function (result) {
-            if (result === -1) {
+            if (result == -1) {
                 Swal.fire("خطأ", "يوجد خطأ فى تاريخ السجن", "error");
             }
             else {

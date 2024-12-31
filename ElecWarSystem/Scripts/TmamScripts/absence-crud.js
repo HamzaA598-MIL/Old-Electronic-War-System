@@ -40,13 +40,13 @@ function Add() {
                 Swal.fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: 'يوجد خطأ في تاريخ الأجازة!',
+                    text: 'يوجد خطأ في تاريخ الغياب!',
                 });
             } else {
                 Swal.fire({
                     icon: 'success',
                     title: 'تم الحفظ!',
-                    text: 'تم إضافة المأمورية بنجاح!',
+                    text: 'تم إضافة الغياب بنجاح!',
                 }).then(() => {
                     closePop();
                     UpdateAbsencesTable();

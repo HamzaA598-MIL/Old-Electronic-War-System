@@ -31,6 +31,17 @@ function Add() {
     var formattedDateFrom = new Date(dateFromStr).toISOString().split('T')[0]; // YYYY-MM-DD
     var formattedDateTo = new Date(dateToStr).toISOString().split('T')[0];     // YYYY-MM-DD
 
+    // make sure the from date is before the to date
+    if (formattedDateFrom >= formattedDateTo) {
+        console.log("error");
+        Swal.fire({
+            icon: 'error',
+            title: 'خطأ',
+            text: 'يوجد خطأ فى تاريخ الإجازة',
+        });
+        return;
+    }
+
     // إرسال الطلب AJAX
     $.ajax({
         url: window.location.origin + "/Vacation/Create",
