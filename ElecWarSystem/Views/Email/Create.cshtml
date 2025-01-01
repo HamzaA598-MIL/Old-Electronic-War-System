@@ -70,6 +70,7 @@
         var emailText = document.getElementById('emailText').value.trim();
         var files = document.getElementById('files').files.length;
         var recipients = document.getElementById('recipients').options;
+        let recipient = recipients[recipients.selectedIndex].text;
         var sendButton = document.getElementById('submitBtn'); // زر الإرسال
 
         var hasSelectedRecipients = false;
@@ -81,6 +82,7 @@
         }
 
         if (!subject || !emailText || files === 0 || !hasSelectedRecipients) {
+
             e.preventDefault(); // منع إرسال النموذج
 
             // استخدام SweetAlert للتنبيه
@@ -108,6 +110,7 @@
 
             // السماح بإرسال النموذج ثم مراقبة اكتمال التحميل
             var form = this;
+            console.log(form);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', form.action, true);
             xhr.onload = function () {
@@ -142,7 +145,7 @@
 
             // إرسال النموذج باستخدام AJAX
             var formData = new FormData(form);
-            xhr.send(formData);
+            //xhr.send(formData);
 
             e.preventDefault(); // منع الإرسال الافتراضي للنموذج
         }

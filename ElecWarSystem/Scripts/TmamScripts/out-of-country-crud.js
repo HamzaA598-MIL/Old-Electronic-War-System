@@ -173,19 +173,33 @@ function DecreaseOutOfCountryCounter() {
 }
 
 function deleteOutOfCountry(id) {
+    console.log("delete");
     // Delete a specific "Out of Country" entry
-    $.ajax({
-        url: window.location.origin + "/OutOfCountry/Delete",
-        type: "POST",
-        async: false,
-        data: { id: id },
-        success: function (result) {
-            UpdateOutOfCountriesTable();
-            DecreaseOutOfCountryCounter();
-            Swal.fire({
-                icon: 'success',
-                title: 'تم الحذف',
-                text: 'تم حذف المأمورية بنجاح',
+    Swal.fire({
+        title: 'هل أنت متأكد؟',
+        text: "لن تتمكن من التراجع عن هذا!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'نعم، احذفها!',
+        cancelButtonText: 'إلغاء'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: window.location.origin + "/OutOfCountry/Delete",
+                type: "POST",
+                async: false,
+                data: { id: id },
+                success: function (result) {
+                    UpdateOutOfCountriesTable();
+                    DecreaseOutOfCountryCounter();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحذف',
+                        text: 'تم حذف المأمورية بنجاح',
+                    });
+                }
             });
         }
     });

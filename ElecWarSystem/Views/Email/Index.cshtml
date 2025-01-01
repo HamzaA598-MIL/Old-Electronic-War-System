@@ -94,6 +94,8 @@
                 </div>
             </div>
 
+            @*<div style="border:dotted; border-width: 2px">{{Sended}}</div>*@
+            @*<div style="border:dotted; border-width: 2px">{{Recieved}}</div>*@
             <div id="EmailsDiv">
                 <div class="container mt-2 p-3 email-item" ng-repeat="email in Sended | limitTo: pageSize * currentPage track by $index">
                     <div class="row">
