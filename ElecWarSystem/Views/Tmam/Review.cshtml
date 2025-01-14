@@ -68,7 +68,14 @@
                                     @foreach (string key in leaderTmam.Keys)
                                     {
                                         long personID = leaderTmam[key].OutdoorDetail.PersonID;
-                                        <td colspan="2" style="cursor:pointer" id="@personID" onclick="showPopup(@personID)">@leaderTmam[key].Tmam</td>
+                                        if (personID == 3861)
+                                        {
+                                            <td colspan="2">-</td>
+                                        }
+                                        else
+                                        {
+                                            <td colspan="2" style="cursor:pointer" id="@personID" onclick="showPopup(@personID)">@leaderTmam[key].Tmam</td>
+                                        }
                                     }
 
                                     @for (int i = 0; i < 8 - leaderTmam.Keys.Count; i++)

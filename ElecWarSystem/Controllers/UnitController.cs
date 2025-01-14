@@ -82,7 +82,7 @@ namespace ElecWarSystem.Controllers
                 unitTemp.UnitOperationsChief.UnitID = userId;
                 unit.UOCHID = personService.Add(unitTemp.UnitOperationsChief);
             }
-            else
+            else if(userId != 16)
             {
                 personService.Update(unit.UOCHID, unitTemp.UnitOperationsChief);
                 unit.UnitOperationsChief.RankID = unitTemp.UnitOperationsChief.RankID;

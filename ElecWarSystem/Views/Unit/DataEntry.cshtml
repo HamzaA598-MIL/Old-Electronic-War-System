@@ -63,6 +63,7 @@
     int j;
     string[] pgContent = new string[] { "بيانات الضباط", "بيانات ضباط الصف", "بيانات الجنود" };
     int pg = ViewBag.pg;
+    string userID = Request.Cookies["userID"].Value;
 }
 @switch (pg)
 {
@@ -108,33 +109,35 @@
                             </div>
                         </div>
 
+                        @if (userID != "16")
+                        {
+                            <div class="col-5 leader-card ">
+                                <h2 class="text-center text-light" style="margin-bottom: 20px;">رئيس عمليات الوحدة</h2>
 
-                        <div class="col-5 leader-card ">
-                            <h2 class="text-center text-light" style="margin-bottom: 20px;">رئيس عمليات الوحدة</h2>
+                                <div class="form-group row" style="margin-bottom: 15px;">
+                                    @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        @Html.EditorFor(model => Model.UnitOperationsChief.MilID, new { htmlAttributes = new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                    </div>
+                                </div>
 
-                            <div class="form-group row" style="margin-bottom: 15px;">
-                                @Html.Label("الرقم العسكرى", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    @Html.EditorFor(model => Model.UnitOperationsChief.MilID, new { htmlAttributes = new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                <div class="form-group row" style="margin-bottom: 15px;">
+                                    @Html.Label("الرتبة", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                        @Html.DropDownListFor(model => Model.UnitOperationsChief.RankID, new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" })
+                                        @Html.ValidationMessage("UnitOperChRank", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-bottom: 15px;">
+                                    @Html.Label("الإسم", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
+                                    <div class="col-8">
+                                        @Html.EditorFor(model => Model.UnitOperationsChief.FullName, new { htmlAttributes = new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
+                                        @Html.ValidationMessage("UnitOperChName", "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
                             </div>
-
-                            <div class="form-group row" style="margin-bottom: 15px;">
-                                @Html.Label("الرتبة", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    @Html.DropDownListFor(model => Model.UnitOperationsChief.RankID, new SelectList(ViewBag.ranks, "ID", "RankName"), new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" })
-                                    @Html.ValidationMessage("UnitOperChRank", "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-                            <div class="form-group row" style="margin-bottom: 15px;">
-                                @Html.Label("الإسم", htmlAttributes: new { @class = "control-label  ", style = "font-weight: bold;" })
-                                <div class="col-8">
-                                    @Html.EditorFor(model => Model.UnitOperationsChief.FullName, new { htmlAttributes = new { @class = "form-control", @style = "border-radius: 6px; padding: 10px; transition: border-color 0.3s ease;" } })
-                                    @Html.ValidationMessage("UnitOperChName", "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
+                        }
 
                     </div>
 
