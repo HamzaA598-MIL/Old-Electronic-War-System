@@ -64,6 +64,7 @@
     string[] pgContent = new string[] { "بيانات الضباط", "بيانات ضباط الصف", "بيانات الجنود" };
     int pg = ViewBag.pg;
     string userID = Request.Cookies["userID"].Value;
+    string masna3ID = "16";
 }
 @switch (pg)
 {
@@ -109,7 +110,8 @@
                             </div>
                         </div>
 
-                        @if (userID != "16")
+                        
+                        @if (userID != masna3ID)
                         {
                             <div class="col-5 leader-card ">
                                 <h2 class="text-center text-light" style="margin-bottom: 20px;">رئيس عمليات الوحدة</h2>

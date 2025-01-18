@@ -42,10 +42,13 @@ function AddPerson(unitId, type) {
             updatePersonTable(type);
             closePop(); // Close the modal after a successful add
             location.reload();
-
         },
         error: function () {
-            alert("Failed to add person. Please try again.");
+            Swal.fire({
+                icon: 'error',
+                title: 'فشل',
+                text: 'حدث خطأ أثناء محاولة الإضافة، الرجاء المحاولة مرة أخرى.',
+            });
         }
     });
 }
@@ -81,26 +84,26 @@ function openPersonPopup(id, type, editMode) {
 }
 
 function savePersonChanges() {
-    Swal.fire({
-        title: 'هل أنت متأكد؟',
-        text: "هل تريد حقاً تعديل بيانات هذا الشخص؟",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'نعم، قم بالتعديل!',
-        cancelButtonText: 'إلغاء'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            if (EditMode) {
-                // إذا كان في وضع التعديل
+    if (EditMode) {
+        Swal.fire({
+            title: 'هل أنت متأكد؟',
+            text: "هل تريد حقاً تعديل بيانات هذا الشخص؟",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم، قم بالتعديل!',
+            cancelButtonText: 'إلغاء'
+        }).then((result) => {
+            if (result.isConfirmed) {
                 EditPerson(ID, personType);
-            } else {
-                // إذا كان في وضع الإضافة
-                AddPerson(ID, personType);
             }
-        }
-    });
+        });
+    }
+    else {
+        // إذا كان في وضع الإضافة
+        AddPerson(ID, personType);
+    }
 }
 
 function EditPerson(id, type) {
