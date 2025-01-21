@@ -22,7 +22,7 @@ namespace ElecWarSystem.Controllers
         private readonly EmailService emailService;
         private readonly StorageManager storageManager;
         private readonly TmamGatheringService tmamGatheringServices;
-        private String[] dangerExtension;
+        private String[] allowedExtensions;
 
         public EmailController()
         {
@@ -31,7 +31,7 @@ namespace ElecWarSystem.Controllers
             emailService = new EmailService();
             storageManager = new StorageManager();
             tmamGatheringServices = new TmamGatheringService();
-            dangerExtension = new[]{ "pdf", "dot", "dotx", "docm", "docx",
+            allowedExtensions = new[]{ "pdf", "dot", "dotx", "docm", "docx",
                 "doc", "png", "jpeg", "jpg", "tif","pptx","pptm",
                 "ppt", "potx", "accdb", "mdb", "xlsx", "xls", "xlsm",
                 "csv", "zip", "rar", "mp3","aac", "oog", "wav", "mp4",
@@ -152,6 +152,9 @@ namespace ElecWarSystem.Controllers
                 Directory.CreateDirectory(serverPath);
             }
 
+            if (emailViewModel.RecIds == null)
+                return new HttpStatusCodeResult(400, "لم يتم تحديد أي مستقبل للملف");
+
             foreach (string id in emailViewModel.RecIds)
             {
                 emailViewModel.Email.Recievers.Add(new Reciever { RecieverID = int.Parse(id) });
@@ -170,8 +173,9 @@ namespace ElecWarSystem.Controllers
 
                 string fileName = file.FileName; // اسم الملف الأصلي الذي سيتم استخدامه في النظام
                 string[] fileAtt = fileName.Split('.');
+                fileAtt[fileAtt.Length - 1] = fileAtt.Last().ToLower();
 
-                if (!dangerExtension.Contains(fileAtt.Last()))
+                if (!allowedExtensions.Contains(fileAtt.Last()))
                 {
                     emailViewModel.Message = $"عفواً لا يمكنك إرسال ملفات بإمتداد ({fileAtt.Last()}) حسب تعليمات الأمن السيبرانى";
                     return View(emailViewModel);

@@ -70,16 +70,9 @@
         var emailText = document.getElementById('emailText').value.trim();
         var files = document.getElementById('files').files.length;
         var recipients = document.getElementById('recipients').options;
-        let recipient = recipients[recipients.selectedIndex].text;
         var sendButton = document.getElementById('submitBtn'); // زر الإرسال
 
-        var hasSelectedRecipients = false;
-        for (var i = 0; i < recipients.length; i++) {
-            if (recipients[i].selected) {
-                hasSelectedRecipients = true;
-                break;
-            }
-        }
+        var hasSelectedRecipients = (recipients.selectedIndex !== -1);
 
         if (!subject || !emailText || files === 0 || !hasSelectedRecipients) {
 
@@ -96,6 +89,7 @@
             // تعطيل زر الإرسال
             sendButton.disabled = true;
 
+            console.log("showing alert...");
             // إظهار التنبيه عند بدء رفع الملفات
             Swal.fire({
                 title: 'برجاء الانتظار',
@@ -108,6 +102,7 @@
                 }
             });
 
+            console.log("alert shown");
             // السماح بإرسال النموذج ثم مراقبة اكتمال التحميل
             var form = this;
             console.log(form);
@@ -116,11 +111,13 @@
             xhr.onload = function () {
                 // إعادة تفعيل زر الإرسال
                 sendButton.disabled = false;
-
+                console.log("inside onload");
                 if (xhr.status === 200) {
+                    console.log("200 ok");
                     Swal.close();
                     window.location.href = "/Email/Index?tab=received";
                 } else {
+                    console.log("error");
                     Swal.close();
                     Swal.fire({
                         title: 'فشل التحميل',
@@ -130,6 +127,8 @@
                     });
                 }
             };
+
+            console.log("sending...");
 
             xhr.onerror = function () {
                 // إعادة تفعيل زر الإرسال
@@ -143,10 +142,12 @@
                 });
             };
 
+
             // إرسال النموذج باستخدام AJAX
             var formData = new FormData(form);
-            //xhr.send(formData);
+            xhr.send(formData);
 
+            console.log("sent");
             e.preventDefault(); // منع الإرسال الافتراضي للنموذج
         }
     });
