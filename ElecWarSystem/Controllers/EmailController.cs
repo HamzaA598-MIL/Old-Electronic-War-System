@@ -9,9 +9,7 @@ using System.Web;
 using System.IO;
 using System.Web.Mvc;
 using Reciever = ElecWarSystem.Models.Reciever;
-using Microsoft.Ajax.Utilities;
-using static System.Web.Razor.Parser.SyntaxConstants;
-using iText.Kernel.Geom;
+using System.Web.WebPages;
 
 namespace ElecWarSystem.Controllers
 {
@@ -56,23 +54,20 @@ namespace ElecWarSystem.Controllers
 
         public JsonResult GetEmails(bool export)
         {
-            if (Request.Cookies["userID"] != null)
+            if (Request.Cookies["userID"] == null)
+                return Json("UnAuthorized Request!");
+
+            int userId = int.Parse(Request.Cookies["userID"].Value);
+
+            if (export)
             {
-                int userId = int.Parse(Request.Cookies["userID"].Value);
-                if (export)
-                {
-                    List<Email> emails = emailService.GetExportedEmails(userId);
-                    return Json(emails, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    List<Reciever> recievers = emailService.GetRecievers(userId);
-                    return Json(recievers, JsonRequestBehavior.AllowGet);
-                }
+                List<Email> emails = emailService.GetExportedEmails(userId);
+                return Json(emails, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json("UnAuthorized Request!");
+                List<Reciever> recievers = emailService.GetRecievers(userId);
+                return Json(recievers, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -136,7 +131,11 @@ namespace ElecWarSystem.Controllers
         [HttpPost]
         public ActionResult Create(EmailViewModel emailViewModel, IEnumerable<HttpPostedFileBase> files)
         {
-            int userId = int.Parse(Request.Cookies["userID"]?.Value);
+            string userIdString = Request.Cookies["userID"]?.Value;
+            if(userIdString.IsEmpty())
+                return new HttpStatusCodeResult(401, "لم يتم التحقق من هويتك. من فضلك أعد التسجيل مرة أخري");
+
+            int userId = int.Parse(userIdString);
             emailViewModel.Email.Documents = new List<Document>();
             emailViewModel.Email.SenderUserID = userId;
             emailViewModel.Email.SendDateTime = DateTime.Now;
@@ -180,55 +179,47 @@ namespace ElecWarSystem.Controllers
                     emailViewModel.Message = $"عفواً لا يمكنك إرسال ملفات بإمتداد ({fileAtt.Last()}) حسب تعليمات الأمن السيبرانى";
                     return View(emailViewModel);
                 }
-                else
+
+                string fileExtension = fileAtt.Last();
+
+                // حدد الاسم المبدئي للملف مع إضافة التاريخ على "File Share"
+                string finalFileName = $"{faxName}_{dateFormat}.{fileExtension}";
+                string filePath = System.IO.Path.Combine(serverPath, finalFileName);
+
+                // تحقق مما إذا كان هناك ملف بنفس الاسم وأضف رقم تسلسلي إذا لزم الأمر
+                while (filePaths.ContainsKey(filePath))
                 {
-                    string fileExtension = fileAtt.Last();
-
-                    // حدد الاسم المبدئي للملف مع إضافة التاريخ على "File Share"
-                    string finalFileName = $"{faxName}_{dateFormat}.{fileExtension}";
-                    string filePath = System.IO.Path.Combine(serverPath, finalFileName);
-
-                    // تحقق مما إذا كان هناك ملف بنفس الاسم وأضف رقم تسلسلي إذا لزم الأمر
-                    while (filePaths.ContainsKey(filePath))
-                    {
-                        finalFileName = $"{faxName}_{dateFormat}_{fileCounter}.{fileExtension}";
-                        filePath = System.IO.Path.Combine(serverPath, finalFileName);
-                        fileCounter++;
-                    }
-
-                    allContentSize += file.ContentLength;
-                    filePaths[filePath] = file; // حفظ الملف في المسار
-
-                    // إضافة الملف إلى قائمة المستندات باستخدام الاسم الأصلي كما هو للعرض في النظام
-                    emailViewModel.Email.Documents.Add(new Document
-                    {
-                        FileName = fileName, // عرض الاسم الأصلي كما هو في النظام
-                        FileExtension = fileExtension,
-                        FilePath = filePath // المسار الذي تم حفظ الملف فيه (مع التاريخ في الاسم)
-                    });
+                    finalFileName = $"{faxName}_{dateFormat}_{fileCounter}.{fileExtension}";
+                    filePath = System.IO.Path.Combine(serverPath, finalFileName);
+                    fileCounter++;
                 }
+
+                allContentSize += file.ContentLength;
+                filePaths[filePath] = file; // حفظ الملف في المسار
+
+                // إضافة الملف إلى قائمة المستندات باستخدام الاسم الأصلي كما هو للعرض في النظام
+                emailViewModel.Email.Documents.Add(new Document
+                {
+                    FileName = fileName, // عرض الاسم الأصلي كما هو في النظام
+                    FileExtension = fileExtension,
+                    FilePath = filePath // المسار الذي تم حفظ الملف فيه (مع التاريخ في الاسم)
+                });
             }
 
-
-
-
-            if (storageManager.increaseUsed(userId, allContentSize))
-            {
-                // Generate new sequential ID for the email
-
-                dBContext.Emails.Add(emailViewModel.Email);
-                dBContext.SaveChanges();
-                foreach (var filepath in filePaths)
-                {
-                    filepath.Value.SaveAs(filepath.Key);
-                }
-                return RedirectToAction("Index", "Email");
-            }
-            else
+            if (!storageManager.increaseUsed(userId, allContentSize))
             {
                 emailViewModel.Message = "عفواً المساحة المتاحة لك لا تكفى!!";
                 return View(emailViewModel);
             }
+
+            // Generate new sequential ID for the email
+            dBContext.Emails.Add(emailViewModel.Email);
+            dBContext.SaveChanges();
+            foreach (var filepath in filePaths)
+            {
+                filepath.Value.SaveAs(filepath.Key);
+            }
+            return RedirectToAction("Index", "Email");
         }
 
         [HttpPost]
