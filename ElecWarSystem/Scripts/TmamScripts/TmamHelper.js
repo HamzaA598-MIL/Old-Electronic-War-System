@@ -176,16 +176,6 @@ function toTmamDetails(pg) {
         return;
     }
 
-    if (pg === 1 && ($("#person-rank")[0][0].selected || $("#person-name")[0][0].selected)) 
-    {
-        Swal.fire({
-            title: 'خطأ',
-            text: 'من فضلك أكمل معلومات قائد منوب',
-            icon: 'error'
-        });
-        return;
-    }
-
     $.ajax({
         url: window.location.origin + "/Tmam/AddTmamDetail",
         type: "POST",
