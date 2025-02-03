@@ -10,7 +10,8 @@ namespace ElecWarSystem.ViewModel
 {
     public class LeaderTmamView
     {
-        private long tmamID, personID;
+        private long tmamID;
+        public long personID;
         private TmamEnum status;
         private AppDBContext AppDBContext = new AppDBContext();
         private PersonService personService = new PersonService();

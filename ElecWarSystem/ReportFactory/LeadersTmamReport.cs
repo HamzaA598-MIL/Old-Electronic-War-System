@@ -64,7 +64,10 @@ namespace ElecWarSystem.ReportFactory
             baseColor = BaseColor.WHITE;
             foreach (string key in leaderTmam.Keys)
             {
-                this.CreateCell(leaderTmam[key].Tmam, 4);
+                if (leaderTmam[key].personID == 3861)
+                    this.CreateCell("-", 4);
+                else
+                    this.CreateCell(leaderTmam[key].Tmam, 4);
             }
             for(int j = 0; j < 8 - leaderTmam.Keys.Count; j++)
             {
