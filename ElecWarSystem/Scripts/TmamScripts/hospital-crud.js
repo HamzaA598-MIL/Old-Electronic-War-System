@@ -57,7 +57,7 @@ function Add() {
                     Swal.fire({
                         icon: 'error',
                         title: 'خطأ',
-                        text: 'يوجد خطأ فى تاريخ دخول المستشفى !!',
+                        text: 'يوجد خطأ في تاريخ دخول المستشفى !!',
                         confirmButtonText: 'حسناً'
                     });
                 } else {

@@ -49,8 +49,11 @@ function emptyFormField() {
 }
 function Add() {
 
-    if ($('#date-from').val() >= $('#date-to').val()) {
-        Swal.fire("خطأ", "يوجد خطأ فى تاريخ السجن", "error");
+    let dateFrom = $('#date-from').val();
+    let dateTo = $('#date-to').val();
+
+    if (dateFrom > dateTo) {
+        Swal.fire("خطأ", "يوجد خطأ في تاريخ السجن", "error");
         return;
     }
 
@@ -71,7 +74,7 @@ function Add() {
         },
         success: function (result) {
             if (result == -1) {
-                Swal.fire("خطأ", "يوجد خطأ فى تاريخ السجن", "error");
+                Swal.fire("خطأ", "يوجد خطأ في تاريخ السجن", "error");
             }
             else {
                 Swal.fire({

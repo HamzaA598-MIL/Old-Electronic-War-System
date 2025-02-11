@@ -31,7 +31,7 @@ function Add() {
         const dateFrom = $("#date-from").val();
         const dateTo = $("#date-to").val();
 
-        if (dateFrom >= dateTo) {
+        if (dateFrom > dateTo) {
             Swal.fire({
                 icon: 'error',
                 title: 'خطأ',
@@ -57,7 +57,7 @@ function Add() {
                     Swal.fire({
                         icon: 'error',
                         title: 'خطأ',
-                        text: 'يوجد خطأ فى تاريخ الإجازة',
+                        text: 'يوجد خطأ في تاريخ الأجازة',
                     });
                 } else {
                     closePop();

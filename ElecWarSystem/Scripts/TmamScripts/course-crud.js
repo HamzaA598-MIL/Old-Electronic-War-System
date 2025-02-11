@@ -10,11 +10,14 @@
 
         $scope.Add = function () {
 
-            if ($('#date-from').val() >= $('#date-to').val()) {
+            let dateFrom = $('#date-from').val();
+            let dateTo = $('#date-to').val();
+
+            if (dateFrom > dateTo) {
                 Swal.fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: 'يوجد خطأ فى تاريخ الفرقة',
+                    text: 'يوجد خطأ في تاريخ الفرقة',
                     confirmButtonText: 'حسنًا'
                 });
                 return;
@@ -39,7 +42,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'خطأ',
-                            text: 'يوجد خطأ فى تاريخ الفرقة',
+                            text: 'يوجد خطأ في تاريخ الفرقة',
                             confirmButtonText: 'حسنًا'
                         });
                     } else {

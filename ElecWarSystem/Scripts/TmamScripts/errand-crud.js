@@ -30,9 +30,11 @@ function disableBtn() {
 
 // إضافة مأمورية جديدة
 function Add() {
+    let dateFrom = $('#date-from').val();
+    let dateTo = $('#date-to').val();
 
-    if ($("#date-from").val() >= $("#date-to").val()) {
-        Swal.fire("خطأ", "يوجد خطأ فى تاريخ المأموريات", "error");
+    if (dateFrom > dateTo) {
+        Swal.fire("خطأ", "يوجد خطأ في تاريخ المأموريات", "error");
         return;
     }
 
@@ -49,7 +51,7 @@ function Add() {
         },
         success: function (result) {
             if (result == -1) {
-                Swal.fire("خطأ", "يوجد خطأ فى تاريخ المأموريات", "error");
+                Swal.fire("خطأ", "يوجد خطأ في تاريخ المأموريات", "error");
             } else {
                 closePop();
                 UpdateErrandTable();

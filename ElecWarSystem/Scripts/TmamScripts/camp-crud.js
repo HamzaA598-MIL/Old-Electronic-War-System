@@ -25,9 +25,11 @@ function disableBtn() {
 }
 
 function Add() {
+    let dateFrom = $('#date-from').val();
+    let dateTo = $('#date-to').val();
 
-    if ($('#date-from').val() >= $('#date-to').val()) {
-        Swal.fire("خطأ", "يوجد خطأ فى تاريخ المعسكر", "error");
+    if (dateFrom > dateTo) {
+        Swal.fire("خطأ", "يوجد خطأ في تاريخ المعسكر", "error");
         return;
     }
     

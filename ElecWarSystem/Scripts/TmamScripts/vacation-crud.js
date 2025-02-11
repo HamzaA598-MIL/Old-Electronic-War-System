@@ -24,20 +24,20 @@ function disableBtn() {
 }
 function Add() {
     // الحصول على التواريخ كقيم نصية
-    var dateFromStr = $("#date-from").val();
-    var dateToStr = $("#date-to").val();
+    var dateFrom = $("#date-from").val();
+    var dateTo = $("#date-to").val();
 
     // التأكد أن التاريخ يتم إرساله بالتنسيق الصحيح بدون أي تحقق
-    var formattedDateFrom = new Date(dateFromStr).toISOString().split('T')[0]; // YYYY-MM-DD
-    var formattedDateTo = new Date(dateToStr).toISOString().split('T')[0];     // YYYY-MM-DD
+    var formattedDateFrom = new Date(dateFrom).toISOString().split('T')[0]; // YYYY-MM-DD
+    var formattedDateTo = new Date(dateTo).toISOString().split('T')[0];     // YYYY-MM-DD
 
     // make sure the from date is before the to date
-    if (formattedDateFrom >= formattedDateTo) {
+    if (dateFrom > dateTo) {
         console.log("error");
         Swal.fire({
             icon: 'error',
             title: 'خطأ',
-            text: 'يوجد خطأ فى تاريخ الإجازة',
+            text: 'يوجد خطأ في تاريخ الأجازة',
         });
         return;
     }
@@ -58,7 +58,7 @@ function Add() {
                 Swal.fire({
                     icon: 'error',
                     title: 'خطأ',
-                    text: 'يوجد خطأ فى تاريخ الإجازة',
+                    text: 'يوجد خطأ في تاريخ الأجازة',
                 });
             } else {
                 closePop();
@@ -200,7 +200,7 @@ function deleteVacation(id) {
                     DecreaseVacationCounter();
                     Swal.fire(
                         'تم الحذف!',
-                        'تم حذف الإجازة بنجاح.',
+                        'تم حذف الأجازة بنجاح.',
                         'success'
                     );
                 }
