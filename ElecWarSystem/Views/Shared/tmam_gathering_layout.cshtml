@@ -31,7 +31,7 @@
                         <p id="date-display" class="m-0"></p>
                         @using (Html.BeginForm("LeaderShip", "TmamGathering", FormMethod.Get, new { id = "dateForm" }))
                         {
-                            <input type="date" id="tmam-date" name="tmamDate" class="form-control w-auto me-2" onchange="this.form.submit();">
+                            <input type="date" id="tmam-date" name="tmamDate" class="form-control w-auto me-2" onchange="updateDateAndSubmit();">
                         }
                     </div>
                 </div>
@@ -161,11 +161,22 @@
     if (tmamDateQuery) {
         document.getElementById("tmam-date").value = tmamDateQuery;
     } else {
-        // Default to tomorrow's date if no query param is provided
-        let tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        let formattedDate = tomorrow.toISOString().split('T')[0];
+        let tmamDate = new Date();
+        tmamDate.setDate(tmamDate.getDate() + 1);
+        let formattedDate = tmamDate.toISOString().split('T')[0];
         document.getElementById("tmam-date").value = formattedDate;
+    }
+
+    function updateDateAndSubmit() {
+        let selectedDate = document.getElementById("tmam-date").value;
+        if (!selectedDate) return;
+
+        // Extract the current URL and remove existing tmamDate param
+        let url = new URL(window.location.href);
+        url.searchParams.set("tmamDate", selectedDate); // Update/Add tmamDate param
+
+        // Redirect to the updated URL (triggers a GET request)
+        window.location.href = url.toString();
     }
 
     // Initialize the date display

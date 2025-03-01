@@ -53,8 +53,14 @@ namespace ElecWarSystem.Controllers
             }
         }
         [HttpGet]
-        public ActionResult RecievedTmam()
+        public ActionResult RecievedTmam(DateTime? tmamDate)
         {
+            if (tmamDate != null)
+            {
+                tmamService = new TmamService(tmamDate);
+                tmamGatheringService = new TmamGatheringService(tmamDate);
+            }
+
             ViewBag.SubmittedTmams = tmamGatheringService.GetTmamsSubmitted();
             return View();
         }
