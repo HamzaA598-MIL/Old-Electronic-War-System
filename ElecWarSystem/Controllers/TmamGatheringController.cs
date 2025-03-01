@@ -28,8 +28,14 @@ namespace ElecWarSystem.Controllers
             }
         }
         [HttpGet]
-        public ActionResult LeaderShip()
+        public ActionResult LeaderShip(DateTime? tmamDate)
         {
+            if (tmamDate != null)
+            {
+                tmamService = new TmamService(tmamDate);
+                tmamGatheringService = new TmamGatheringService(tmamDate);
+            }
+
             UserRoles userRoles = (UserRoles)byte.Parse(Request.Cookies["Roles"].Value);
             
             initViewer();

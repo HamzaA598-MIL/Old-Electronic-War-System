@@ -1,6 +1,7 @@
 ﻿@using ElecWarSystem.Models
 @{
     ViewBag.Title = "View";
+    DateTime tmamDate = DateTime.Today.AddDays(1);
     Layout = "~/Views/Shared/_Layout.cshtml";
     UserRoles userRoles = (ElecWarSystem.Models.UserRoles)byte.Parse(Request.Cookies["Roles"].Value);
 }
@@ -11,23 +12,33 @@
 <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 <div class="container my-5">
     <div class="row justify-content-center">
-        @{DateTime todayDate = DateTime.Today.AddDays(1);}
 
         @if ((userRoles & UserRoles.Viewer) == UserRoles.Viewer && (userRoles & UserRoles.Admin) != UserRoles.Admin)
         {
-            todayDate = DateTime.Today;
+            tmamDate = DateTime.Today;
         }
 
-        <!-- Title Section -->
         <div class="title-div col-12 mb-4">
             <div class="row align-items-center">
                 <div class="col-lg-2 col-md-3 col-sm-3 col-4">
                     <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="Icon" style="max-width: 80%;">
                 </div>
-                <div class=" title col-lg-8 col-md-6 col-sm-6 col-8">
-                    <h1 style="">تمام جميع وحدات الحرب الإلكترونية</h1>
-                    <p>عن يوم @todayDate.ToString("dddd الموافق yyyy/MM/dd", new System.Globalization.CultureInfo("ar-AE"))</p>
+
+                <!-- Centered Content -->
+                <div class="title col-lg-8 col-md-6 col-sm-6 col-8 d-flex flex-column justify-content-center align-items-center text-center">
+                    <!-- Title -->
+                    <h1>تمام جميع وحدات الحرب الإلكترونية</h1>
+
+                    <!-- Date Picker & Paragraph Side by Side -->
+                    <div class="d-flex align-items-center">
+                        <h4 class="text-white">عن يوم</h4>
+                        @using (Html.BeginForm("LeaderShip", "TmamGathering", FormMethod.Get, new { id = "dateForm" }))
+                        {
+                            @Html.TextBox("tmamDate", null, new { @class = "form-control w-auto me-2", @type = "date", @id = "tmam-date", value = "@todayDate" @onchange = "this.form.submit();" })
+                        }
+                    </div>
                 </div>
+
                 <div class="col-lg-2 col-md-3 col-sm-3 col-4">
                     <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="Icon" style="max-width: 80%;">
                 </div>
