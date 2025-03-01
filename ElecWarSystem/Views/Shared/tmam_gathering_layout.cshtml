@@ -24,17 +24,14 @@
                     <img src="~/Images/elecwarIcon2.png" class="img-fluid" alt="Icon" style="max-width: 80%;">
                 </div>
 
-                <!-- Centered Content -->
                 <div class="title col-lg-8 col-md-6 col-sm-6 col-8 d-flex flex-column justify-content-center align-items-center text-center">
-                    <!-- Title -->
                     <h1>تمام جميع وحدات الحرب الإلكترونية</h1>
 
-                    <!-- Date Picker & Paragraph Side by Side -->
                     <div class="d-flex align-items-center">
-                        <h4 class="text-white">عن يوم</h4>
+                        <p id="date-display" class="m-0"></p>
                         @using (Html.BeginForm("LeaderShip", "TmamGathering", FormMethod.Get, new { id = "dateForm" }))
                         {
-                            @Html.TextBox("tmamDate", null, new { @class = "form-control w-auto me-2", @type = "date", @id = "tmam-date", value = "@todayDate" @onchange = "this.form.submit();" })
+                            <input type="date" id="tmam-date" name="tmamDate" class="form-control w-auto me-2" onchange="this.form.submit();">
                         }
                     </div>
                 </div>
@@ -139,3 +136,38 @@
         @RenderBody()
     </div>
 </div>
+<script>
+    function getQueryParam(param) {
+        let urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    function updateDateDisplay() {
+        let dateInput = document.getElementById("tmam-date").value;
+        if (!dateInput) return;
+
+        let selectedDate = new Date(dateInput);
+
+        // Arabic day names
+        const arabicDays = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+        let dayName = arabicDays[selectedDate.getDay()];
+
+        document.getElementById("date-display").innerText = `عن يوم ${dayName} الموافق`;
+    }
+
+    // Get the query parameter tmamDate
+    let tmamDateQuery = getQueryParam("tmamDate");
+
+    if (tmamDateQuery) {
+        document.getElementById("tmam-date").value = tmamDateQuery;
+    } else {
+        // Default to tomorrow's date if no query param is provided
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        let formattedDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById("tmam-date").value = formattedDate;
+    }
+
+    // Initialize the date display
+    updateDateDisplay();
+</script>
